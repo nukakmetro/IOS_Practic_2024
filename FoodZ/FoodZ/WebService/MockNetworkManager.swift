@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MockNetworkManager: NetworkManagerProtocol {
 
@@ -18,7 +19,7 @@ class MockNetworkManager: NetworkManagerProtocol {
             return "error"
         }
     }
-    
+
     func authenticate(credentials: [String: String]) -> String? {
         let name = credentials["username"]
         let pass = credentials["password"]
@@ -27,5 +28,9 @@ class MockNetworkManager: NetworkManagerProtocol {
         } else {
             return "error"
         }
+    }
+
+    func getHomeViewSections() -> [Section]? {
+        return Bundle.main.decode([Section].self, from: "WEbService/Foodz.json")
     }
 }

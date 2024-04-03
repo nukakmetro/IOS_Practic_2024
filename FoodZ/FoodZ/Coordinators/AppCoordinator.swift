@@ -10,11 +10,17 @@ import UIKit
 
 class AppCoordinator: Coordinator {
 
+    // MARK: Internal properties
+
     var navigationController: UINavigationController
+
+    // MARK: Initializator
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
+
+    // MARK: Internal methods
 
     func start() {
         let isAuth = false
@@ -25,14 +31,16 @@ class AppCoordinator: Coordinator {
         }
     }
 
-    func showAuthorizationFlow() {
+    // MARK: Private methods
+
+    private func showAuthorizationFlow() {
 
         let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navController: navigationController)
         authorizationCoordinator.delegate = self
         authorizationCoordinator.start()
     }
 
-    func showTabBar() {
+    private func showTabBar() {
         let tapbarController = MainTabBarController()
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate, let window = sceneDelegate.window {
             window.rootViewController = tapbarController
@@ -40,6 +48,8 @@ class AppCoordinator: Coordinator {
         }
     }
 }
+
+// MARK: ChangeCoordinator protocol
 
 extension AppCoordinator: ChangeCoordinator {
     func change() {

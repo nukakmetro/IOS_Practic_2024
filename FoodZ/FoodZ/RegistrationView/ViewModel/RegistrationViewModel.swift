@@ -12,18 +12,19 @@ protocol RegistrationViewModeling: UIKitViewModel where State == RegistrationVie
 
 final class RegistrationViewModel: RegistrationViewModeling {
 
-    private(set) var stateDidChange: ObservableObjectPublisher
+    // MARK: Private properties
 
+    private weak var output: RegModuleOutput?
+    private var networkManager: NetworkManagerProtocol
+    private(set) var stateDidChange: ObservableObjectPublisher
     @Published private(set) var state: RegistrationViewState {
         didSet {
             stateDidChange.send()
         }
     }
+    @Published private(set) var validationNotify: String?
 
-    @Published var validationNotify: String?
-
-    private weak var output: RegModuleOutput?
-    private var networkManager: NetworkManagerProtocol
+    // MARK: Initializator
 
     init(output: RegModuleOutput, network: NetworkManagerProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
@@ -31,6 +32,8 @@ final class RegistrationViewModel: RegistrationViewModeling {
         self.output = output
         self.networkManager = network
     }
+
+    // MARK: Internal methods
 
     func trigger(_ intent: RegistrationViewIntent) {
         switch intent {
@@ -49,6 +52,5 @@ final class RegistrationViewModel: RegistrationViewModeling {
         case .proccedButtonTapedGoToAuth:
             output?.presentAuthorization()
         }
-
     }
 }

@@ -19,7 +19,7 @@ class NetworkInterceptor: Interceptor {
             }
 
         if reqName == RequestNames.registrateUser.rawValue && reqName == RequestNames.authenticateUser.rawValue {
-            //completion(.success(adaptedRequest))
+            // completion(.success(adaptedRequest))
         } else {
             completion(.success(urlRequest))
         }
