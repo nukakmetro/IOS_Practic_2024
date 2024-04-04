@@ -11,8 +11,11 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //потом координаторы добавлю
-        let homeViewController = UINavigationController(rootViewController: HomeViewController())
+        // потом координаторы добавлю
+        let homeCoordinator = CoordinatorFactory().createHomeCoordinators(navController: UINavigationController())
+        homeCoordinator.start()
+        let homeViewController = homeCoordinator.navigationController
+
         let savedViewController = UINavigationController(rootViewController: SavedViewController())
         let cartViewContoller = UINavigationController(rootViewController: CartViewController())
         let profileViewContoller = UINavigationController(rootViewController: ProfileViewController())
@@ -21,7 +24,6 @@ class MainTabBarController: UITabBarController {
         savedViewController.tabBarItem.image = UIImage(systemName: "heart")
         cartViewContoller.tabBarItem.image = UIImage(systemName: "cart")
         profileViewContoller.tabBarItem.image = UIImage(systemName: "person")
-
         viewControllers = [homeViewController, savedViewController, cartViewContoller, profileViewContoller]
     }
 

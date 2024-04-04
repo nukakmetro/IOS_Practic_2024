@@ -10,4 +10,5 @@ import Foundation
 protocol NetworkManagerProtocol: AnyObject {
     func registration(credentials: [String: String]) -> String?
     func authenticate(credentials: [String: String]) -> String?
+    func getHomeViewSections() -> [Section]?
 }

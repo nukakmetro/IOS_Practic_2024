@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ImageCD" representedClassName="ImageCD" syncable="YES">
+        <attribute name="imageId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="imageName" optional="YES" attributeType="String"/>
+        <relationship name="productImage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductCD" inverseName="productImages" inverseEntity="ProductCD"/>
+    </entity>
+    <entity name="PickupPointCD" representedClassName="PickupPointCD" syncable="YES">
+        <attribute name="pickupPointCity" attributeType="String"/>
+        <attribute name="pickupPointHouse" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="pickupPointSchedule" optional="YES" attributeType="String"/>
+        <attribute name="pickupPointStreet" attributeType="String"/>
+        <attribute name="pickupPontId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="ProductCD" representedClassName="ProductCD" syncable="YES">
+        <attribute name="productCategory" attributeType="String"/>
+        <attribute name="productCompound" attributeType="String"/>
+        <attribute name="productDescription" attributeType="String"/>
+        <attribute name="productId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="productName" attributeType="String"/>
+        <attribute name="productPrice" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="productRating" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="productUsername" attributeType="String"/>
+        <attribute name="productWaitingTime" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="productImages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImageCD" inverseName="productImage" inverseEntity="ImageCD"/>
+        <relationship name="sectionsItems" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SectionCD" inverseName="items" inverseEntity="SectionCD"/>
+    </entity>
+    <entity name="SectionCD" representedClassName="SectionCD" syncable="YES">
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductCD" inverseName="sectionsItems" inverseEntity="ProductCD"/>
+    </entity>
+    <entity name="UserCD" representedClassName="UserCD" syncable="YES">
+        <attribute name="userFirstName" optional="YES" attributeType="String"/>
+        <attribute name="userId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="username" attributeType="String"/>
+        <attribute name="userSecondName" optional="YES" attributeType="String"/>
+    </entity>
 </model>

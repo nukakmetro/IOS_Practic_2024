@@ -11,7 +11,9 @@ import UIKit
 protocol AuthorizationViewModeling: UIKitViewModel where State == AuthorizationViewState, Intent == AuthorizationViewIntent {}
 
 class AuthorizationViewModel: AuthorizationViewModeling {
-    
+
+    // MARK: Private properties
+
     private(set) var stateDidChange: ObservableObjectPublisher
 
     @Published private(set) var state: AuthorizationViewState {
@@ -20,9 +22,10 @@ class AuthorizationViewModel: AuthorizationViewModeling {
         }
     }
     @Published var validationNotify: String = ""
-    
     private var output: AuthModuleOutput?
     private var networkManager: NetworkManagerProtocol
+
+    // MARK: Initializator
 
     init(output: AuthModuleOutput, network: NetworkManagerProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
@@ -30,6 +33,8 @@ class AuthorizationViewModel: AuthorizationViewModeling {
         self.output = output
         self.networkManager = network
     }
+
+    // MARK: Internal methods
 
     func trigger(_ intent: AuthorizationViewIntent) {
         switch intent {

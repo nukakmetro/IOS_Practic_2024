@@ -9,6 +9,9 @@ import Foundation
 import Alamofire
 
 class NetworkManager: NetworkManagerProtocol {
+    func getHomeViewSections() -> [Section]? {
+        return nil
+    }
 
     var tokenManager = TokenManager.shared
 

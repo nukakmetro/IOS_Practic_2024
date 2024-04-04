@@ -13,37 +13,55 @@ protocol ChangeCoordinator: AnyObject {
 
 class AuthorizationCoordinator: Coordinator {
 
+    // MARK: Internal properties
+
     var navigationController: UINavigationController
     weak var delegate: ChangeCoordinator?
+
+    // MARK: Initializator
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
+    // MARK: Internal methods
+
     func start() {
         showAuthView()
     }
 
-    func showAuthView() {
+    // MARK: Private methods
+
+    private func showAuthView() {
         let controller = AuthorizationModulBuilder(output: self).build()
         navigationController.pushViewController(controller, animated: false)
     }
 
-    func showRegView() {
+    private func clouseRegView() {
+        navigationController.popViewController(animated: false)
+    }
+
+    private func showRegView() {
         let controller = RegistrationModulBuilder(output: self).build()
         navigationController.pushViewController(controller, animated: false)
     }
 
 }
+
+// MARK: RegModuleOutput protocol
+
 extension AuthorizationCoordinator: RegModuleOutput {
 
     func userRegistrate() {
-        showAuthView()
+        clouseRegView()
     }
     func presentAuthorization() {
-        showAuthView()
+        clouseRegView()
     }
 }
+
+// MARK: AuthModuleOutput protocol
+
 extension AuthorizationCoordinator: AuthModuleOutput {
 
     func presentRegistration() {
