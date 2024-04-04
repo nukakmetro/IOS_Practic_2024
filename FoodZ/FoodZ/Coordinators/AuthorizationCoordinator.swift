@@ -51,7 +51,9 @@ class AuthorizationCoordinator: Coordinator {
 // MARK: RegModuleOutput protocol
 
 extension AuthorizationCoordinator: RegModuleOutput {
+    func didToTap() {
 
+    }
     func userRegistrate() {
         clouseRegView()
     }

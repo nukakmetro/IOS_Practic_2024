@@ -42,7 +42,6 @@ final class HomeViewModel: HomeViewModeling {
 
     func trigger(_ intent: HomeViewIntent) {
         switch intent {
-
         case .onClose: 
             break
         case .proccedButtonTapedToSearch:

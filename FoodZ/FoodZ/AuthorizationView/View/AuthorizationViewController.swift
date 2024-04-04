@@ -60,9 +60,12 @@ class AuthorizationViewController: UIViewController {
 
     private lazy var authorizationButton: UIButton = {
         let action = UIAction { [weak self] _ in
-            guard let nickname = self?.nicknameTextField.text,
-                  let password = self?.passwordTextField.text 
-            else { return }
+            guard 
+                let nickname = self?.nicknameTextField.text,
+                let password = self?.passwordTextField.text
+            else {
+                return
+            }
             let credentials: [String: String] = ["username": nickname, "password": password]
             self?.viewModel.trigger(.proccedButtonTapedAuthorizate(credentials))
             }
