@@ -73,7 +73,7 @@ final class HomeLocalRepository: SectionsLocalRepository {
     }
 
     func createImages(with images: [Image]?) -> Set<ImageCD> {
-        let newImages: Set<ImageCD> = []
+        var newImages: Set<ImageCD> = []
         guard let images = images else { return newImages }
         images.forEach { image in
             let newImage = ImageCD(context: viewContext)
