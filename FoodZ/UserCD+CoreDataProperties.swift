@@ -22,5 +22,5 @@ extension UserCD {
 
 }
 
-extension UserCD : Identifiable {
+extension UserCD: Identifiable {
 }

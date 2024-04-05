@@ -11,5 +11,4 @@ protocol RegModuleInput: AnyObject {}
 
 protocol RegModuleOutput: AnyObject {
     func presentAuthorization()
-    func userRegistrate()
 }

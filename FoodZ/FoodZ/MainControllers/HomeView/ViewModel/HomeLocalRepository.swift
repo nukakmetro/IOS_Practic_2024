@@ -70,7 +70,7 @@ final class HomeLocalRepository: SectionsLocalRepository {
             newProducts.insert(newProduct)
         }
         return newProducts
-     }
+    }
 
     func createImages(with images: [Image]?) -> Set<ImageCD> {
         var newImages: Set<ImageCD> = []
