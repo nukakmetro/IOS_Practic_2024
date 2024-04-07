@@ -8,16 +8,16 @@
 import Foundation
 import UIKit
 
-class AppCoordinator: Coordinator {
+class AppCoordinator {
 
     // MARK: Internal properties
 
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController?
 
     // MARK: Initializator
 
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    init(navController: UINavigationController) {
+        self.navigationController = navController
     }
 
     // MARK: Internal methods
@@ -53,6 +53,7 @@ class AppCoordinator: Coordinator {
 
 extension AppCoordinator: ChangeCoordinator {
     func change() {
+        navigationController = nil
         showTabBar()
     }
 }

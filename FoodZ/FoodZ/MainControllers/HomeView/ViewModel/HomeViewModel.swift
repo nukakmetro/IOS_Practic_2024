@@ -8,18 +8,24 @@
 import Foundation
 import Combine
 
-protocol HomeViewModeling: UIKitViewModel where State == HomeViewState, Intent == HomeViewIntent {}
+protocol HomeViewModeling: DisplayDataProtocol, UIKitViewModel where State == HomeViewState, Intent == HomeViewIntent {}
 
-final class HomeViewModel: HomeViewModeling {
+final class HomeViewModel<RemoteRepository: ProductFavorietesProtocol>: HomeViewModeling {
 
     // MARK: Private properties
 
     private let topSection: Section
-    private let output: HomeModuleOutput
+    private var output: HomeModuleOutput?
     private let networkManager: NetworkManagerProtocol
     private let localRepository: HomeLocalRepository
-    private let loadRepository: HomeLoadRepository?
-    @Published private(set) var sections: [Section] = []
+    private let remoteRepository: RemoteRepository?
+    private(set) var sectionsDidChange: PassthroughSubject<[Section], Never>
+
+    @Published private(set) var sections: [Section] = [] {
+        didSet {
+            sectionsDidChange.send(sections)
+        }
+    }
 
     // MARK: Internal properties
 
@@ -28,31 +34,31 @@ final class HomeViewModel: HomeViewModeling {
 
     // MARK: Initializator
 
-    init(output: HomeModuleOutput, network: NetworkManagerProtocol) {
+    init(output: HomeModuleOutput, network: NetworkManagerProtocol, remoteRepository: RemoteRepository) {
         self.stateDidChange = ObjectWillChangePublisher()
         self.state = .content("")
         self.output = output
         self.networkManager = network
         self.localRepository = HomeLocalRepository()
-        self.loadRepository = HomeLoadRepository()
+        self.remoteRepository = remoteRepository
         topSection = Section(id: 0, title: "hello", type: "topHeader", items: [])
+        self.sectionsDidChange = PassthroughSubject<[Section], Never>()
     }
 
     // MARK: Internal methods
 
     func trigger(_ intent: HomeViewIntent) {
         switch intent {
-        case .onClose: 
-            break
+        case .onClose: break
         case .proccedButtonTapedToSearch:
-            break
+            output?.proccesedButtonTapToSearch()
         case .onReload:
             updateSections()
-            break
         }
+    }
 
     func updateSections() {
-        let newSections = loadRepository?.decode() ?? []
+        let newSections = remoteRepository?.getFavoritesProducts() ?? []
         sections.removeAll()
 
         sections.append(topSection)
@@ -61,6 +67,5 @@ final class HomeViewModel: HomeViewModeling {
 //         localRepository.createSections(with: sections)
 //         self.sections = localRepository.obtainSavedData()
 
-        }
     }
 }

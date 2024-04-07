@@ -1,18 +1,17 @@
 //
-//  SingleMainCollectionViewCell.swift
+//  SingleCollectionViewCell.swift
 //  FoodZ
 //
-//  Created by surexnx on 27.03.2024.
+//  Created by surexnx on 28.03.2024.
 //
 
 import UIKit
-import SnapKit
 
-class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
+class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
 
-    // MARK: Internal static properties
+    // MARK: Internal properties
 
-    static let reuseIdentifier: String = "MediumTableCell"
+    static let reuseIdentifier: String = "SingleCollectionViewCell"
 
     // MARK: Private properties
 
@@ -102,13 +101,13 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
         contentView.addSubview(containerView)
 
         containerView.snp.makeConstraints { make in
-            make.height.equalToSuperview().multipliedBy(0.4)
-            make.leading.trailing.top.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(1)
+            make.bottom.leading.top.equalToSuperview()
         }
         lowerStackView.snp.makeConstraints { make in
-            make.top.equalTo(containerView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview()
+            make.leading.equalTo(containerView.snp.trailing).offset(20)
+            make.trailing.equalToSuperview().inset(10)
+            make.top.bottom.equalToSuperview()
         }
     }
 

@@ -106,7 +106,7 @@ class RegistrationViewController: UIViewController {
     // MARK: Private methods
 
     private func addSubviews(_ views: UIView...) {
-        views.forEach{ view.addSubview($0) }
+        views.forEach { view.addSubview($0) }
     }
 
     private func setupNameSubviews() {
@@ -116,7 +116,16 @@ class RegistrationViewController: UIViewController {
     }
 
     private func makeConstraints() {
-        addSubviews(titleLabel, nicknameTextField, passwordTextField, nicknameLabel, passwordLabel, authorizationButton, statusLabel, registrationButton)
+        addSubviews(
+            titleLabel,
+            nicknameTextField,
+            passwordTextField,
+            nicknameLabel,
+            passwordLabel,
+            authorizationButton,
+            statusLabel,
+            registrationButton
+        )
 
         titleLabel.snp.makeConstraints { maker in
             maker.top.equalToSuperview().inset(50)
@@ -160,8 +169,8 @@ class RegistrationViewController: UIViewController {
     }
 
     private func configureBindings() {
-        viewModel.$validationNotify.sink { value in
-            self.statusLabel.text = value
+        viewModel.$validationNotify.sink { [weak self] value in
+            self?.statusLabel.text = value
         }.store(in: &cancellebles)
     }
 }

@@ -15,12 +15,12 @@ class AuthorizationCoordinator: Coordinator {
 
     // MARK: Internal properties
 
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController?
     weak var delegate: ChangeCoordinator?
 
     // MARK: Initializator
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
 
@@ -34,16 +34,17 @@ class AuthorizationCoordinator: Coordinator {
 
     private func showAuthView() {
         let controller = AuthorizationModulBuilder(output: self).build()
-        navigationController.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: false)
+
     }
 
     private func clouseRegView() {
-        navigationController.popViewController(animated: false)
+        navigationController?.popViewController(animated: false)
     }
 
     private func showRegView() {
         let controller = RegistrationModulBuilder(output: self).build()
-        navigationController.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: false)
     }
 
 }
@@ -70,6 +71,7 @@ extension AuthorizationCoordinator: AuthModuleOutput {
         showRegView()
     }
     func userAuthorizate() {
+        navigationController = nil
         delegate?.change()
     }
 }

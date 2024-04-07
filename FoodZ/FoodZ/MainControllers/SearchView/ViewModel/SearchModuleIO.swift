@@ -10,5 +10,5 @@ import Foundation
 protocol SearchModuleInput: AnyObject {}
 
 protocol SearchModuleOutput: AnyObject {
-    func userAuthorizate()
+    func moduleWantsToClose()
 }

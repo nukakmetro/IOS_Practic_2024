@@ -60,7 +60,7 @@ class AuthorizationViewController: UIViewController {
 
     private lazy var authorizationButton: UIButton = {
         let action = UIAction { [weak self] _ in
-            guard 
+            guard
                 let nickname = self?.nicknameTextField.text,
                 let password = self?.passwordTextField.text
             else {
@@ -105,8 +105,8 @@ class AuthorizationViewController: UIViewController {
         view.backgroundColor = .white
         setupNameSubviews()
         configureBindings()
-        viewModel.$validationNotify.sink { value in
-            self.setErrorLabel(value)
+        viewModel.$validationNotify.sink { [weak self] value in
+            self?.setErrorLabel(value)
         }.store(in: &cancellebles)
     }
 
@@ -128,14 +128,16 @@ class AuthorizationViewController: UIViewController {
     }
 
     private func makeConstraints() {
-        addSubviews(titleLabel,
-                    nicknameTextField,
-                    passwordTextField,
-                    nicknameLabel,
-                    passwordLabel,
-                    authorizationButton,
-                    statusLabel,
-                    registrationButton)
+        addSubviews(
+            titleLabel,
+            nicknameTextField,
+            passwordTextField,
+            nicknameLabel,
+            passwordLabel,
+            authorizationButton,
+            statusLabel,
+            registrationButton
+        )
 
         titleLabel.snp.makeConstraints { maker in
             maker.top.equalToSuperview().inset(50)

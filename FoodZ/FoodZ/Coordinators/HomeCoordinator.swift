@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class HomeCoordinator: Coordinator {
+final class HomeCoordinator {
 
     // MARK: Internal properties
 
@@ -32,14 +32,32 @@ final class HomeCoordinator: Coordinator {
         let controller = HomeViewBuilder(output: self).build()
         navigationController.pushViewController(controller, animated: false)
     }
+    private func showSearcView() {
+        let controller = SearchViewBuilder(output: self).build()
+        navigationController.pushViewController(controller, animated: false)
+    }
+
+    private func closePushView() {
+        navigationController.popViewController(animated: false)
+    }
 }
 
 // MARK: HomeViewOutput protocol
 
 extension HomeCoordinator: HomeModuleOutput {
-    func presentRegistration() {
+    func proccesedButtonTapToSearch() {
+        showSearcView()
     }
+    
+    func proccesedButtonTapToProduct() {
 
-    func userAuthorizate() {
+    }
+}
+
+// MARK: SearchModuleOutput protocol
+
+extension HomeCoordinator: SearchModuleOutput {
+    func moduleWantsToClose() {
+        closePushView()
     }
 }
