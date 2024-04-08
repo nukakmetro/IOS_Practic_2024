@@ -15,7 +15,7 @@ class AuthorizationCoordinator: Coordinator {
 
     // MARK: Internal properties
 
-    var navigationController: UINavigationController?
+    weak var navigationController: UINavigationController?
     weak var delegate: ChangeCoordinator?
 
     // MARK: Initializator
@@ -71,7 +71,6 @@ extension AuthorizationCoordinator: AuthModuleOutput {
         showRegView()
     }
     func userAuthorizate() {
-        navigationController = nil
         delegate?.change()
     }
 }

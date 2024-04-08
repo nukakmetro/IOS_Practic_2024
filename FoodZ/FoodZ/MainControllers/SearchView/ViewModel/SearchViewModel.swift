@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-protocol SearchViewModeling: DisplayDataProtocol, UIKitViewModel where State == SearchViewState, Intent == SearchViewIntent {}
+protocol SearchViewModeling: UIKitViewModel where State == SearchViewState, Intent == SearchViewIntent {}
 
-final class SearchViewModel<RemoteRepository: ProductSearchProtocol>: SearchViewModeling {
+final class SearchViewModel: SearchViewModeling {
 
     // MARK: Private properties
 
@@ -18,25 +18,27 @@ final class SearchViewModel<RemoteRepository: ProductSearchProtocol>: SearchView
     private(set) var stateDidChange: ObservableObjectPublisher
     private let output: SearchModuleOutput
     private var networkManager: NetworkManagerProtocol
-    private let remoteRepository: RemoteRepository?
-    @Published private(set) var sections: [Section] = [] {
-        didSet {
-            sectionsDidChange.send(sections)
-        }
-    }
-    private(set) var sectionsDidChange: PassthroughSubject<[Section], Never>
+    private let remoteRepository: ProductSearchProtocol?
+    private let localRepository: HomeLocalRepository
 
     // MARK: Internal properties
 
-    var state: SearchViewState
+    @Published var state: SearchViewState {
+        didSet {
+            stateDidChange.send()
+        }
+    }
 
-    init(output: SearchModuleOutput, networkManager: NetworkManagerProtocol, remoteRepository: RemoteRepository) {
+    // MARK: Initializator
+
+    init(output: SearchModuleOutput, networkManager: NetworkManagerProtocol, remoteRepository: ProductSearchProtocol) {
         self.stateDidChange = ObservableObjectPublisher()
-        self.output = output
+        self.output = output      
+        self.state = .loading
         self.state = SearchViewState.error
         self.remoteRepository = remoteRepository
         self.networkManager = networkManager
-        self.sectionsDidChange = PassthroughSubject<[Section], Never>()
+        self.localRepository = HomeLocalRepository()
         self.topSection = Section(id: 0, title: "", type: "topHeader", items: [])
     }
 
@@ -48,24 +50,41 @@ final class SearchViewModel<RemoteRepository: ProductSearchProtocol>: SearchView
             updateSections()
         case .proccedInputSearchText(let inputText):
             proccedInputSearchText(inputText: inputText)
+
+        case .onDidlLoad:
+            updateSections()
         }
     }
 
     private func updateSections() {
-        let newSections = remoteRepository?.getStartRecommendations() ?? []
-        sections.removeAll()
-
-        sections.append(topSection)
-
-        sections.append(contentsOf: newSections)
+        state = .loading
+        remoteRepository?.getStartRecommendations(completion: { [weak self] result in
+            switch result {
+            case .success(let dispayData):
+                guard let self else { return }
+                var updateSections: [Section] = []
+                updateSections.append(self.topSection)
+                updateSections.append(contentsOf: dispayData)
+                self.state = .content(dispayData: updateSections)
+            case .failure:
+                self?.state = .error
+            }
+        })
     }
 
     private func proccedInputSearchText(inputText: String) {
-        let newSections = remoteRepository?.getSearchProducts(inputText) ?? []
-        sections.removeAll()
-
-        sections.append(topSection)
-
-        sections.append(contentsOf: newSections)
+        state = .loading
+        remoteRepository?.getSearchProducts(inputText: inputText, completion: { [weak self] result in
+            switch result {
+            case .success(let dispayData):
+                guard let self else { return }
+                var updateSections: [Section] = []
+                updateSections.append(self.topSection)
+                updateSections.append(contentsOf: dispayData)
+                self.state = .content(dispayData: updateSections)
+            case .failure:
+                self?.state = .error
+            }
+        })
     }
 }

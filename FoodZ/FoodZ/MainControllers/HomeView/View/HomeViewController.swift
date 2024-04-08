@@ -58,8 +58,8 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         super.viewDidLoad()
         makeConstraints()
         createDataSource()
-        bindings()
-        viewModel.trigger(.onReload)
+        configureIO()
+        viewModel.trigger(.onDidLoad)
         navigationController?.isNavigationBarHidden = true
     }
 
@@ -76,11 +76,25 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         }
     }
 
-    private func bindings() {
-        viewModel.sectionsDidChange.sink { [weak self] sections in
-            self?.sections = sections
-            self?.reloadData()
-        }.store(in: &cancellables)
+    private func configureIO() {
+        viewModel
+            .stateDidChange
+            .sink { [weak self] _ in
+                self?.render()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func render() {
+        switch viewModel.state {
+        case .loading:
+            break
+        case .content(dispayData: let dispayData):
+            sections = dispayData
+            reloadData()
+        case .error:
+            break
+        }
     }
 
     private func configure<T: SelfConfiguringCell>(_ cellType: T.Type, with product: Product, for indexPath: IndexPath) -> T {
@@ -114,7 +128,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
                 ) as? HomeHeader else {
                     return HomeHeader()
                 }
-                sectionHeader.homeDelegate = self as? any HomeHeaderDelegate
+                sectionHeader.homeDelegate = self
                 return sectionHeader
             }
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(

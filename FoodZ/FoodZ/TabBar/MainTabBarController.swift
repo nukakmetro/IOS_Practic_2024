@@ -12,7 +12,7 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // потом координаторы добавлю
-        let homeCoordinator = CoordinatorFactory().createHomeCoordinators(navController: UINavigationController())
+        let homeCoordinator = CoordinatorFactory().createHomeCoordinators(navigationController: UINavigationController())
         homeCoordinator.start()
         let homeViewController = homeCoordinator.navigationController
 

@@ -9,12 +9,12 @@ import Foundation
 import CoreData
 
 protocol ProductFavorietesProtocol {
-    func getFavoritesProducts() -> [Section]?
+    func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> ()))
 }
 
 protocol ProductSearchProtocol {
-    func getSearchProducts(_ inputText: String) -> [Section]?
-    func getStartRecommendations() -> [Section]?
+    func getSearchProducts(inputText: String, completion: @escaping ((Result<[Section], Error>) -> ()))
+    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> ()))
 }
 
 class ProductRemoteRepository {
@@ -31,19 +31,22 @@ class ProductRemoteRepository {
 // MARK: ProductFavorietesProtocol protocol
 
 extension ProductRemoteRepository: ProductFavorietesProtocol {
-    func getFavoritesProducts() -> [Section]? {
-        return Bundle.main.decode([Section].self, from: "foodz.json")
+    func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> ())) {
+        let sections = Bundle.main.decode([Section].self, from: "foodz.json")
+        completion(.success(sections))
     }
 }
 
 // MARK: ProductSearchProtocol protocol
 
 extension ProductRemoteRepository: ProductSearchProtocol {
-    func getSearchProducts(_ inputText: String) -> [Section]? {
-        return nil
+    func getSearchProducts(inputText: String, completion: @escaping ((Result<[Section], Error>) -> ())) {
+        let sections = Bundle.main.decode([Section].self, from: "foodz.json")
+        completion(.success(sections))
     }
-
-    func getStartRecommendations() -> [Section]? {
-        return nil
+    
+    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> ())) {
+        let sections = Bundle.main.decode([Section].self, from: "foodz.json")
+        completion(.success(sections))
     }
 }

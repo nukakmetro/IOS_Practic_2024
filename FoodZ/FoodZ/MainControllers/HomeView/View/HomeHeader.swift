@@ -25,13 +25,9 @@ class HomeHeader: UICollectionReusableView {
 
     // MARK: Private properties
 
-    private lazy var titleLabel: UILabel = {
-        return UILabel()
-    }()
+    private lazy var titleLabel: UILabel = { return UILabel() }()
 
-    private lazy var subTitleLabel: UILabel = {
-        return UILabel()
-    }()
+    private lazy var subTitleLabel: UILabel = { return UILabel() }()
 
     private lazy var searchButton: UIButton = {
         let action = UIAction { [weak self] _ in

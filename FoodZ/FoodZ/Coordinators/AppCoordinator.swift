@@ -12,12 +12,13 @@ class AppCoordinator {
 
     // MARK: Internal properties
 
-    var navigationController: UINavigationController?
+    weak var navigationController: UINavigationController?
 
     // MARK: Initializator
 
-    init(navController: UINavigationController) {
-        self.navigationController = navController
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+        start()
     }
 
     // MARK: Internal methods
@@ -35,7 +36,7 @@ class AppCoordinator {
 
     private func showAuthorizationFlow() {
 
-        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navController: navigationController)
+        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navigationController: navigationController)
         authorizationCoordinator.delegate = self
         authorizationCoordinator.start()
     }
@@ -53,7 +54,6 @@ class AppCoordinator {
 
 extension AppCoordinator: ChangeCoordinator {
     func change() {
-        navigationController = nil
         showTabBar()
     }
 }

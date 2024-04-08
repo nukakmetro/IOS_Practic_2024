@@ -11,4 +11,5 @@ enum SearchViewIntent {
     case onClose
     case proccedInputSearchText(_ text: String)
     case onReload
+    case onDidlLoad
 }

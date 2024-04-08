@@ -39,7 +39,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
     // MARK: Initializator
 
     init(viewModel: ViewModel) {
-        self.viewModel =  viewModel
+        self.viewModel = viewModel
         self.sections = []
         super.init(nibName: nil, bundle: nil)
     }
@@ -52,8 +52,8 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         super.viewDidLoad()
         makeConstraints()
         createDataSource()
-        bindings()
-        viewModel.trigger(.onReload)
+        configureIO()
+        viewModel.trigger(.onDidlLoad)
         navigationController?.isNavigationBarHidden = true
     }
 
@@ -69,12 +69,27 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
             }
         }
     }
-    private func bindings() {
-        viewModel.sectionsDidChange.sink { [weak self] sections in
-            self?.sections = sections
-            self?.reloadData()
-        }.store(in: &cancellables)
+    private func configureIO() {
+        viewModel
+            .stateDidChange
+            .sink { [weak self] _ in
+                self?.render()
+            }
+            .store(in: &cancellables)
     }
+
+    private func render() {
+        switch viewModel.state {
+        case .loading:
+            break
+        case .content(dispayData: let dispayData):
+            sections = dispayData
+            reloadData()
+        case .error:
+            break
+        }
+    }
+
     private func configure<T: SelfConfiguringCell>(_ cellType: T.Type, with product: Product, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Unable to dequeue \(cellType)")
@@ -87,11 +102,11 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { _, indexPath, product in
             switch self.sections[indexPath.section].type {
             case "SingleCollectionViewCell":
-                return self.configure(MediumTableCell.self, with: product, for: indexPath)
+                return self.configure(SingleCollectionViewCell.self, with: product, for: indexPath)
             case "topHeader":
                 return UICollectionViewCell()
             default:
-                return self.configure(MediumTableCell.self, with: product, for: indexPath)
+                return self.configure(SingleCollectionViewCell.self, with: product, for: indexPath)
             }
         }
 
@@ -138,7 +153,6 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 10
         layout.configuration = config
         return layout
     }
@@ -147,13 +161,14 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
+        let indent = view.frame.width * 0.1 / 2
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: indent, bottom: 10, trailing: indent)
 
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.65), heightDimension: .fractionalHeight(0.3))
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2))
         let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
-        layoutSection.orthogonalScrollingBehavior = .continuous
+        layoutSection.orthogonalScrollingBehavior = .none
         return layoutSection
     }
 

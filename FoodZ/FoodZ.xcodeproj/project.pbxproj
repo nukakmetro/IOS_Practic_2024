@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		787C716B2BC2971600D2F36B /* SearchViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787C716A2BC2971600D2F36B /* SearchViewBuilder.swift */; };
 		787C716D2BC2C7BA00D2F36B /* SearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787C716C2BC2C7BA00D2F36B /* SearchHeader.swift */; };
+		787C71C42BC4526000D2F36B /* Search.json in Resources */ = {isa = PBXBuildFile; fileRef = 787C71C32BC4526000D2F36B /* Search.json */; };
 		78B05A802BB2EC8B00D74385 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B05A7F2BB2EC8B00D74385 /* AppColor.swift */; };
 		78B05A892BB367C300D74385 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B05A882BB367C300D74385 /* HomeViewModel.swift */; };
 		78B05A8D2BB462F500D74385 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B05A8C2BB462F500D74385 /* HomeCoordinator.swift */; };
@@ -89,6 +90,7 @@
 /* Begin PBXFileReference section */
 		787C716A2BC2971600D2F36B /* SearchViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewBuilder.swift; sourceTree = "<group>"; };
 		787C716C2BC2C7BA00D2F36B /* SearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeader.swift; sourceTree = "<group>"; };
+		787C71C32BC4526000D2F36B /* Search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Search.json; sourceTree = "<group>"; };
 		78B05A7F2BB2EC8B00D74385 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		78B05A882BB367C300D74385 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		78B05A8C2BB462F500D74385 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				78C1CB0D2BADC02900748F3D /* LaunchScreen.storyboard */,
 				78C1CB102BADC02900748F3D /* Info.plist */,
 				78C1CB082BADC02700748F3D /* FoodZ.xcdatamodeld */,
+				787C71C32BC4526000D2F36B /* Search.json */,
 			);
 			path = FoodZ;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 			files = (
 				78C1CB0F2BADC02900748F3D /* LaunchScreen.storyboard in Resources */,
 				78B05AFD2BB98A7800D74385 /* foodz.json in Resources */,
+				787C71C42BC4526000D2F36B /* Search.json in Resources */,
 				78C1CB0C2BADC02900748F3D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

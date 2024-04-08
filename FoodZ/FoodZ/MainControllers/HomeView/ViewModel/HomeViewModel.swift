@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-protocol HomeViewModeling: DisplayDataProtocol, UIKitViewModel where State == HomeViewState, Intent == HomeViewIntent {}
+protocol HomeViewModeling: UIKitViewModel where State == HomeViewState, Intent == HomeViewIntent {}
 
-final class HomeViewModel<RemoteRepository: ProductFavorietesProtocol>: HomeViewModeling {
+final class HomeViewModel: HomeViewModeling {
 
     // MARK: Private properties
 
@@ -18,31 +18,27 @@ final class HomeViewModel<RemoteRepository: ProductFavorietesProtocol>: HomeView
     private var output: HomeModuleOutput?
     private let networkManager: NetworkManagerProtocol
     private let localRepository: HomeLocalRepository
-    private let remoteRepository: RemoteRepository?
-    private(set) var sectionsDidChange: PassthroughSubject<[Section], Never>
-
-    @Published private(set) var sections: [Section] = [] {
-        didSet {
-            sectionsDidChange.send(sections)
-        }
-    }
+    private let remoteRepository: ProductFavorietesProtocol?
+    private(set) var stateDidChange: ObservableObjectPublisher
 
     // MARK: Internal properties
 
-    var stateDidChange: ObservableObjectPublisher
-    var state: HomeViewState
+    @Published var state: HomeViewState {
+        didSet {
+            stateDidChange.send()
+        }
+    }
 
     // MARK: Initializator
 
-    init(output: HomeModuleOutput, network: NetworkManagerProtocol, remoteRepository: RemoteRepository) {
+    init(output: HomeModuleOutput, networkManager: NetworkManagerProtocol, remoteRepository: ProductFavorietesProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
-        self.state = .content("")
+        self.state = .loading
         self.output = output
-        self.networkManager = network
+        self.networkManager = networkManager
         self.localRepository = HomeLocalRepository()
         self.remoteRepository = remoteRepository
         topSection = Section(id: 0, title: "hello", type: "topHeader", items: [])
-        self.sectionsDidChange = PassthroughSubject<[Section], Never>()
     }
 
     // MARK: Internal methods
@@ -54,18 +50,26 @@ final class HomeViewModel<RemoteRepository: ProductFavorietesProtocol>: HomeView
             output?.proccesedButtonTapToSearch()
         case .onReload:
             updateSections()
+        case .onDidLoad:
+            updateSections()
+
         }
     }
 
     func updateSections() {
-        let newSections = remoteRepository?.getFavoritesProducts() ?? []
-        sections.removeAll()
+        state = .loading
+        remoteRepository?.getFavoritesProducts(completion: { [weak self] result in
+            switch result {
 
-        sections.append(topSection)
-
-        sections.append(contentsOf: newSections)
-//         localRepository.createSections(with: sections)
-//         self.sections = localRepository.obtainSavedData()
-
-    }
+            case .success(let dispayData):
+                guard let self else { return }
+                var updateSections: [Section] = []
+                updateSections.append(self.topSection)
+                updateSections.append(contentsOf: dispayData)
+                self.state = .content(dispayData: updateSections)
+            case .failure:
+                self?.state = .error
+            }
+        }
+    )}
 }

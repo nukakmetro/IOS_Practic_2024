@@ -15,46 +15,28 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Private properties
 
-    private lazy var productNameLabel: UILabel = {
-        UILabel()
-    }()
-    private lazy var productCategoryLabel: UILabel = {
-        UILabel()
-    }()
-    private lazy var productCompoundLabel: UILabel = {
-        UILabel()
-    }()
-    private lazy var productRatingLabel: UILabel = {
-        return UILabel()
-    }()
-    private lazy var productWaitingTimerLabel: UILabel = {
-        return UILabel()
-    }()
-    private lazy var productPriceLabel: UILabel = {
-        return UILabel()
-    }()
+    private lazy var productNameLabel = UILabel()
+    private lazy var productCategoryLabel = UILabel()
+    private lazy var productCompoundLabel = UILabel()
+    private lazy var productRatingLabel = UILabel()
+    private lazy var productWaitingTimerLabel = UILabel()
+    private lazy var productPriceLabel = UILabel()
+    private lazy var productWaltingTimerImage = UIImageView()
+    private lazy var productRatingImage = UIImageView()
+
     private lazy var productSavedButton: UIButton = {
         let action = UIAction { _ in
 
         }
         var button = UIButton(primaryAction: action)
 
-        button.frame = CGRect(x: Int(bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
+        //button.frame = CGRect(x: Int(bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
         return button
     }()
-    private lazy var productImage: UIImageView = {
-        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.45))
-        imageView.contentMode = .scaleToFill
-        return imageView
-    }()
-    private lazy var productWaltingTimerImage: UIImageView = {
-        return UIImageView()
-    }()
-    private lazy var productRatingImage: UIImageView = {
-        return UIImageView()
-    }()
+    private lazy var productImage = UIImageView()
+
     private lazy var containerView: UIView = {
-        var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.45))
+        var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width * 0.45, height: bounds.height))
         containerView.addSubview(productImage)
         containerView.backgroundColor = UIColor.clear
         containerView.addSubview(productSavedButton)
@@ -77,6 +59,7 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
     // MARK: Private methods
 
     private func setupLayout() {
+
         let ratingStackView = UIStackView(arrangedSubviews: [
             productWaltingTimerImage,
             productWaitingTimerLabel,
@@ -95,23 +78,25 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         ])
         lowerStackView.axis = .vertical
         lowerStackView.distribution = .fillEqually
-
         lowerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(lowerStackView)
         contentView.addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
 
         containerView.snp.makeConstraints { make in
             make.height.equalToSuperview().multipliedBy(1)
             make.bottom.leading.top.equalToSuperview()
         }
         lowerStackView.snp.makeConstraints { make in
-            make.leading.equalTo(containerView.snp.trailing).offset(20)
-            make.trailing.equalToSuperview().inset(10)
+            make.leading.equalTo(containerView.snp.trailing)
+            make.trailing.equalToSuperview()
             make.top.bottom.equalToSuperview()
         }
     }
 
     private func setupDisplay() {
+        productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
+        productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
         productWaltingTimerImage.tintColor = AppColor.title.color
