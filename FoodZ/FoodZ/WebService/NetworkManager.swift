@@ -18,7 +18,7 @@ class NetworkManager: NetworkManagerProtocol {
     func registration(credentials: [String: String]) -> String? {
 
         let interceptor = NetworkInterceptor(retriers: [RetryPolicy(retryLimit: 2)])
-        let response = AF.request(APIRouter.registrateUser(credentials),interceptor: interceptor).response
+        let response = AF.request(APIRouter.registrateUser(credentials), interceptor: interceptor).response
 
         guard let statusCode = response?.statusCode else { return "error"}
 

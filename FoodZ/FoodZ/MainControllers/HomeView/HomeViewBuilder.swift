@@ -24,7 +24,8 @@ final class HomeViewBuilder: Builder {
 
     func build() -> UIViewController {
         let networkManager = MockNetworkManager()
-        let viewModel = HomeViewModel(output: output, network: networkManager)
+        let remoteRepository = ProductRemoteRepository()
+        let viewModel = HomeViewModel(output: output, networkManager: networkManager, remoteRepository: remoteRepository)
         let controller = HomeViewController(viewModel: viewModel)
         return controller
     }

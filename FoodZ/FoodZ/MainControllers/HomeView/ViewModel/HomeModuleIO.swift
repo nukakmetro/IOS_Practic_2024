@@ -10,6 +10,6 @@ import Foundation
 protocol HomeModuleInput: AnyObject {}
 
 protocol HomeModuleOutput: AnyObject {
-    func presentRegistration()
-    func userAuthorizate()
+    func proccesedButtonTapToSearch()
+    func proccesedButtonTapToProduct()
 }

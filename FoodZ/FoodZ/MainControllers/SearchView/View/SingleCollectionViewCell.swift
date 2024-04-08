@@ -1,18 +1,17 @@
 //
-//  SingleMainCollectionViewCell.swift
+//  SingleCollectionViewCell.swift
 //  FoodZ
 //
-//  Created by surexnx on 27.03.2024.
+//  Created by surexnx on 28.03.2024.
 //
 
 import UIKit
-import SnapKit
 
-class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
+class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
 
-    // MARK: Internal static properties
+    // MARK: Internal properties
 
-    static let reuseIdentifier: String = "MediumTableCell"
+    static let reuseIdentifier: String = "SingleCollectionViewCell"
 
     // MARK: Private properties
 
@@ -22,12 +21,22 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
     private lazy var productRatingLabel = UILabel()
     private lazy var productWaitingTimerLabel = UILabel()
     private lazy var productPriceLabel = UILabel()
-    private lazy var productSavedButton =  UIButton() 
-    private lazy var productImage = UIImageView()
     private lazy var productWaltingTimerImage = UIImageView()
     private lazy var productRatingImage = UIImageView()
+
+    private lazy var productSavedButton: UIButton = {
+        let action = UIAction { _ in
+
+        }
+        var button = UIButton(primaryAction: action)
+
+        //button.frame = CGRect(x: Int(bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
+        return button
+    }()
+    private lazy var productImage = UIImageView()
+
     private lazy var containerView: UIView = {
-        var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.45))
+        var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width * 0.45, height: bounds.height))
         containerView.addSubview(productImage)
         containerView.backgroundColor = UIColor.clear
         containerView.addSubview(productSavedButton)
@@ -50,6 +59,7 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
     // MARK: Private methods
 
     private func setupLayout() {
+
         let ratingStackView = UIStackView(arrangedSubviews: [
             productWaltingTimerImage,
             productWaitingTimerLabel,
@@ -68,30 +78,25 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
         ])
         lowerStackView.axis = .vertical
         lowerStackView.distribution = .fillEqually
-
         lowerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(lowerStackView)
         contentView.addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
 
         containerView.snp.makeConstraints { make in
-            make.height.equalToSuperview().multipliedBy(0.4)
-            make.leading.trailing.top.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(1)
+            make.bottom.leading.top.equalToSuperview()
         }
         lowerStackView.snp.makeConstraints { make in
-            make.top.equalTo(containerView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview()
+            make.leading.equalTo(containerView.snp.trailing)
+            make.trailing.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
     }
 
     private func setupDisplay() {
+        productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
         productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
-        let action = UIAction { _ in
-
-        }
-        productSavedButton.addAction(action, for: .touchUpInside)
-        productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX - 30), y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
-        // productImage.contentMode = .scaleToFill
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
         productWaltingTimerImage.tintColor = AppColor.title.color

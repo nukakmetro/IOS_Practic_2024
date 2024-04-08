@@ -15,26 +15,29 @@ final class HomeViewModel: HomeViewModeling {
     // MARK: Private properties
 
     private let topSection: Section
-    private let output: HomeModuleOutput
+    private var output: HomeModuleOutput?
     private let networkManager: NetworkManagerProtocol
     private let localRepository: HomeLocalRepository
-    private let loadRepository: HomeLoadRepository?
-    @Published private(set) var sections: [Section] = []
+    private let remoteRepository: ProductFavorietesProtocol?
+    private(set) var stateDidChange: ObservableObjectPublisher
 
     // MARK: Internal properties
 
-    var stateDidChange: ObservableObjectPublisher
-    var state: HomeViewState
+    @Published var state: HomeViewState {
+        didSet {
+            stateDidChange.send()
+        }
+    }
 
     // MARK: Initializator
 
-    init(output: HomeModuleOutput, network: NetworkManagerProtocol) {
+    init(output: HomeModuleOutput, networkManager: NetworkManagerProtocol, remoteRepository: ProductFavorietesProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
-        self.state = .content("")
+        self.state = .loading
         self.output = output
-        self.networkManager = network
+        self.networkManager = networkManager
         self.localRepository = HomeLocalRepository()
-        self.loadRepository = HomeLoadRepository()
+        self.remoteRepository = remoteRepository
         topSection = Section(id: 0, title: "hello", type: "topHeader", items: [])
     }
 
@@ -42,25 +45,31 @@ final class HomeViewModel: HomeViewModeling {
 
     func trigger(_ intent: HomeViewIntent) {
         switch intent {
-        case .onClose: 
-            break
+        case .onClose: break
         case .proccedButtonTapedToSearch:
-            break
+            output?.proccesedButtonTapToSearch()
         case .onReload:
             updateSections()
-            break
-        }
-
-    func updateSections() {
-        let newSections = loadRepository?.decode() ?? []
-        sections.removeAll()
-
-        sections.append(topSection)
-
-        sections.append(contentsOf: newSections)
-//         localRepository.createSections(with: sections)
-//         self.sections = localRepository.obtainSavedData()
+        case .onDidLoad:
+            updateSections()
 
         }
     }
+
+    func updateSections() {
+        state = .loading
+        remoteRepository?.getFavoritesProducts(completion: { [weak self] result in
+            switch result {
+
+            case .success(let dispayData):
+                guard let self else { return }
+                var updateSections: [Section] = []
+                updateSections.append(self.topSection)
+                updateSections.append(contentsOf: dispayData)
+                self.state = .content(dispayData: updateSections)
+            case .failure:
+                self?.state = .error
+            }
+        }
+    )}
 }
