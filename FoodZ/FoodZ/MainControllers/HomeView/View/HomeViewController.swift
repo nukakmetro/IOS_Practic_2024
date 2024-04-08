@@ -9,11 +9,11 @@ import UIKit
 import Combine
 import SnapKit
 
-class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
+class HomeViewController: UIViewController {
 
     // MARK: Private properties
 
-    private let viewModel: ViewModel
+    private let viewModel: HomeViewModel
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var sections: [Section]
     private var cancellables: Set<AnyCancellable> = []
@@ -24,9 +24,9 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
         collectionView.register(
-            HomeHeader.self,
+            SearchHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: HomeHeader.reuseIdentifier
+            withReuseIdentifier: SearchHeader.reuseIdentifier
         )
         collectionView.register(
             SectionHeader.self,
@@ -37,14 +37,12 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
             MediumTableCell.self,
             forCellWithReuseIdentifier: MediumTableCell.reuseIdentifier
         )
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
     }()
 
     // MARK: Initialization
 
-    init(viewModel: ViewModel) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         self.sections = []
         super.init(nibName: nil, bundle: nil)
@@ -57,44 +55,20 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeConstraints()
+
+        viewModel.trigger(.onReload)
         createDataSource()
-        configureIO()
-        viewModel.trigger(.onDidLoad)
+        bindings()
         navigationController?.isNavigationBarHidden = true
     }
 
     // MARK: Private methods
 
-    @objc private func didPullToRefresh() {
-        DispatchQueue.global().async {
-            self.viewModel.trigger(.onReload)
-            print("start refresh")
-            DispatchQueue.main.async {
-                self.collectionView.refreshControl?.endRefreshing()
-                print("end refresh")
-            }
-        }
-    }
-
-    private func configureIO() {
-        viewModel
-            .stateDidChange
-            .sink { [weak self] _ in
-                self?.render()
-            }
-            .store(in: &cancellables)
-    }
-
-    private func render() {
-        switch viewModel.state {
-        case .loading:
-            break
-        case .content(dispayData: let dispayData):
-            sections = dispayData
-            reloadData()
-        case .error:
-            break
-        }
+    private func bindings() {
+        viewModel.$sections.sink { [weak self] sections in
+            self?.sections = sections
+            self?.reloadData()
+        }.store(in: &cancellables)
     }
 
     private func configure<T: SelfConfiguringCell>(_ cellType: T.Type, with product: Product, for indexPath: IndexPath) -> T {
@@ -107,7 +81,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { _, indexPath, product in
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { collectionView, indexPath, product in
             switch self.sections[indexPath.section].type {
             case "mediumTable":
                 return self.configure(MediumTableCell.self, with: product, for: indexPath)
@@ -121,21 +95,12 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         dataSource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
 
             if indexPath.section == 0 {
-                guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: HomeHeader.reuseIdentifier,
-                    for: indexPath
-                ) as? HomeHeader else {
-                    return HomeHeader()
+                guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchHeader.reuseIdentifier, for: indexPath) as? SearchHeader else {
+                    return SearchHeader()
                 }
-                sectionHeader.homeDelegate = self
                 return sectionHeader
             }
-            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: SectionHeader.reuseIdentifier,
-                for: indexPath
-            ) as? SectionHeader else {
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.reuseIdentifier, for: indexPath) as? SectionHeader else {
                 return SectionHeader()
             }
                 guard let product = self?.dataSource?.itemIdentifier(for: indexPath) else { return nil }
@@ -213,11 +178,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
 
     private func createTopHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let layoutSectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2))
-        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: layoutSectionHeaderSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
+        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: layoutSectionHeaderSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         return layoutSectionHeader
     }
 
@@ -243,13 +204,5 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
             // make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.bottom.equalToSuperview()
         }
-    }
-}
-
-// MARK: SearchHeaderDelegate protocol
-
-extension HomeViewController: HomeHeaderDelegate {
-    func proccesedButtonTapToSearch() {
-        viewModel.trigger(.proccedButtonTapedToSearch)
     }
 }

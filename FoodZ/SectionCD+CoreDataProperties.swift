@@ -39,5 +39,5 @@ extension SectionCD {
 
 }
 
-extension SectionCD: Identifiable {
+extension SectionCD : Identifiable {
 }

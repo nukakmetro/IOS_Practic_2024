@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Тренды",
-    "type": "mediumTable",
+    "type": "type1",
     "items": [
       {
         "productDescription": "Description 1",
@@ -81,7 +81,7 @@
   {
     "id": 2,
     "title": "Просмотренное",
-    "type": "mediumTable",
+    "type": "type2",
     "items": [
       {
         "productDescription": "Description 3",
@@ -108,7 +108,7 @@
   }, {
       "id": 3,
       "title": "Просмотренное",
-      "type": "mediumTable",
+      "type": "type2",
       "items": [
         {
           "productDescription": "Description 3",
@@ -136,7 +136,7 @@
   {
     "id": 23,
     "title": "Просмотренное",
-    "type": "mediumTable",
+    "type": "type2",
     "items": [
       {
         "productDescription": "Description 3",

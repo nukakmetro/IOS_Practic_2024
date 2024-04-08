@@ -10,13 +10,14 @@ import UIKit
 
 class CoordinatorFactory {
 
-    func createAuthorizationCoordinator(navigationController: UINavigationController?) -> AuthorizationCoordinator {
-        AuthorizationCoordinator(navigationController: navigationController)
+    func createAuthorizationCoordinator(navController: UINavigationController) -> AuthorizationCoordinator {
+        AuthorizationCoordinator(navigationController: navController)
     }
-    func createAppCoordinator(navigationController: UINavigationController) -> AppCoordinator {
-        AppCoordinator(navigationController: navigationController)
+
+    func createAppCoordinator(navController: UINavigationController) -> AppCoordinator {
+        AppCoordinator(navigationController: navController)
     }
-    func createHomeCoordinators(navigationController: UINavigationController) -> HomeCoordinator {
-        HomeCoordinator(navigationController: navigationController)
+    func createHomeCoordinators(navController: UINavigationController) -> HomeCoordinator {
+        HomeCoordinator(navigationController: navController)
     }
 }

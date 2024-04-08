@@ -9,6 +9,6 @@ import Foundation
 
 enum HomeViewState {
     case loading
-    case content(dispayData: [Section])
+    case content(String)
     case error
 }

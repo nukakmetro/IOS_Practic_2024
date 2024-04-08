@@ -8,33 +8,31 @@
 import UIKit
 import SnapKit
 
-protocol HomeHeaderDelegate: AnyObject {
-    func proccesedButtonTapToSearch()
-}
+class SearchHeader: UICollectionReusableView {
 
-class HomeHeader: UICollectionReusableView {
-
-    // MARK: Internal static properties
-
-    static var reuseIdentifier: String = "HomeHeader"
+    static var reuseIdentifier: String = "SearchHeader"
 
     // MARK: Internal properties
 
     var textFieldTap: (() -> ())?
-    weak var homeDelegate: HomeHeaderDelegate?
 
     // MARK: Private properties
 
-    private lazy var titleLabel: UILabel = { return UILabel() }()
+    private lazy var titleLabel: UILabel = {
+        return UILabel()
+    }()
 
-    private lazy var subTitleLabel: UILabel = { return UILabel() }()
+    private lazy var subTitleLabel: UILabel = {
+        return UILabel()
+    }()
 
     private lazy var searchButton: UIButton = {
         let action = UIAction { [weak self] _ in
-            self?.homeDelegate?.proccesedButtonTapToSearch()
+            self?.textFieldTap?()
         }
 
         var button = UIButton(primaryAction: action)
+        button.layer.cornerRadius = 10
         button.contentHorizontalAlignment = .left
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
@@ -71,6 +69,7 @@ class HomeHeader: UICollectionReusableView {
         let titleStackView = UIStackView(arrangedSubviews: [titleLabel, subTitleLabel])
         titleStackView.axis = .vertical
         titleStackView.translatesAutoresizingMaskIntoConstraints = false
+
         addSubview(searchButton)
         addSubview(titleStackView)
 

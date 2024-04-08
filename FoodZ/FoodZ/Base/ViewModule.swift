@@ -12,6 +12,7 @@ protocol ViewModel: ObservableObject where ObjectWillChangePublisher.Output == V
     associatedtype Intent
 
     var state: State { get }
+
     func trigger(_ intent: Intent)
 }
 

@@ -15,7 +15,7 @@ final class RegistrationViewModel: RegistrationViewModeling {
     // MARK: Private properties
 
     private weak var output: RegModuleOutput?
-    private let networkManager: NetworkManagerProtocol
+    private var networkManager: NetworkManagerProtocol
     private(set) var stateDidChange: ObservableObjectPublisher
     @Published private(set) var state: RegistrationViewState {
         didSet {

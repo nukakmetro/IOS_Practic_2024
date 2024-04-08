@@ -16,16 +16,44 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Private properties
 
-    private lazy var productNameLabel = UILabel()
-    private lazy var productCategoryLabel = UILabel()
-    private lazy var productCompoundLabel = UILabel()
-    private lazy var productRatingLabel = UILabel()
-    private lazy var productWaitingTimerLabel = UILabel()
-    private lazy var productPriceLabel = UILabel()
-    private lazy var productSavedButton =  UIButton() 
-    private lazy var productImage = UIImageView()
-    private lazy var productWaltingTimerImage = UIImageView()
-    private lazy var productRatingImage = UIImageView()
+    private lazy var productNameLabel: UILabel = {
+        UILabel()
+    }()
+    private lazy var productCategoryLabel: UILabel = {
+        UILabel()
+    }()
+    private lazy var productCompoundLabel: UILabel = {
+        UILabel()
+    }()
+    private lazy var productRatingLabel: UILabel = {
+        return UILabel()
+    }()
+    private lazy var productWaitingTimerLabel: UILabel = {
+        return UILabel()
+    }()
+    private lazy var productPriceLabel: UILabel = {
+        return UILabel()
+    }()
+    private lazy var productSavedButton: UIButton = {
+        let action = UIAction { _ in
+
+        }
+        var button = UIButton(primaryAction: action)
+
+        button.frame = CGRect(x: Int(bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
+        return button
+    }()
+    private lazy var productImage: UIImageView = {
+        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.45))
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
+    private lazy var productWaltingTimerImage: UIImageView = {
+        return UIImageView()
+    }()
+    private lazy var productRatingImage: UIImageView = {
+        return UIImageView()
+    }()
     private lazy var containerView: UIView = {
         var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.45))
         containerView.addSubview(productImage)
@@ -50,22 +78,17 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
     // MARK: Private methods
 
     private func setupLayout() {
-        let ratingStackView = UIStackView(arrangedSubviews: [
-            productWaltingTimerImage,
-            productWaitingTimerLabel,
-            productRatingImage,
-            productRatingLabel
-        ])
-
+        let ratingStackView = UIStackView(arrangedSubviews: [productWaltingTimerImage,
+                                                             productWaitingTimerLabel,
+                                                             productRatingImage,
+                                                             productRatingLabel])
         ratingStackView.axis = .horizontal
         ratingStackView.alignment = .center
-        let lowerStackView = UIStackView(arrangedSubviews: [
-            productNameLabel,
-            productCategoryLabel,
-            productCompoundLabel,
-            ratingStackView,
-            productPriceLabel
-        ])
+        let lowerStackView = UIStackView(arrangedSubviews: [productNameLabel,
+                                                            productCategoryLabel,
+                                                            productCompoundLabel,
+                                                            ratingStackView,
+                                                            productPriceLabel])
         lowerStackView.axis = .vertical
         lowerStackView.distribution = .fillEqually
 
@@ -85,13 +108,6 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
     }
 
     private func setupDisplay() {
-        productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
-        let action = UIAction { _ in
-
-        }
-        productSavedButton.addAction(action, for: .touchUpInside)
-        productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX - 30), y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
-        // productImage.contentMode = .scaleToFill
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
         productWaltingTimerImage.tintColor = AppColor.title.color

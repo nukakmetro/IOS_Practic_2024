@@ -8,17 +8,16 @@
 import Foundation
 import UIKit
 
-class AppCoordinator {
+class AppCoordinator: Coordinator {
 
     // MARK: Internal properties
 
-    weak var navigationController: UINavigationController?
+    var navigationController: UINavigationController
 
     // MARK: Initializator
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        start()
     }
 
     // MARK: Internal methods
@@ -36,7 +35,7 @@ class AppCoordinator {
 
     private func showAuthorizationFlow() {
 
-        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navigationController: navigationController)
+        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navController: navigationController)
         authorizationCoordinator.delegate = self
         authorizationCoordinator.start()
     }
