@@ -9,7 +9,7 @@ import Foundation
 
 enum RegistrationViewIntent {
     case onClose
-    case proccedButtonTapedRegistrate(_ credentials: [String: String])
-    case onReload
+    case proccedButtonTapedRegistrate(_ userRegistrationRequst: UserRegistrationRequest)
+    case onDidLoad
     case proccedButtonTapedGoToAuth
 }

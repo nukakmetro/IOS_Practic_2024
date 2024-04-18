@@ -21,17 +21,16 @@ class AuthorizationViewModel: AuthorizationViewModeling {
             stateDidChange.send()
         }
     }
-    @Published var validationNotify: String = ""
     private var output: AuthModuleOutput?
-    private var networkManager: NetworkManagerProtocol
+    private var repository: UserAuthorizationProtocol
 
     // MARK: Initializator
 
-    init(output: AuthModuleOutput, network: NetworkManagerProtocol) {
+    init(output: AuthModuleOutput, repository: UserAuthorizationProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
-        self.state = .content("")
+        self.state = .content
         self.output = output
-        self.networkManager = network
+        self.repository = repository
     }
 
     // MARK: Internal methods
@@ -39,18 +38,27 @@ class AuthorizationViewModel: AuthorizationViewModeling {
     func trigger(_ intent: AuthorizationViewIntent) {
         switch intent {
         case .onClose:
-            break
-        case .proccedButtonTapedAuthorizate(let credentials):
-            guard let notify = networkManager.authenticate(credentials: credentials) else {
-                output?.userAuthorizate()
-                return
-            }
-            validationNotify = notify
+            output?.userAuthorizate()
+        case .proccedButtonTapedAuthorizate(let userRequest):
+            state = .loading
+            userAuthorization(userRequest)
         case .onReload:
             break
-
         case .proccedButtonTapedGoRegistrate:
             output?.presentRegistration()
+        case .onDidLoad:
+            state = .content
+        }
+    }
+
+    private func userAuthorization(_ userRequest: UserRequest) {
+        repository.userAuthorization(userRequest: userRequest) { [weak self] result in
+            switch result {
+            case .success:
+                self?.trigger(.onClose)
+            case .failure:
+                self?.state = .error("Неправильный логин  или пароль")
+            }
         }
     }
 }

@@ -13,77 +13,18 @@ class AuthorizationViewController: UIViewController {
     // MARK: Private properties
 
     private var viewModel: AuthorizationViewModel
-    private var cancellebles: Set<AnyCancellable> = []
+    private var cancellables: Set<AnyCancellable> = []
 
-    private lazy var titleLabel: UILabel = {
-        var label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    // MARK: Private lazy properties
 
-    private lazy var nicknameTextField: UITextField = {
-        var textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.returnKeyType = .next
-        textField.autocapitalizationType = .none
-        textField.placeholder = "nickname"
-        return textField
-    }()
-
-    private lazy var passwordTextField: UITextField = {
-        var textField = UITextField()
-        textField.isSecureTextEntry = true
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.returnKeyType = .done
-        textField.autocapitalizationType = .none
-        textField.placeholder = "password"
-        return textField
-    }()
-
-    private lazy var nicknameLabel: UILabel = {
-        var label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var passwordLabel: UILabel = {
-        var label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var statusLabel: UILabel = {
-        var label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var authorizationButton: UIButton = {
-        let action = UIAction { [weak self] _ in
-            guard
-                let nickname = self?.nicknameTextField.text,
-                let password = self?.passwordTextField.text
-            else {
-                return
-            }
-            let credentials: [String: String] = ["username": nickname, "password": password]
-            self?.viewModel.trigger(.proccedButtonTapedAuthorizate(credentials))
-            }
-        var button = UIButton(primaryAction: action)
-        button.setTitle("Авторизация", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var registrationButton: UIButton = {
-        let action = UIAction { [weak self] _ in
-            self?.viewModel.trigger(.proccedButtonTapedGoRegistrate)
-            }
-        var button = UIButton(primaryAction: action)
-        button.setTitle("Регистрация", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private lazy var nicknameTextField = UITextField()
+    private lazy var passwordTextField = UITextField()
+    private lazy var titleLabel = UILabel()
+    private lazy var nicknameLabel = UILabel()
+    private lazy var passwordLabel = UILabel()
+    private lazy var statusLabel = UILabel()
+    private lazy var authorizationButton = UIButton()
+    private lazy var registrationButton = UIButton()
 
     // MARK: Initializator
 
@@ -100,31 +41,44 @@ class AuthorizationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.hidesBackButton = true
-        makeConstraints()
-        view.backgroundColor = .white
-        setupNameSubviews()
-        configureBindings()
-        viewModel.$validationNotify.sink { [weak self] value in
-            self?.setErrorLabel(value)
-        }.store(in: &cancellebles)
+        viewModel.trigger(.onDidLoad)
+        setupDisplay()
+        configureIO()
     }
 
     // MARK: Private methods
+
+    private func configureIO() {
+        viewModel
+            .stateDidChange
+            .sink { [weak self] _ in
+                self?.render()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func render() {
+        switch viewModel.state {
+        case .loading:
+            break
+        case .content:
+            break
+        case .error(let error):
+            statusLabel.text = error
+        }
+    }
 
     private func addSubviews(_ views: UIView...) {
         views.forEach { view.addSubview($0) }
     }
 
-    private func setupNameSubviews() {
-        titleLabel.text = "Авторизация"
-        nicknameLabel.text = "nickname"
-        passwordLabel.text = "password"
-    }
-    private func configureBindings() {
-        viewModel.$validationNotify.sink { [weak self] value in
-            self?.statusLabel.text = value
-        }.store(in: &cancellebles)
+    private func setupDisplay() {
+        makeConstraints()
+        view.backgroundColor = .white
+        navigationItem.hidesBackButton = true
+        setupLabels()
+        setupButtons()
+        setupTextFields()
     }
 
     private func makeConstraints() {
@@ -138,50 +92,90 @@ class AuthorizationViewController: UIViewController {
             statusLabel,
             registrationButton
         )
-
         titleLabel.snp.makeConstraints { maker in
             maker.top.equalToSuperview().inset(50)
             maker.left.equalToSuperview().inset(50)
         }
-
         nicknameLabel.snp.makeConstraints { maker in
             maker.top.equalTo(titleLabel).inset(50)
             maker.centerX.equalToSuperview()
         }
-
         nicknameTextField.snp.makeConstraints { maker in
             maker.top.equalTo(nicknameLabel).inset(50)
             maker.centerX.equalToSuperview()
         }
-
         passwordLabel.snp.makeConstraints { maker in
             maker.top.equalTo(nicknameTextField).inset(50)
             maker.centerX.equalToSuperview()
         }
-
         passwordTextField.snp.makeConstraints { maker in
             maker.top.equalTo(passwordLabel).inset(50)
             maker.centerX.equalToSuperview()
         }
-
         authorizationButton.snp.makeConstraints { maker in
             maker.top.equalTo(passwordTextField).inset(50)
             maker.centerX.equalToSuperview()
         }
-
         statusLabel.snp.makeConstraints {maker in
             maker.top.equalTo(authorizationButton).inset(50)
             maker.centerX.equalToSuperview()
         }
-
         registrationButton.snp.makeConstraints {maker in
             maker.top.equalTo(statusLabel).inset(50)
             maker.centerX.equalToSuperview()
         }
     }
 
-    private func setErrorLabel(_ error: String) {
-        statusLabel.text = error
+    private func setupLabels() {
+        titleLabel.text = "Авторизация"
+        nicknameLabel.text = "username"
+        passwordLabel.text = "password"
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
+        passwordLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func setupTextFields() {
+
+        nicknameTextField.translatesAutoresizingMaskIntoConstraints = false
+        nicknameTextField.returnKeyType = .next
+        nicknameTextField.autocapitalizationType = .none
+        nicknameTextField.placeholder = "nickname"
+
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.returnKeyType = .next
+        passwordTextField.placeholder = "password"
+
+    }
+
+    private func setupButtons() {
+        let registrationButtonAction = UIAction { [weak self] _ in
+            self?.viewModel.trigger(.proccedButtonTapedGoRegistrate)
+            }
+        registrationButton.addAction(registrationButtonAction, for: .touchUpInside)
+        registrationButton.setTitle("Регистрация", for: .normal)
+        registrationButton.setTitleColor(AppColor.title.color, for: .normal)
+        registrationButton.translatesAutoresizingMaskIntoConstraints = false
+
+        let authorizationButtonAction = UIAction { [weak self] _ in
+            self?.proccedTapToAuthorizate()
+            }
+        authorizationButton.addAction(authorizationButtonAction, for: .touchUpInside)
+        authorizationButton.setTitle("Войти", for: .normal)
+        authorizationButton.setTitleColor(AppColor.title.color, for: .normal)
+        authorizationButton.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func proccedTapToAuthorizate() {
+        guard
+            let username = nicknameTextField.text,
+            let password = passwordTextField.text
+        else { return }
+        let userRequest = UserRequest(username: username, password: password)
+        self.viewModel.trigger(.proccedButtonTapedAuthorizate(userRequest))
     }
 }
 

@@ -30,7 +30,6 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         }
         var button = UIButton(primaryAction: action)
 
-        //button.frame = CGRect(x: Int(bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
         return button
     }()
     private lazy var productImage = UIImageView()

@@ -5,48 +5,26 @@
 //  Created by surexnx on 07.03.2024.
 //
 
-import Alamofire
+import Foundation
 
-struct TokenManager: Decodable {
+final class TokenManager {
 
-    private var accessToken: String
-    private var refreshToken: String
-
+    private var tokenEntity: TokenEntity
     static let shared = TokenManager()
 
     init() {
-        accessToken = ""
-        refreshToken = ""
+        tokenEntity = TokenEntity()
     }
 
-    mutating func updateToken(tokenManager: TokenManager) {
-        accessToken = tokenManager.accessToken
-        refreshToken = tokenManager.refreshToken
+    func updateToken(tokenEntity: TokenEntity) {
+        self.tokenEntity = tokenEntity
     }
 
-    mutating func updateToken(access: String, refresh: String) {
-        accessToken = access
-        refreshToken = refresh
-    }
-
-    func getRefreshToken() -> String? {
-        if refreshToken == "" {
-            return nil
-        } else {
-            return refreshToken
-        }
+    func getRefreshToken() -> RefreshRequest {
+        return RefreshRequest(refreshToken: tokenEntity.getRefreshToken())
     }
 
-    func getAccessToken() -> String? {
-        if accessToken == "" {
-            return nil
-        } else {
-            return accessToken
-        }
-    }
-
-    mutating func exit() {
-        accessToken = ""
-        refreshToken = ""
+    func getAccessToken() -> String {
+        return tokenEntity.getAccessToken()
     }
 }
