@@ -91,6 +91,15 @@
 		78EA693A2BD145BB004A961C /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69392BD145BB004A961C /* UserRequest.swift */; };
 		78EA693C2BD149E4004A961C /* UserRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */; };
 		78EA693E2BD14D35004A961C /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA693D2BD14D35004A961C /* AnyEncodable.swift */; };
+		78EA69412BD44253004A961C /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69402BD44253004A961C /* CategoryViewController.swift */; };
+		78EA69432BD442DA004A961C /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69422BD442DA004A961C /* CategoryViewModel.swift */; };
+		78EA69482BD44387004A961C /* CreateProductViewModelingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69472BD44387004A961C /* CreateProductViewModelingProtocol.swift */; };
+		78EA694A2BD4439C004A961C /* CreateProductState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69492BD4439C004A961C /* CreateProductState.swift */; };
+		78EA694C2BD443FA004A961C /* CreateProductIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA694B2BD443FA004A961C /* CreateProductIntent.swift */; };
+		78EA694F2BD44672004A961C /* CreateProductInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA694E2BD44672004A961C /* CreateProductInput.swift */; };
+		78EA69512BD446F9004A961C /* CreateProductBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69502BD446F9004A961C /* CreateProductBuilder.swift */; };
+		78EA69532BD44AF3004A961C /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69522BD44AF3004A961C /* ProductModel.swift */; };
+		78EA69552BD4533E004A961C /* CreateProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69542BD4533E004A961C /* CreateProductTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -176,6 +185,15 @@
 		78EA69392BD145BB004A961C /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
 		78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRemoteDataSource.swift; sourceTree = "<group>"; };
 		78EA693D2BD14D35004A961C /* AnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
+		78EA69402BD44253004A961C /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		78EA69422BD442DA004A961C /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		78EA69472BD44387004A961C /* CreateProductViewModelingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductViewModelingProtocol.swift; sourceTree = "<group>"; };
+		78EA69492BD4439C004A961C /* CreateProductState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductState.swift; sourceTree = "<group>"; };
+		78EA694B2BD443FA004A961C /* CreateProductIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductIntent.swift; sourceTree = "<group>"; };
+		78EA694E2BD44672004A961C /* CreateProductInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductInput.swift; sourceTree = "<group>"; };
+		78EA69502BD446F9004A961C /* CreateProductBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductBuilder.swift; sourceTree = "<group>"; };
+		78EA69522BD44AF3004A961C /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
+		78EA69542BD4533E004A961C /* CreateProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +353,7 @@
 		78C1CAFE2BADC02700748F3D /* FoodZ */ = {
 			isa = PBXGroup;
 			children = (
+				78EA693F2BD441AF004A961C /* CreateProductModul */,
 				78B05AC32BB6F19F00D74385 /* CoredataEntity */,
 				78C1CB312BADC04800748F3D /* RegistrationView */,
 				78C1CB3C2BADC04800748F3D /* AppDelegate */,
@@ -513,6 +532,38 @@
 			path = WebService;
 			sourceTree = "<group>";
 		};
+		78EA693F2BD441AF004A961C /* CreateProductModul */ = {
+			isa = PBXGroup;
+			children = (
+				78EA694D2BD44634004A961C /* Category */,
+				78EA69462BD44350004A961C /* Common */,
+			);
+			path = CreateProductModul;
+			sourceTree = "<group>";
+		};
+		78EA69462BD44350004A961C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				78EA69472BD44387004A961C /* CreateProductViewModelingProtocol.swift */,
+				78EA69492BD4439C004A961C /* CreateProductState.swift */,
+				78EA694B2BD443FA004A961C /* CreateProductIntent.swift */,
+				78EA694E2BD44672004A961C /* CreateProductInput.swift */,
+				78EA69502BD446F9004A961C /* CreateProductBuilder.swift */,
+				78EA69522BD44AF3004A961C /* ProductModel.swift */,
+				78EA69542BD4533E004A961C /* CreateProductTableViewCell.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		78EA694D2BD44634004A961C /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				78EA69402BD44253004A961C /* CategoryViewController.swift */,
+				78EA69422BD442DA004A961C /* CategoryViewModel.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -620,15 +671,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				78C1CB642BADC04800748F3D /* AppCoordinator.swift in Sources */,
+				78EA69482BD44387004A961C /* CreateProductViewModelingProtocol.swift in Sources */,
 				78C1CB612BADC04800748F3D /* RegistrationModulBuilder.swift in Sources */,
 				78C1CB582BADC04800748F3D /* AuthorizationViewController.swift in Sources */,
 				78B05AA62BB4674200D74385 /* HomeViewState.swift in Sources */,
 				78C1CB0A2BADC02700748F3D /* FoodZ.xcdatamodeld in Sources */,
+				78EA694C2BD443FA004A961C /* CreateProductIntent.swift in Sources */,
 				78B05B2F2BBAA0AD00D74385 /* ImageCD+CoreDataProperties.swift in Sources */,
 				78C1CB662BADC04800748F3D /* MockNetworkManager.swift in Sources */,
 				78B05ADB2BB8BA9500D74385 /* Section.swift in Sources */,
 				78B05B412BC0721D00D74385 /* DisplayDataProtocol.swift in Sources */,
+				78EA69532BD44AF3004A961C /* ProductModel.swift in Sources */,
+				78EA69412BD44253004A961C /* CategoryViewController.swift in Sources */,
 				78C1CB512BADC04800748F3D /* SavedViewController.swift in Sources */,
+				78EA694A2BD4439C004A961C /* CreateProductState.swift in Sources */,
 				78B05A8D2BB462F500D74385 /* HomeCoordinator.swift in Sources */,
 				78DB41892BD02D4900EADD3E /* SearchEntity.swift in Sources */,
 				78EA693A2BD145BB004A961C /* UserRequest.swift in Sources */,
@@ -637,9 +693,12 @@
 				78C1CB572BADC04800748F3D /* AuthorizationViewModel.swift in Sources */,
 				78C1CB4A2BADC04800748F3D /* ViewModule.swift in Sources */,
 				78B05B2B2BBAA0AD00D74385 /* SectionCD+CoreDataProperties.swift in Sources */,
+				78EA69512BD446F9004A961C /* CreateProductBuilder.swift in Sources */,
 				78DB41872BD0213B00EADD3E /* ProductsRemoteDataSource.swift in Sources */,
 				78B05B312BBC126400D74385 /* HomeHeader.swift in Sources */,
+				78EA69552BD4533E004A961C /* CreateProductTableViewCell.swift in Sources */,
 				78B05AD52BB6F35B00D74385 /* HomeCoreDataManager.swift in Sources */,
+				78EA69432BD442DA004A961C /* CategoryViewModel.swift in Sources */,
 				78B05A892BB367C300D74385 /* HomeViewModel.swift in Sources */,
 				78DB41832BD000B000EADD3E /* StatefulNetworkService.swift in Sources */,
 				78C1CB5B2BADC04800748F3D /* RegModuleIO.swift in Sources */,
@@ -691,6 +750,7 @@
 				78B05B362BBD8C4D00D74385 /* SearchViewController.swift in Sources */,
 				78DB41852BD0077B00EADD3E /* Target.swift in Sources */,
 				78B05AD92BB8B1E300D74385 /* SectionHeader.swift in Sources */,
+				78EA694F2BD44672004A961C /* CreateProductInput.swift in Sources */,
 				78B05B282BBAA0AD00D74385 /* ProductCD+CoreDataClass.swift in Sources */,
 				78B05B032BB9D4F500D74385 /* HomeLocalRepository.swift in Sources */,
 				78B05A8F2BB465C900D74385 /* HomeModuleIO.swift in Sources */,
