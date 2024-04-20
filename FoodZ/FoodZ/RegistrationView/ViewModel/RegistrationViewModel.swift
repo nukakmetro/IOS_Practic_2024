@@ -15,22 +15,21 @@ final class RegistrationViewModel: RegistrationViewModeling {
     // MARK: Private properties
 
     private weak var output: RegModuleOutput?
-    private let networkManager: NetworkManagerProtocol
+    private let repository: UserRegistrationProtocol
     private(set) var stateDidChange: ObservableObjectPublisher
     @Published private(set) var state: RegistrationViewState {
         didSet {
             stateDidChange.send()
         }
     }
-    @Published private(set) var validationNotify: String?
 
     // MARK: Initializator
 
-    init(output: RegModuleOutput, network: NetworkManagerProtocol) {
+    init(output: RegModuleOutput, repository: UserRegistrationProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
-        self.state = .content("")
+        self.state = .content
         self.output = output
-        self.networkManager = network
+        self.repository = repository
     }
 
     // MARK: Internal methods
@@ -38,19 +37,32 @@ final class RegistrationViewModel: RegistrationViewModeling {
     func trigger(_ intent: RegistrationViewIntent) {
         switch intent {
         case .onClose:
-            break
-        case .proccedButtonTapedRegistrate(let credentials):
-            guard let notify = networkManager.registration(credentials: credentials) else {
-                output?.presentAuthorization()
-                return
-            }
-            validationNotify = notify
-
-        case .onReload:
-            break
-
+            output?.presentAuthorization()
+        case .proccedButtonTapedRegistrate(let userRegistrationRequest):
+            state = .loading
+            userRegistration(userRegistrationRequest)
+        case .onDidLoad:
+            state = .content
         case .proccedButtonTapedGoToAuth:
             output?.presentAuthorization()
+        }
+    }
+
+    // MARK: Private methods
+
+    private func userRegistration(_ userRegistrationRequst: UserRegistrationRequest) {
+        if userRegistrationRequst.userPasswordComparison() {
+            repository.userRegistration(userRegistrationRequest: userRegistrationRequst) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success:
+                    trigger(.onClose)
+                case .failure(let error):
+                    state = .error("Некоректные данные")
+                }
+            }
+        } else {
+            state = .error("Пароли не совпадают")
         }
     }
 }

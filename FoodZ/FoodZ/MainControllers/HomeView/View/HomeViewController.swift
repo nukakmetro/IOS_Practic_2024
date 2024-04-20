@@ -68,10 +68,8 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
     @objc private func didPullToRefresh() {
         DispatchQueue.global().async {
             self.viewModel.trigger(.onReload)
-            print("start refresh")
             DispatchQueue.main.async {
                 self.collectionView.refreshControl?.endRefreshing()
-                print("end refresh")
             }
         }
     }

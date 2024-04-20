@@ -9,7 +9,8 @@ import Foundation
 
 enum AuthorizationViewIntent {
     case onClose
-    case proccedButtonTapedAuthorizate(_ credentials: [String: String])
+    case onDidLoad
+    case proccedButtonTapedAuthorizate(_ userRequest: UserRequest)
     case proccedButtonTapedGoRegistrate
     case onReload
 }

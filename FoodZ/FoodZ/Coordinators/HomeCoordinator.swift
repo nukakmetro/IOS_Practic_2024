@@ -48,7 +48,7 @@ extension HomeCoordinator: HomeModuleOutput {
     func proccesedButtonTapToSearch() {
         showSearcView()
     }
-    
+
     func proccesedButtonTapToProduct() {
 
     }

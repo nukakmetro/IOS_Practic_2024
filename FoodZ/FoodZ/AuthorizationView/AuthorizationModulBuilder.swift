@@ -23,8 +23,8 @@ final class AuthorizationModulBuilder: Builder {
     // MARK: Internal methods
 
     func build () -> UIViewController {
-        let networkManager = MockNetworkManager()
-        let viewModel = AuthorizationViewModel(output: output, network: networkManager)
+        let repository = UserRepository()
+        let viewModel = AuthorizationViewModel(output: output, repository: repository)
         let controller = AuthorizationViewController(viewModel: viewModel)
         return controller
     }

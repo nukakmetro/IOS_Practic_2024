@@ -8,6 +8,7 @@
 import Foundation
 
 enum RegistrationViewState {
-    case content(String)
-    case error
+    case loading
+    case content
+    case error(_ error: String)
 }

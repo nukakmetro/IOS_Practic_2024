@@ -8,6 +8,7 @@
 import Foundation
 
 enum AuthorizationViewState {
-    case content(String)
-    case error
+    case loading
+    case content
+    case error(_ error: String)
 }

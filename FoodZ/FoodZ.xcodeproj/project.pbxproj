@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7802BFE52BCDB030008C95B2 /* TokenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7802BFE42BCDB030008C95B2 /* TokenEntity.swift */; };
 		787C716B2BC2971600D2F36B /* SearchViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787C716A2BC2971600D2F36B /* SearchViewBuilder.swift */; };
 		787C716D2BC2C7BA00D2F36B /* SearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787C716C2BC2C7BA00D2F36B /* SearchHeader.swift */; };
 		787C71C42BC4526000D2F36B /* Search.json in Resources */ = {isa = PBXBuildFile; fileRef = 787C71C32BC4526000D2F36B /* Search.json */; };
@@ -77,17 +78,23 @@
 		78C1CB642BADC04800748F3D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C1CB402BADC04800748F3D /* AppCoordinator.swift */; };
 		78C1CB652BADC04800748F3D /* AuthorizationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C1CB412BADC04800748F3D /* AuthorizationCoordinator.swift */; };
 		78C1CB662BADC04800748F3D /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C1CB432BADC04800748F3D /* MockNetworkManager.swift */; };
-		78C1CB672BADC04800748F3D /* NetworkInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C1CB442BADC04800748F3D /* NetworkInterceptor.swift */; };
-		78C1CB682BADC04800748F3D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C1CB452BADC04800748F3D /* NetworkManager.swift */; };
-		78C1CB692BADC04800748F3D /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C1CB462BADC04800748F3D /* APIRouter.swift */; };
 		78C1CB6A2BADC04800748F3D /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C1CB472BADC04800748F3D /* TokenManager.swift */; };
 		78C1CB6E2BADC09300748F3D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB6D2BADC09300748F3D /* SnapKit */; };
 		78C1CB702BADC09300748F3D /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB6F2BADC09300748F3D /* SnapKit-Dynamic */; };
 		78C1CB732BADC0A700748F3D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB722BADC0A700748F3D /* Alamofire */; };
 		78C1CB752BADC0A700748F3D /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB742BADC0A700748F3D /* AlamofireDynamic */; };
+		78DB41832BD000B000EADD3E /* StatefulNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41822BD000B000EADD3E /* StatefulNetworkService.swift */; };
+		78DB41852BD0077B00EADD3E /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41842BD0077B00EADD3E /* Target.swift */; };
+		78DB41872BD0213B00EADD3E /* ProductsRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41862BD0213B00EADD3E /* ProductsRemoteDataSource.swift */; };
+		78DB41892BD02D4900EADD3E /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41882BD02D4900EADD3E /* SearchEntity.swift */; };
+		78EA69382BD143EF004A961C /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69372BD143EF004A961C /* UserRepository.swift */; };
+		78EA693A2BD145BB004A961C /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69392BD145BB004A961C /* UserRequest.swift */; };
+		78EA693C2BD149E4004A961C /* UserRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */; };
+		78EA693E2BD14D35004A961C /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA693D2BD14D35004A961C /* AnyEncodable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7802BFE42BCDB030008C95B2 /* TokenEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenEntity.swift; sourceTree = "<group>"; };
 		787C716A2BC2971600D2F36B /* SearchViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewBuilder.swift; sourceTree = "<group>"; };
 		787C716C2BC2C7BA00D2F36B /* SearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeader.swift; sourceTree = "<group>"; };
 		787C71C32BC4526000D2F36B /* Search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Search.json; sourceTree = "<group>"; };
@@ -160,10 +167,15 @@
 		78C1CB402BADC04800748F3D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		78C1CB412BADC04800748F3D /* AuthorizationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationCoordinator.swift; sourceTree = "<group>"; };
 		78C1CB432BADC04800748F3D /* MockNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
-		78C1CB442BADC04800748F3D /* NetworkInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkInterceptor.swift; sourceTree = "<group>"; };
-		78C1CB452BADC04800748F3D /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		78C1CB462BADC04800748F3D /* APIRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		78C1CB472BADC04800748F3D /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		78DB41822BD000B000EADD3E /* StatefulNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatefulNetworkService.swift; sourceTree = "<group>"; };
+		78DB41842BD0077B00EADD3E /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		78DB41862BD0213B00EADD3E /* ProductsRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsRemoteDataSource.swift; sourceTree = "<group>"; };
+		78DB41882BD02D4900EADD3E /* SearchEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEntity.swift; sourceTree = "<group>"; };
+		78EA69372BD143EF004A961C /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		78EA69392BD145BB004A961C /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
+		78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRemoteDataSource.swift; sourceTree = "<group>"; };
+		78EA693D2BD14D35004A961C /* AnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,7 +266,6 @@
 				78B05A8E2BB465C900D74385 /* HomeModuleIO.swift */,
 				78B05AD42BB6F35B00D74385 /* HomeCoreDataManager.swift */,
 				78B05B022BB9D4F500D74385 /* HomeLocalRepository.swift */,
-				78B05B062BBA881500D74385 /* ProductRemoteRepository.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -357,6 +368,7 @@
 				78B05AFE2BB98B8300D74385 /* Bundle-Decodable.swift */,
 				78B05B042BB9D56800D74385 /* LocalRepository.swift */,
 				78B05B402BC0721D00D74385 /* DisplayDataProtocol.swift */,
+				78EA693D2BD14D35004A961C /* AnyEncodable.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -486,11 +498,17 @@
 		78C1CB422BADC04800748F3D /* WebService */ = {
 			isa = PBXGroup;
 			children = (
+				78B05B062BBA881500D74385 /* ProductRemoteRepository.swift */,
 				78C1CB432BADC04800748F3D /* MockNetworkManager.swift */,
-				78C1CB442BADC04800748F3D /* NetworkInterceptor.swift */,
-				78C1CB452BADC04800748F3D /* NetworkManager.swift */,
-				78C1CB462BADC04800748F3D /* APIRouter.swift */,
 				78C1CB472BADC04800748F3D /* TokenManager.swift */,
+				7802BFE42BCDB030008C95B2 /* TokenEntity.swift */,
+				78DB41822BD000B000EADD3E /* StatefulNetworkService.swift */,
+				78DB41842BD0077B00EADD3E /* Target.swift */,
+				78DB41862BD0213B00EADD3E /* ProductsRemoteDataSource.swift */,
+				78DB41882BD02D4900EADD3E /* SearchEntity.swift */,
+				78EA69372BD143EF004A961C /* UserRepository.swift */,
+				78EA69392BD145BB004A961C /* UserRequest.swift */,
+				78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */,
 			);
 			path = WebService;
 			sourceTree = "<group>";
@@ -611,32 +629,36 @@
 				78B05ADB2BB8BA9500D74385 /* Section.swift in Sources */,
 				78B05B412BC0721D00D74385 /* DisplayDataProtocol.swift in Sources */,
 				78C1CB512BADC04800748F3D /* SavedViewController.swift in Sources */,
-				78C1CB672BADC04800748F3D /* NetworkInterceptor.swift in Sources */,
 				78B05A8D2BB462F500D74385 /* HomeCoordinator.swift in Sources */,
+				78DB41892BD02D4900EADD3E /* SearchEntity.swift in Sources */,
+				78EA693A2BD145BB004A961C /* UserRequest.swift in Sources */,
+				78EA693E2BD14D35004A961C /* AnyEncodable.swift in Sources */,
 				78B05B2C2BBAA0AD00D74385 /* UserCD+CoreDataClass.swift in Sources */,
 				78C1CB572BADC04800748F3D /* AuthorizationViewModel.swift in Sources */,
 				78C1CB4A2BADC04800748F3D /* ViewModule.swift in Sources */,
 				78B05B2B2BBAA0AD00D74385 /* SectionCD+CoreDataProperties.swift in Sources */,
+				78DB41872BD0213B00EADD3E /* ProductsRemoteDataSource.swift in Sources */,
 				78B05B312BBC126400D74385 /* HomeHeader.swift in Sources */,
 				78B05AD52BB6F35B00D74385 /* HomeCoreDataManager.swift in Sources */,
 				78B05A892BB367C300D74385 /* HomeViewModel.swift in Sources */,
+				78DB41832BD000B000EADD3E /* StatefulNetworkService.swift in Sources */,
 				78C1CB5B2BADC04800748F3D /* RegModuleIO.swift in Sources */,
 				78B05AFF2BB98B8300D74385 /* Bundle-Decodable.swift in Sources */,
 				78B05AA42BB4673800D74385 /* HomeViewIntent.swift in Sources */,
 				78C1CB5E2BADC04800748F3D /* RegistrationViewIntent.swift in Sources */,
 				78C1CB552BADC04800748F3D /* AuthorizationViewIntent.swift in Sources */,
 				78B05AAA2BB4694E00D74385 /* SelfConfiguringCell.swift in Sources */,
+				7802BFE52BCDB030008C95B2 /* TokenEntity.swift in Sources */,
 				78C1CB5A2BADC04800748F3D /* AuthorizationModulBuilder.swift in Sources */,
 				78C1CB542BADC04800748F3D /* AuthModuleIO.swift in Sources */,
 				78B05B292BBAA0AD00D74385 /* ProductCD+CoreDataProperties.swift in Sources */,
-				78C1CB682BADC04800748F3D /* NetworkManager.swift in Sources */,
+				78EA693C2BD149E4004A961C /* UserRemoteDataSource.swift in Sources */,
 				78B05A802BB2EC8B00D74385 /* AppColor.swift in Sources */,
 				78C1CB492BADC04800748F3D /* NetworkManagerProtocol.swift in Sources */,
 				78B05B2D2BBAA0AD00D74385 /* UserCD+CoreDataProperties.swift in Sources */,
 				78C1CB4E2BADC04800748F3D /* CartViewController.swift in Sources */,
 				78B05B3D2BBDA43800D74385 /* SearchViewState.swift in Sources */,
 				78B05B2E2BBAA0AD00D74385 /* ImageCD+CoreDataClass.swift in Sources */,
-				78C1CB692BADC04800748F3D /* APIRouter.swift in Sources */,
 				78C1CB482BADC04800748F3D /* Builder.swift in Sources */,
 				78C1CB532BADC04800748F3D /* MainTabBarController.swift in Sources */,
 				78B05B072BBA881500D74385 /* ProductRemoteRepository.swift in Sources */,
@@ -657,6 +679,7 @@
 				78B05B382BBD8C7500D74385 /* SearchViewModel.swift in Sources */,
 				78C1CB4D2BADC04800748F3D /* CoordinatorFactory.swift in Sources */,
 				78B05B052BB9D56800D74385 /* LocalRepository.swift in Sources */,
+				78EA69382BD143EF004A961C /* UserRepository.swift in Sources */,
 				78C1CB6A2BADC04800748F3D /* TokenManager.swift in Sources */,
 				78C1CB5D2BADC04800748F3D /* RegistrationViewState.swift in Sources */,
 				78B05B3F2BBDA44F00D74385 /* SearchViewIntent.swift in Sources */,
@@ -666,6 +689,7 @@
 				78C1CB4F2BADC04800748F3D /* HomeViewController.swift in Sources */,
 				78C1CB522BADC04800748F3D /* MainTabBarBuilder.swift in Sources */,
 				78B05B362BBD8C4D00D74385 /* SearchViewController.swift in Sources */,
+				78DB41852BD0077B00EADD3E /* Target.swift in Sources */,
 				78B05AD92BB8B1E300D74385 /* SectionHeader.swift in Sources */,
 				78B05B282BBAA0AD00D74385 /* ProductCD+CoreDataClass.swift in Sources */,
 				78B05B032BB9D4F500D74385 /* HomeLocalRepository.swift in Sources */,

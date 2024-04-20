@@ -23,8 +23,8 @@ final class RegistrationModulBuilder: Builder {
     // MARK: Internal properties
 
     func build() -> UIViewController {
-        let networkManager = MockNetworkManager()
-        let viewModel = RegistrationViewModel(output: output, network: networkManager)
+        let repository = UserRepository()
+        let viewModel = RegistrationViewModel(output: output, repository: repository)
         let controller = RegistrationViewController(viewModel: viewModel)
         return controller
     }
