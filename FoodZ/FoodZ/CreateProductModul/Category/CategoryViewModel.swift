@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol CreateProductOutput: AnyObject {
-    func proccesedTapNext(_ builder: CreateProductBuilder)
+    func proccesedTapChoseItem(_ builder: CreateProductBuilder)
 }
 
 final class CategoryViewModel: CreateProductViewModeling {
@@ -23,18 +23,18 @@ final class CategoryViewModel: CreateProductViewModeling {
             stateDidChange.send()
         }
     }
+
+    let headerName: String
     private var builder: CreateProductBuilder
-    private var createState: CreateState
 
     // MARK: Initializator
 
-
-    init(output: CreateProductOutput, createState: CreateState) {
+    init(output: CreateProductOutput, _ builder: CreateProductBuilder) {
         self.output = output
         self.stateDidChange = ObservableObjectPublisher()
         self.state = .content
-        self.createState = createState
-        builder = CreateProductBuilder()
+        self.builder = builder
+        self.headerName = "Категория"
     }
 
     // MARK: Internal methods
@@ -44,7 +44,7 @@ final class CategoryViewModel: CreateProductViewModeling {
         case .onClose:
             break
         case .proccedButtonTapedNext(let value):
-            break
+            addPiece(value)
         case .onDidLoad:
             break
         case .proccedButtonTapedBack:
@@ -52,11 +52,10 @@ final class CategoryViewModel: CreateProductViewModeling {
         }
     }
 
+    // MARK: Private methods
+
     private func addPiece(_ value: String) {
-        switch createState {
-        case .category:
-            output?.proccesedTapNext(self.builder.addProductCategory(value))
-        }
+        output?.proccesedTapChoseItem(builder.addProductCategory(value))
     }
 }
 extension CategoryViewModel: CreateProductInput {

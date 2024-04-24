@@ -19,4 +19,7 @@ class CoordinatorFactory {
     func createHomeCoordinators(navigationController: UINavigationController) -> HomeCoordinator {
         HomeCoordinator(navigationController: navigationController)
     }
+    func createProfileCoordinator(navigationController: UINavigationController) -> ProfileCoordinator {
+        ProfileCoordinator(navigationController: navigationController)
+    }
 }

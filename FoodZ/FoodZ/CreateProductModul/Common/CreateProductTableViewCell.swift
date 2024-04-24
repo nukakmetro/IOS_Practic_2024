@@ -14,6 +14,8 @@ final class CreateProductTableViewCell: UITableViewCell {
 
     private lazy var label = UILabel()
 
+    // MARK: Initializator
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLabel()
@@ -36,10 +38,12 @@ final class CreateProductTableViewCell: UITableViewCell {
         label.textColor = AppColor.title.color
     }
 
-    func configureForHeader() {
+    func configureForHeader(_ text: String) {
+        label.text = text
         label.font = UIFont.systemFont(ofSize: 20)
     }
-    func configureForCell() {
+    func configureForCell(_ text: String) {
+        label.text = text
         label.font = UIFont.systemFont(ofSize: 16)
     }
 }

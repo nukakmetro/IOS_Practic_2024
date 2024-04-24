@@ -17,7 +17,6 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var sections: [Section]
     private var cancellables: Set<AnyCancellable> = []
-
     private lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         collectionView.backgroundColor = AppColor.secondary.color
@@ -65,6 +64,31 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
 
     // MARK: Private methods
 
+    private func setupCollectionView() {
+        // var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+        collectionView.frame = view.bounds
+        collectionView.collectionViewLayout = createCompositionalLayout()
+        collectionView.backgroundColor = AppColor.secondary.color
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.backgroundColor = .white
+        collectionView.register(
+            HomeHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: HomeHeader.reuseIdentifier
+        )
+        collectionView.register(
+            SectionHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: SectionHeader.reuseIdentifier
+        )
+        collectionView.register(
+            MediumTableCell.self,
+            forCellWithReuseIdentifier: MediumTableCell.reuseIdentifier
+        )
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+    }
+
     @objc private func didPullToRefresh() {
         DispatchQueue.global().async {
             self.viewModel.trigger(.onReload)
@@ -87,11 +111,12 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         switch viewModel.state {
         case .loading:
             break
-        case .content(dispayData: let dispayData):
+        case .content(let dispayData):
             sections = dispayData
             reloadData()
-        case .error:
-            break
+        case .error(let dispayData):
+            sections = dispayData
+            reloadData()
         }
     }
 
@@ -150,7 +175,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         snapshot.appendSections(sections)
 
         for section in sections {
-            snapshot.appendItems(section.items, toSection: section)
+            snapshot.appendItems(section.products, toSection: section)
         }
 
         dataSource?.apply(snapshot)
@@ -238,7 +263,6 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            // make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.bottom.equalToSuperview()
         }
     }

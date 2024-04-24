@@ -11,7 +11,7 @@ struct Section: Decodable, Hashable {
     let id: Int
     let title: String
     let type: String
-    let items: [Product]
+    let products: [Product]
 }
 
 struct Product: Decodable, Hashable {

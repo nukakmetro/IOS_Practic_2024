@@ -85,8 +85,9 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         case .content(dispayData: let dispayData):
             sections = dispayData
             reloadData()
-        case .error:
-            break
+        case .error(dispayData: let dispayData):
+            sections = dispayData
+            reloadData()
         }
     }
 
@@ -132,7 +133,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         snapshot.appendSections(sections)
 
         for section in sections {
-            snapshot.appendItems(section.items, toSection: section)
+            snapshot.appendItems(section.products, toSection: section)
         }
 
         dataSource?.apply(snapshot)
@@ -206,7 +207,6 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            // make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.bottom.equalToSuperview()
         }
     }
@@ -217,7 +217,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
 extension SearchViewController: SearchHeaderDelegate {
 
     func proccesedInputTextToSearch(inputText: String) {
-        viewModel.trigger(.proccedInputSearchText(inputText))
+        viewModel.trigger(.proccesedInputSearchText(inputText))
     }
     func proccesedButtonTapToBack() {
         viewModel.trigger(.onClose)

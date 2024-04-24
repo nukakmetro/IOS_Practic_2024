@@ -16,8 +16,6 @@ final class HomeViewModel: HomeViewModeling {
 
     private let topSection: Section
     private var output: HomeModuleOutput?
-    private let networkManager: NetworkManagerProtocol
-    private let localRepository: HomeLocalRepository
     private let remoteRepository: ProductFavorietesProtocol?
     private(set) var stateDidChange: ObservableObjectPublisher
 
@@ -31,14 +29,12 @@ final class HomeViewModel: HomeViewModeling {
 
     // MARK: Initializator
 
-    init(output: HomeModuleOutput, networkManager: NetworkManagerProtocol, remoteRepository: ProductFavorietesProtocol) {
+    init(output: HomeModuleOutput, remoteRepository: ProductFavorietesProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
         self.state = .loading
         self.output = output
-        self.networkManager = networkManager
-        self.localRepository = HomeLocalRepository()
         self.remoteRepository = remoteRepository
-        topSection = Section(id: 0, title: "hello", type: "topHeader", items: [])
+        topSection = Section(id: 0, title: "hello", type: "topHeader", products: [])
     }
 
     // MARK: Internal methods
@@ -59,16 +55,16 @@ final class HomeViewModel: HomeViewModeling {
     func updateSections() {
         state = .loading
         remoteRepository?.getFavoritesProducts(completion: { [weak self] result in
-            switch result {
+            guard let self else { return }
+            var updateSections: [Section] = []
+            updateSections.append(topSection)
 
+            switch result {
             case .success(let dispayData):
-                guard let self else { return }
-                var updateSections: [Section] = []
-                updateSections.append(self.topSection)
                 updateSections.append(contentsOf: dispayData)
-                self.state = .content(dispayData: updateSections)
+                state = .content(dispayData: updateSections)
             case .failure:
-                self?.state = .error
+                state = .error(displayData: updateSections)
             }
         }
     )}

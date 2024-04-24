@@ -21,7 +21,6 @@ final class SearchHeader: UICollectionReusableView {
 
     // MARK: Internal properties
 
-    var textFieldTap: (() -> ())?
     weak var searchDelegate: SearchHeaderDelegate?
 
     // MARK: Private properties
@@ -54,6 +53,7 @@ final class SearchHeader: UICollectionReusableView {
         textField.autocapitalizationType = .none
         textField.clearButtonMode = .whileEditing
         textField.clipsToBounds = true
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return textField
     }()
 
@@ -69,9 +69,15 @@ final class SearchHeader: UICollectionReusableView {
     }
 
     // MARK: Private methods
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        timerTextField?.invalidate()
 
-    @objc private func textFieldTapped() {
-        textFieldTap?()
+        timerTextField = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: false)
+    }
+
+    @objc private func timerAction() {
+        searchDelegate?.proccesedInputTextToSearch(inputText: searchTextField.text ?? "")
     }
 
     private func makeConsraints() {
@@ -107,7 +113,7 @@ final class SearchHeader: UICollectionReusableView {
 extension SearchHeader: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         timerTextField?.invalidate()
-        timerTextField = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
+        timerTextField = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false, block: { [weak self] _ in
             self?.searchDelegate?.proccesedInputTextToSearch(inputText: textField.text ?? "")
         })
         return true

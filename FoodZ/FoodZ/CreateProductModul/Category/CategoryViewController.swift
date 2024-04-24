@@ -17,6 +17,7 @@ final class CategoryViewController: UIViewController {
     private var dataSource: UITableViewDiffableDataSource<Int, String>?
     private let viewModel: CategoryViewModel
     private let items: [String]
+    private var headerName: String
 
     // MARK: Initialization
 
@@ -24,6 +25,8 @@ final class CategoryViewController: UIViewController {
     init(viewModel: CategoryViewModel) {
         self.viewModel = viewModel
         items = []
+        self.headerName = viewModel.headerName
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -46,15 +49,18 @@ final class CategoryViewController: UIViewController {
     private func createDataSource() {
         dataSource = UITableViewDiffableDataSource<Int, String>(tableView: tableView) { _, indexPath, item in
             let cell = self.tableView.dequeueReusableCell(withIdentifier: CreateProductTableViewCell.reuseIdentifier, for: indexPath) as? CreateProductTableViewCell
-            switch Int() {
+            guard let cell = cell else { return UITableViewCell() }
+            switch indexPath.section {
             case 0:
-                cell?.configureForHeader()
+                cell.configureForHeader(self.headerName)
                 return cell
             case 1:
-                cell?.configureForCell()
+                cell.configureForCell(item)
+                return cell
             default:
                 break
             }
+            return UITableViewCell()
         }
     }
 

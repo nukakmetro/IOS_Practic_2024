@@ -10,17 +10,20 @@ import CoreData
 
 
 protocol ProductFavorietesProtocol {
-    func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> ()))
+    func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void))
 }
 
 protocol ProductSearchProtocol {
-    func getSearchProducts(inputText: String, completion: @escaping ((Result<[Section], Error>) -> ()))
-    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> ()))
+    func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Section], Error>) -> Void))
+
+    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> Void))
 }
 
-class ProductRemoteRepository {
-    private var statefulNetworkService: StatefulNetworkService
+final class ProductRemoteRepository {
+
     // MARK: Private properties
+
+    private var statefulNetworkService: StatefulNetworkService
     private let remoteDataSource: ProductsRemoteDataSource
 
     // MARK: Internal properties
@@ -40,8 +43,7 @@ class ProductRemoteRepository {
 // MARK: ProductFavorietesProtocol protocol
 
 extension ProductRemoteRepository: ProductFavorietesProtocol {
-
-    func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> ())) {
+    func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void)) {
         return remoteDataSource.getProducts(completion: completion)
     }
 }
@@ -49,12 +51,12 @@ extension ProductRemoteRepository: ProductFavorietesProtocol {
 // MARK: ProductSearchProtocol protocol
 
 extension ProductRemoteRepository: ProductSearchProtocol {
-    func getSearchProducts(inputText: String, completion: @escaping ((Result<[Section], Error>) -> ())) {
-        remoteDataSource.getSearchProducts(searchString: SearchEntity(searchString: inputText), completion: completion)
+
+    func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Section], Error>) -> Void)) {
+        remoteDataSource.getSearchProducts(productSearchRequest: productRequest, completion: completion)
     }
 
-    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> ())) {
-        let sections = Bundle.main.decode([Section].self, from: "foodz.json")
-        completion(.success(sections))
+    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> Void)) {
+        remoteDataSource.getRecomendationsSearch(completion: completion)
     }
 }

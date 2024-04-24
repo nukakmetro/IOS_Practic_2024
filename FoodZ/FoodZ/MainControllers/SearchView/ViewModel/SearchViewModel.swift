@@ -17,11 +17,13 @@ final class SearchViewModel: SearchViewModeling {
     private let topSection: Section
     private(set) var stateDidChange: ObservableObjectPublisher
     private let output: SearchModuleOutput
-    private var networkManager: NetworkManagerProtocol
     private let remoteRepository: ProductSearchProtocol?
-    private let localRepository: HomeLocalRepository
+    private var countOffset: Int
+    private var inputSearchText: String
 
     // MARK: Internal properties
+
+    var sections: [Section]
 
     @Published var state: SearchViewState {
         didSet {
@@ -29,17 +31,17 @@ final class SearchViewModel: SearchViewModeling {
         }
     }
 
-    // MARK: Initializator
+    // MARK: Initialization
 
-    init(output: SearchModuleOutput, networkManager: NetworkManagerProtocol, remoteRepository: ProductSearchProtocol) {
+    init(output: SearchModuleOutput, remoteRepository: ProductSearchProtocol) {
         self.stateDidChange = ObservableObjectPublisher()
         self.output = output      
         self.state = .loading
-        self.state = SearchViewState.error
         self.remoteRepository = remoteRepository
-        self.networkManager = networkManager
-        self.localRepository = HomeLocalRepository()
-        self.topSection = Section(id: 0, title: "", type: "topHeader", items: [])
+        self.topSection = Section(id: 0, title: "", type: "topHeader", products: [])
+        self.countOffset = 1
+        self.inputSearchText = ""
+        self.sections = []
     }
 
     func trigger(_ intent: SearchViewIntent) {
@@ -48,43 +50,58 @@ final class SearchViewModel: SearchViewModeling {
             output.moduleWantsToClose()
         case .onReload:
             updateSections()
-        case .proccedInputSearchText(let inputText):
+        case .proccesedInputSearchText(let inputText):
             proccedInputSearchText(inputText: inputText)
-
         case .onDidlLoad:
             updateSections()
+        case .proccesedLazyLoad:
+            proccedLazyLoad()
         }
     }
 
     private func updateSections() {
         state = .loading
         remoteRepository?.getStartRecommendations(completion: { [weak self] result in
+            guard let self else { return }
+            var updateSections: [Section] = []
+            updateSections.append(topSection)
+
             switch result {
             case .success(let dispayData):
-                guard let self else { return }
-                var updateSections: [Section] = []
-                updateSections.append(self.topSection)
                 updateSections.append(contentsOf: dispayData)
                 self.state = .content(dispayData: updateSections)
             case .failure:
-                self?.state = .error
+                state = .error(dispayData: updateSections)
             }
         })
     }
 
     private func proccedInputSearchText(inputText: String) {
+        countOffset = 0
+        sections = []
+        sections.append(self.topSection)
+        inputSearchText = inputText
+        getSearchProducts(inputText: inputText, offset: 0)
+    }
+
+    private func proccedLazyLoad() {
+        getSearchProducts(inputText: inputSearchText, offset: countOffset)
+    }
+
+    private func getSearchProducts(inputText: String, offset: Int) {
         state = .loading
-        remoteRepository?.getSearchProducts(inputText: inputText, completion: { [weak self] result in
+        let productSearchRequest = ProductSearchRequest(searchString: inputText, limit: 5, offset: offset)
+        remoteRepository?.getSearchProducts(productRequest: productSearchRequest, completion: { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let dispayData):
-                guard let self else { return }
-                var updateSections: [Section] = []
-                updateSections.append(self.topSection)
-                updateSections.append(contentsOf: dispayData)
-                self.state = .content(dispayData: updateSections)
+                sections.append(contentsOf: dispayData)
+                countOffset += dispayData[0].products.count
+                state = .content(dispayData: sections)
             case .failure:
-                self?.state = .error
+                state = .error(dispayData: [topSection])
             }
         })
+
     }
 }
