@@ -8,11 +8,15 @@
 import Foundation
 
 protocol UserRegistrationProtocol {
-    func userRegistration(userRegistrationRequest: UserRegistrationRequest, completion: @escaping (Result<UserRegistrationResponse, Error>) -> ())
+    func userRegistration(userRegistrationRequest: UserRegistrationRequest, completion: @escaping (Result<UserRegistrationResponse, Error>) -> Void)
 }
 
 protocol UserAuthorizationProtocol {
-    func userAuthorization(userRequest: UserRequest, completion: @escaping (Result<Void, Error>) -> ())
+    func userAuthorization(userRequest: UserRequest, completion: @escaping (Result<Void, Error>) -> Void)
+}
+
+protocol ProfileUserProtocol {
+    func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void)
 }
 
 final class UserRepository {
@@ -36,7 +40,7 @@ final class UserRepository {
 // MARK: UserRegistrationProtocol protocol
 
 extension UserRepository: UserRegistrationProtocol {
-    func userRegistration(userRegistrationRequest: UserRegistrationRequest, completion: @escaping (Result<UserRegistrationResponse, Error>) -> ()) {
+    func userRegistration(userRegistrationRequest: UserRegistrationRequest, completion: @escaping (Result<UserRegistrationResponse, Error>) -> Void) {
         remoteDataSource.userRegistration(userRegistrationRequest, completion: completion)
     }
 }
@@ -44,7 +48,13 @@ extension UserRepository: UserRegistrationProtocol {
 // MARK: UserAuthorizationProtocol protocol
 
 extension UserRepository: UserAuthorizationProtocol {
-    func userAuthorization(userRequest: UserRequest, completion: @escaping (Result<Void, Error>) -> ()) {
+    func userAuthorization(userRequest: UserRequest, completion: @escaping (Result<Void, Error>) -> Void) {
         remoteDataSource.userAuthorization(userRequest, completion: completion)
+    }
+}
+
+extension UserRepository: ProfileUserProtocol {
+    func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void) {
+        remoteDataSource.getUserInfo(completion: completion)
     }
 }

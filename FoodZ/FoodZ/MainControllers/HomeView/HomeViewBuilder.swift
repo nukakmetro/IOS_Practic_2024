@@ -23,9 +23,8 @@ final class HomeViewBuilder: Builder {
     // MARK: Internal properties
 
     func build() -> UIViewController {
-        let networkManager = MockNetworkManager()
         let remoteRepository = ProductRemoteRepository()
-        let viewModel = HomeViewModel(output: output, networkManager: networkManager, remoteRepository: remoteRepository)
+        let viewModel = HomeViewModel(output: output, remoteRepository: remoteRepository)
         let controller = HomeViewController(viewModel: viewModel)
         return controller
     }

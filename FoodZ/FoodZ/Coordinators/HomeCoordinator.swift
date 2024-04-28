@@ -12,12 +12,13 @@ final class HomeCoordinator {
 
     // MARK: Internal properties
 
-    var navigationController: UINavigationController
+    weak var navigationController: UINavigationController?
 
     // MARK: Initializator
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        start()
     }
 
     // MARK: Internal methods
@@ -30,15 +31,15 @@ final class HomeCoordinator {
 
     private func showHomeView() {
         let controller = HomeViewBuilder(output: self).build()
-        navigationController.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: false)
     }
     private func showSearcView() {
         let controller = SearchViewBuilder(output: self).build()
-        navigationController.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: false)
     }
 
     private func closePushView() {
-        navigationController.popViewController(animated: false)
+        navigationController?.popViewController(animated: false)
     }
 }
 

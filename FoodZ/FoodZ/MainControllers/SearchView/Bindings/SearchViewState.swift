@@ -10,5 +10,5 @@ import Foundation
 enum SearchViewState {
     case loading
     case content(dispayData: [Section])
-    case error
+    case error(dispayData: [Section])
 }

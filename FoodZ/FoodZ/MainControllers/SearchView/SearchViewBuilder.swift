@@ -14,7 +14,7 @@ final class SearchViewBuilder: Builder {
 
     private let output: SearchModuleOutput
 
-    // MARK: Initializators
+    // MARK: Initialization
 
     init(output: SearchModuleOutput) {
         self.output = output
@@ -23,9 +23,8 @@ final class SearchViewBuilder: Builder {
     // MARK: Internal properties
 
     func build() -> UIViewController {
-        let networkManager = MockNetworkManager()
         let remoteRepository = ProductRemoteRepository()
-        let viewModel = SearchViewModel(output: output, networkManager: networkManager, remoteRepository: remoteRepository)
+        let viewModel = SearchViewModel(output: output, remoteRepository: remoteRepository)
         let controller = SearchViewController(viewModel: viewModel)
         return controller
     }

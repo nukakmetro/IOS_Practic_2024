@@ -10,5 +10,5 @@ import Foundation
 enum HomeViewState {
     case loading
     case content(dispayData: [Section])
-    case error
+    case error(displayData: [Section])
 }

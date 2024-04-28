@@ -22,7 +22,7 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
     private lazy var productRatingLabel = UILabel()
     private lazy var productWaitingTimerLabel = UILabel()
     private lazy var productPriceLabel = UILabel()
-    private lazy var productSavedButton = UIButton() 
+    private lazy var productSavedButton = UIButton()
     private lazy var productImage = UIImageView()
     private lazy var productWaltingTimerImage = UIImageView()
     private lazy var productRatingImage = UIImageView()

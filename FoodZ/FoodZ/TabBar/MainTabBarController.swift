@@ -16,14 +16,19 @@ class MainTabBarController: UITabBarController {
         homeCoordinator.start()
         let homeViewController = homeCoordinator.navigationController
 
+        let profileCoordinator = CoordinatorFactory().createProfileCoordinator(navigationController: UINavigationController())
+        let profileViewContoller = profileCoordinator.navigationController
+
         let savedViewController = UINavigationController(rootViewController: SavedViewController())
         let cartViewContoller = UINavigationController(rootViewController: CartViewController())
-        let profileViewContoller = UINavigationController(rootViewController: ProfileViewController())
+
+        guard let homeViewController = homeViewController, let profileViewContoller = profileViewContoller else { return }
 
         homeViewController.tabBarItem.image = UIImage(systemName: "house")
         savedViewController.tabBarItem.image = UIImage(systemName: "heart")
         cartViewContoller.tabBarItem.image = UIImage(systemName: "cart")
         profileViewContoller.tabBarItem.image = UIImage(systemName: "person")
+
         viewControllers = [homeViewController, savedViewController, cartViewContoller, profileViewContoller]
     }
 

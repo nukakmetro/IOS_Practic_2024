@@ -19,8 +19,13 @@ final class ProductsRemoteDataSource {
         networkService.sendRequest(target: target, responseType: [Section].self, completion: completion)
     }
 
-    func getSearchProducts(searchString: SearchEntity, completion: @escaping (Result<[Section], Error>) -> ()) {
-        let target = Target(path: "/searchProducts", method: .get, setParametresFromEncodable: searchString, role: Role.user)
+    func getSearchProducts(productSearchRequest: ProductSearchRequest, completion: @escaping (Result<[Section], Error>) -> ()) {
+        let target = Target(path: "/search", method: .get, setParametresFromEncodable: productSearchRequest, role: Role.user)
+        networkService.sendRequest(target: target, responseType: [Section].self, completion: completion)
+    }
+
+    func getRecomendationsSearch(completion: @escaping (Result<[Section], Error>) -> ()) {
+        let target = Target(path: "/recomendationsSearch", method: .get, setParametresFromEncodable: nil, role: Role.user)
         networkService.sendRequest(target: target, responseType: [Section].self, completion: completion)
     }
 }
