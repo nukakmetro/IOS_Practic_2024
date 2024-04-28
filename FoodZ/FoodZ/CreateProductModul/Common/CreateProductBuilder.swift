@@ -11,7 +11,7 @@ enum Category: String {
     case homemadeFood = "Домашняя еда"
     case fastFood = "Фастфуд"
 
-    func toInt() -> Int{
+    func toInt() -> Int {
         switch self {
         case .homemadeFood:
             return 0

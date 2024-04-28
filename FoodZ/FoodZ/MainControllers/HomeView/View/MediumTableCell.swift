@@ -39,7 +39,7 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupLayout()
+        makeConstraint()
         setupDisplay()
     }
 
@@ -49,7 +49,7 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Private methods
 
-    private func setupLayout() {
+    private func makeConstraint() {
         let ratingStackView = UIStackView(arrangedSubviews: [
             productWaltingTimerImage,
             productWaitingTimerLabel,

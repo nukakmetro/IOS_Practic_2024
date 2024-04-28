@@ -23,7 +23,7 @@ final class HomeViewBuilder: Builder {
     // MARK: Internal properties
 
     func build() -> UIViewController {
-        let remoteRepository = ProductRemoteRepository()
+        let remoteRepository = ProductRepository()
         let viewModel = HomeViewModel(output: output, remoteRepository: remoteRepository)
         let controller = HomeViewController(viewModel: viewModel)
         return controller

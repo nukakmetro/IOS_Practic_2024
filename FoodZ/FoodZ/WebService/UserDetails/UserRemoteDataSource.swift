@@ -8,17 +8,24 @@
 import Foundation
 
 final class UserRemoteDataSource {
+
+    // MARK: Private properties
+
     private let tokenManager: TokenManager
-    let networkService: NetworkServiceProtocol
+    private let networkService: NetworkServiceProtocol
+
+    // MARK: Initialization
 
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
         self.tokenManager = TokenManager.shared
     }
 
-    func userAuthorization(_ userRequst: UserRequest,completion: @escaping (Result<Void, Error>) -> Void) {
+    // MARK: Internal methods
+
+    func userAuthorization(_ userRequst: UserRequest, completion: @escaping (Result<Void, Error>) -> Void) {
         let target = Target(
-            path: "/auth", 
+            path: "/auth",
             method: .post,
             setParametresFromEncodable: userRequst,
             role: Role.guest
@@ -34,7 +41,10 @@ final class UserRemoteDataSource {
         }
     }
 
-    func userRegistration(_ userRegistrationRequest: UserRegistrationRequest, completion: @escaping (Result<UserRegistrationResponse, Error>) -> Void) {
+    func userRegistration(
+        _ userRegistrationRequest: UserRegistrationRequest,
+        completion: @escaping (Result<UserRegistrationResponse, Error>
+        ) -> Void) {
         let target = Target(
             path: "/registration",
             method: .post,

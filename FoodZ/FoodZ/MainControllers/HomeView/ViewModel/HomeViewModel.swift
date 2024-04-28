@@ -16,7 +16,7 @@ final class HomeViewModel: HomeViewModeling {
 
     private let topSection: Section
     private var output: HomeModuleOutput?
-    private let remoteRepository: ProductFavorietesProtocol?
+    private let repository: ProductFavorietesProtocol?
     private(set) var stateDidChange: ObservableObjectPublisher
 
     // MARK: Internal properties
@@ -33,7 +33,7 @@ final class HomeViewModel: HomeViewModeling {
         self.stateDidChange = ObjectWillChangePublisher()
         self.state = .loading
         self.output = output
-        self.remoteRepository = remoteRepository
+        self.repository = remoteRepository
         topSection = Section(id: 0, title: "hello", type: "topHeader", products: [])
     }
 
@@ -54,7 +54,7 @@ final class HomeViewModel: HomeViewModeling {
 
     func updateSections() {
         state = .loading
-        remoteRepository?.getFavoritesProducts(completion: { [weak self] result in
+        repository?.getFavoritesProducts(completion: { [weak self] result in
             guard let self else { return }
             var updateSections: [Section] = []
             updateSections.append(topSection)

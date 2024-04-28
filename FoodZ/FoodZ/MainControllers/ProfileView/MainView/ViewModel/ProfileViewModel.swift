@@ -8,8 +8,6 @@
 import Foundation
 import Combine
 
-
-
 enum ProfileMainSection: Int {
     case header
     case body
@@ -104,19 +102,19 @@ final class ProfileViewModel: ProfileMainModeling {
     private func processingItemTaped(index: Int) {
         switch index {
         case 0:
-            output?.processedProfileItemTaped()
+            output?.processedProfileItemTapped()
         case 1:
-            output?.processedAddressBookItemTaped()
+            output?.processedAddressBookItemTapped()
         case 2:
-            output?.processedPaymentItemTaped()
+            output?.processedPaymentItemTapped()
         case 3:
-            output?.processedOrderItemTaped()
+            output?.processedOrderItemTapped()
         case 4:
-            output?.processedSettingItemTaped()
+            output?.processedSettingItemTapped()
         case 5:
-            output?.processedHelpItemTaped()
+            output?.processedHelpItemTapped()
         case 6:
-            output?.processedExitItemTaped()
+            output?.processedExitItemTapped()
         default:
             break
         }

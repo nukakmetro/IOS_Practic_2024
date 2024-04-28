@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import CoreData
-
 
 protocol ProductFavorietesProtocol {
     func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void))
@@ -19,18 +17,12 @@ protocol ProductSearchProtocol {
     func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> Void))
 }
 
-final class ProductRemoteRepository {
+final class ProductRepository {
 
     // MARK: Private properties
 
     private var statefulNetworkService: StatefulNetworkService
     private let remoteDataSource: ProductsRemoteDataSource
-
-    // MARK: Internal properties
-
-    func decode() -> [Section]? {
-        return Bundle.main.decode([Section].self, from: "foodz.json")
-    }
 
     // MARK: Initialization
 
@@ -42,7 +34,7 @@ final class ProductRemoteRepository {
 
 // MARK: ProductFavorietesProtocol protocol
 
-extension ProductRemoteRepository: ProductFavorietesProtocol {
+extension ProductRepository: ProductFavorietesProtocol {
     func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void)) {
         return remoteDataSource.getProducts(completion: completion)
     }
@@ -50,7 +42,7 @@ extension ProductRemoteRepository: ProductFavorietesProtocol {
 
 // MARK: ProductSearchProtocol protocol
 
-extension ProductRemoteRepository: ProductSearchProtocol {
+extension ProductRepository: ProductSearchProtocol {
 
     func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Section], Error>) -> Void)) {
         remoteDataSource.getSearchProducts(productSearchRequest: productRequest, completion: completion)
