@@ -20,7 +20,6 @@ class HomeHeader: UICollectionReusableView {
 
     // MARK: Internal properties
 
-    var textFieldTap: (() -> ())?
     weak var homeDelegate: HomeHeaderDelegate?
 
     // MARK: Private properties
@@ -58,10 +57,6 @@ class HomeHeader: UICollectionReusableView {
     }
 
     // MARK: Private methods
-
-    @objc private func textFieldTapped() {
-        textFieldTap?()
-    }
 
     private func makeConsraints() {
 

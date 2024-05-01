@@ -23,7 +23,7 @@ final class SearchViewBuilder: Builder {
     // MARK: Internal properties
 
     func build() -> UIViewController {
-        let remoteRepository = ProductRemoteRepository()
+        let remoteRepository = ProductRepository()
         let viewModel = SearchViewModel(output: output, remoteRepository: remoteRepository)
         let controller = SearchViewController(viewModel: viewModel)
         return controller

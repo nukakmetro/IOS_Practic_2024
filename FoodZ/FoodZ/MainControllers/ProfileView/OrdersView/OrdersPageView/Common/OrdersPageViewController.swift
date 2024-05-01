@@ -1,21 +1,21 @@
 //
-//  ProfileViewController.swift
-//  Foodp2p
+//  OrdersPageViewController.swift
+//  FoodZ
 //
-//  Created by surexnx on 17.03.2024.
+//  Created by surexnx on 28.04.2024.
 //
 
 import UIKit
 import Combine
 import SnapKit
 
-class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, UICollectionViewDelegate {
+final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewController {
 
     // MARK: Private properties
 
-    private var items: [CellType]
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<Int, CellType>?
+    private var dataSource: UICollectionViewDiffableDataSource<Int, OrdersViewCellType>?
+    private var items: [OrdersViewCellType]
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var collectionView: UICollectionView = {
@@ -23,14 +23,10 @@ class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, U
         collectionView.backgroundColor = AppColor.secondary.color
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
-            collectionView.register(
-                ProfileMainBodyCell.self,
-                forCellWithReuseIdentifier: ProfileMainBodyCell.reuseIdentifier
-            )
-            collectionView.register(
-                ProfileMainHeaderCell.self,
-                forCellWithReuseIdentifier: ProfileMainHeaderCell.reuseIdentifier
-            )
+        collectionView.register(
+            OrderCell.self,
+            forCellWithReuseIdentifier: OrderCell.reuseIdentifier
+        )
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
@@ -38,9 +34,9 @@ class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, U
 
     // MARK: Initialization
 
-    init( viewModel: ViewModel) {
-        self.items = []
+    init(viewModel: ViewModel) {
         self.viewModel = viewModel
+        self.items = []
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -54,8 +50,11 @@ class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, U
         createDataSource()
         configureIO()
         viewModel.trigger(.onDidLoad)
+        view.backgroundColor = .red
         navigationController?.isNavigationBarHidden = true
     }
+
+    // MARK: Private methods
 
     @objc private func didPullToRefresh() {
         DispatchQueue.global().async {
@@ -80,41 +79,35 @@ class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, U
         case .loading:
             break
         case .content(let dispayData):
-            self.items = dispayData
+            items = dispayData
             reloadData()
         case .error(let dispayData):
-            self.items = dispayData
+            items = dispayData
             reloadData()
         }
     }
 
-    private func configure<T: ProfileSelfConfiguringCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
+    private func configure<T: SelfConfiguringOrderCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Unable to dequeue \(cellType)")
         }
         return cell
     }
+
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, CellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<Int, OrdersViewCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             switch item {
-            case .header(let data):
-                let cell = self?.configure(ProfileMainHeaderCell.self, for: indexPath)
-                cell?.configure(with: data)
-                return cell
-            case .body(let data):
-                let cell = self?.configure(ProfileMainBodyCell.self, for: indexPath)
+            case .orderCell(let data):
+                let cell = self?.configure(OrderCell.self, for: indexPath)
                 cell?.configure(with: data)
                 return cell
             }
         }
     }
-
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, CellType>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, OrdersViewCellType>()
         snapshot.appendSections([0])
-        snapshot.appendSections([1])
-        snapshot.appendItems(Array(items.prefix(1)), toSection: 0)
-        snapshot.appendItems(Array(items.suffix(from: 1)), toSection: 1)
+        snapshot.appendItems(Array(items), toSection: 0)
         dataSource?.apply(snapshot)
     }
 
@@ -122,11 +115,9 @@ class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, U
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
             switch sectionIndex {
             case 0:
-                return self.createTableSection(fractionalHeight: 0.3)
-            case 1:
-                return self.createTableSection(fractionalHeight: 0.05)
+                return self.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
             default:
-                return self.createTableSection(fractionalHeight: 0.3)
+                return self.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -134,13 +125,16 @@ class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, U
         return layout
     }
 
-    private func createTableSection(fractionalHeight: CGFloat) -> NSCollectionLayoutSection {
+    private func createTableSection(fractionalHeight: CGFloat, fractionalWidth: CGFloat) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
         layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(fractionalHeight))
+        let layoutGroupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(fractionalWidth),
+            heightDimension: .fractionalHeight(fractionalHeight)
+        )
         let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
@@ -158,18 +152,6 @@ class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewController, U
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
-        }
-    }
-}
-
-// MARK: UICollectionViewDelegate protocol
-
-extension ProfileViewController {
-
-    @nonobjc func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
-        if indexPath.section == 1 {
-            viewModel.trigger(.processedTapItem(item: indexPath.row))
         }
     }
 }

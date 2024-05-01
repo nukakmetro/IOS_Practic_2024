@@ -69,7 +69,7 @@ final class SearchHeader: UICollectionReusableView {
     }
 
     // MARK: Private methods
-    
+
     @objc private func textFieldDidChange(_ textField: UITextField) {
         timerTextField?.invalidate()
 

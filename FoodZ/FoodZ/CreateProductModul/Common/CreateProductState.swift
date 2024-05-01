@@ -8,6 +8,6 @@
 import Foundation
 
 enum CreateProductState {
-        case content
-        case error
+    case content
+    case error
 }

@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 final class ProfileCoordinator: Coordinator {
-    
+
     // MARK: Internal properties
 
     weak var navigationController: UINavigationController?
-    
+
     // MARK: Initializator
 
     init(navigationController: UINavigationController) {
@@ -33,40 +33,53 @@ final class ProfileCoordinator: Coordinator {
         navigationController?.pushViewController(controller, animated: false)
     }
 
-    private func backView() {
+    private func showOrdersView() {
+        let controller = OrdersViewBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: false)
+
+    }
+
+    private func popView() {
         navigationController?.popViewController(animated: false)
     }
 
 }
 
-// MARK: RegModuleOutput ProfileMainModuleOutput
+// MARK: ProfileMainModuleOutput protocol
 
 extension ProfileCoordinator: ProfileMainModuleOutput {
-    func processedProfileItemTaped() {
+
+    func processedProfileItemTapped() {
 
     }
 
-    func processedAddressBookItemTaped() {
+    func processedAddressBookItemTapped() {
 
     }
 
-    func processedPaymentItemTaped() {
+    func processedPaymentItemTapped() {
 
     }
 
-    func processedOrderItemTaped() {
+    func processedOrderItemTapped() {
+        showOrdersView()
+    }
+
+    func processedSettingItemTapped() {
 
     }
 
-    func processedSettingItemTaped() {
+    func processedHelpItemTapped() {
 
     }
 
-    func processedHelpItemTaped() {
+    func processedExitItemTapped() {
 
     }
+}
 
-    func processedExitItemTaped() {
+// MARK: OrdersModuleOutput protocol
 
-    }
+extension ProfileCoordinator: OrdersModuleOutput {
+
 }

@@ -23,16 +23,11 @@ final class UserRepository {
 
     // MARK: Private properties
 
-    private var statefulNetworkService: StatefulNetworkService
     private let remoteDataSource: UserRemoteDataSource
-
-    // MARK: Internal properties
-
 
     // MARK: Initialization
 
     init() {
-        statefulNetworkService = StatefulNetworkService()
         self.remoteDataSource = UserRemoteDataSource(networkService: StatefulNetworkService())
     }
 }
