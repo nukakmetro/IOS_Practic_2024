@@ -24,7 +24,6 @@ struct Product: Decodable, Hashable {
     var productUsername: String
     var productCategory: String
     var productCompound: String
-    var productImages: [Image]
 }
 
 struct Image: Decodable, Hashable {

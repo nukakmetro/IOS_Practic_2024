@@ -10,6 +10,7 @@ import Foundation
 enum HomeViewIntent {
     case onClose
     case onDidLoad
+    case onLoad
     case proccedButtonTapedToSearch
     case onReload
 }

@@ -8,13 +8,22 @@
 import Foundation
 import Combine
 
+enum SearchCellType: Hashable {
+    case header
+    case body(Product)
+}
+
+enum SearchSomeSection: Hashable {
+    case header([SearchCellType])
+    case body([SearchCellType])
+}
+
 protocol SearchViewModeling: UIKitViewModel where State == SearchViewState, Intent == SearchViewIntent {}
 
 final class SearchViewModel: SearchViewModeling {
 
     // MARK: Private properties
 
-    private let topSection: Section
     private(set) var stateDidChange: ObservableObjectPublisher
     private let output: SearchModuleOutput
     private let remoteRepository: ProductSearchProtocol?
@@ -22,8 +31,6 @@ final class SearchViewModel: SearchViewModeling {
     private var inputSearchText: String
 
     // MARK: Internal properties
-
-    var sections: [Section]
 
     @Published var state: SearchViewState {
         didSet {
@@ -35,14 +42,14 @@ final class SearchViewModel: SearchViewModeling {
 
     init(output: SearchModuleOutput, remoteRepository: ProductSearchProtocol) {
         self.stateDidChange = ObservableObjectPublisher()
-        self.output = output      
+        self.output = output
         self.state = .loading
         self.remoteRepository = remoteRepository
-        self.topSection = Section(id: 0, title: "", type: "topHeader", products: [])
-        self.countOffset = 1
+        self.countOffset = 0
         self.inputSearchText = ""
-        self.sections = []
     }
+
+    // MARK: Internal methods
 
     func trigger(_ intent: SearchViewIntent) {
         switch intent {
@@ -59,27 +66,28 @@ final class SearchViewModel: SearchViewModeling {
         }
     }
 
+    // MARK: Private methods
+
     private func updateSections() {
         state = .loading
         remoteRepository?.getStartRecommendations(completion: { [weak self] result in
             guard let self else { return }
-            var updateSections: [Section] = []
-            updateSections.append(topSection)
 
             switch result {
             case .success(let dispayData):
-                updateSections.append(contentsOf: dispayData)
-                self.state = .content(dispayData: updateSections)
+                var updateSection: [SearchCellType] = []
+                for data in dispayData {
+                    updateSection.append(.body(data))
+                }
+                self.state = .content(dispayData: [SearchSomeSection.body(updateSection)])
             case .failure:
-                state = .error(dispayData: updateSections)
+                state = .error
             }
         })
     }
 
     private func proccedInputSearchText(inputText: String) {
         countOffset = 0
-        sections = []
-        sections.append(self.topSection)
         inputSearchText = inputText
         getSearchProducts(inputText: inputText, offset: 0)
     }
@@ -91,17 +99,20 @@ final class SearchViewModel: SearchViewModeling {
     private func getSearchProducts(inputText: String, offset: Int) {
         state = .loading
         let productSearchRequest = ProductSearchRequest(searchString: inputText, limit: 5, offset: offset)
+
         remoteRepository?.getSearchProducts(productRequest: productSearchRequest, completion: { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let dispayData):
-                sections.append(contentsOf: dispayData)
-                countOffset += dispayData[0].products.count
-                state = .content(dispayData: sections)
+                var updateSection: [SearchCellType] = []
+                for data in dispayData {
+                    updateSection.append(.body(data))
+                }
+                countOffset += 1
+                self.state = .content(dispayData: [SearchSomeSection.body(updateSection)])
             case .failure:
-                state = .error(dispayData: [topSection])
+                state = .error
             }
         })
-
     }
 }

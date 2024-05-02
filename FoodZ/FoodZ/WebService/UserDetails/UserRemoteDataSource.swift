@@ -18,7 +18,7 @@ final class UserRemoteDataSource {
 
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
-        self.tokenManager = TokenManager.shared
+        self.tokenManager = TokenManager()
     }
 
     // MARK: Internal methods
@@ -56,11 +56,24 @@ final class UserRemoteDataSource {
 
     func getUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void) {
         let target = Target(
-            path: "/userInfo",
+            path: "/user/secured/userInfo",
             method: .get,
             setParametresFromEncodable: nil,
             role: Role.user
         )
         networkService.sendRequest(target: target, responseType: UserInfoModel.self, completion: completion)
+    }
+    func userExit() -> Bool {
+        var isExit = true
+        let target = Target(path: "/user/secured/exit", method: .post, setParametresFromEncodable: tokenManager.getRefreshToken(), role: .user)
+        networkService.sendRequest(target: target, responseType: Bool.self) { result in
+            switch result {
+            case .success:
+                isExit = true
+            case .failure:
+                isExit = true
+            }
+        }
+        return isExit
     }
 }

@@ -13,8 +13,8 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
     // MARK: Private properties
 
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
-    private var sections: [Section]
+    private var dataSource: UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>?
+    private var sections: [SearchSomeSection]
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var collectionView: UICollectionView = {
@@ -41,6 +41,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
         self.sections = []
+        self.sections.append(SearchSomeSection.header([]))
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -53,6 +54,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         makeConstraints()
         createDataSource()
         configureIO()
+        reloadData()
         viewModel.trigger(.onDidlLoad)
         navigationController?.isNavigationBarHidden = true
     }
@@ -83,31 +85,32 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         case .loading:
             break
         case .content(dispayData: let dispayData):
-            sections = dispayData
+            guard let first = sections.first else { return }
+            sections = []
+            sections.append(first)
+            sections.append(contentsOf: dispayData)
             reloadData()
-        case .error(dispayData: let dispayData):
-            sections = dispayData
-            reloadData()
+        case .error:
+            break
         }
     }
 
-    private func configure<T: SelfConfiguringCell>(_ cellType: T.Type, with product: Product, for indexPath: IndexPath) -> T {
+    private func configure<T: ProfileSelfConfiguringCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Unable to dequeue \(cellType)")
         }
-        cell.configure(with: product)
         return cell
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { _, indexPath, product in
-            switch self.sections[indexPath.section].type {
-            case "SingleCollectionViewCell":
-                return self.configure(SingleCollectionViewCell.self, with: product, for: indexPath)
-            case "topHeader":
+        dataSource = UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>(collectionView: collectionView) { _, indexPath, item in
+            switch item {
+            case .body(let data):
+                let cell = self.configure(SingleCollectionViewCell.self, for: indexPath)
+                cell.configure(with: data)
+                return cell
+            case .header:
                 return UICollectionViewCell()
-            default:
-                return self.configure(SingleCollectionViewCell.self, with: product, for: indexPath)
             }
         }
 
@@ -124,33 +127,39 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
                 sectionHeader.searchDelegate = self
                 return sectionHeader
             }
-            return HomeHeader()
+            return nil
         }
     }
 
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-        snapshot.appendSections(sections)
-
+        var snapshot = NSDiffableDataSourceSnapshot<SearchSomeSection, SearchCellType>()
         for section in sections {
-            snapshot.appendItems(section.products, toSection: section)
+            snapshot.appendSections([section])
         }
 
+        for section in sections {
+            switch section {
+            case .header(let data):
+                snapshot.appendItems(data)
+            case .body(let data):
+                snapshot.appendItems(data)
+            }
+        }
         dataSource?.apply(snapshot)
     }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
 
-            let section = self.sections[sectionIndex]
-
-            switch section.type {
-            case "singleTable":
-                return self.createSingleTableSection(using: section)
-            case "topHeader":
-                return self.createFirstTableSection()
+            guard let self = self else { return self?.createBodyTableSection() }
+            let section = sections[sectionIndex]
+            switch sectionIndex {
+            case 0:
+                return createHeaderTableSection()
+            case 1:
+                return createBodyTableSection()
             default:
-                return self.createSingleTableSection(using: section)
+                return createBodyTableSection()
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -158,7 +167,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         return layout
     }
 
-    private func createSingleTableSection(using section: Section) -> NSCollectionLayoutSection {
+    private func createBodyTableSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -173,17 +182,17 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         return layoutSection
     }
 
-    private func createFirstTableSection() -> NSCollectionLayoutSection {
+    private func createHeaderTableSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.65), heightDimension: .fractionalHeight(0.3))
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2))
         let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
-        layoutSection.orthogonalScrollingBehavior = .continuous
+        layoutSection.orthogonalScrollingBehavior = .none
         let layoutSectionHeader = createTopHeader()
         layoutSection.boundarySupplementaryItems = [layoutSectionHeader]
         return layoutSection
@@ -198,6 +207,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         )
         return layoutSectionHeader
     }
+
     private func makeConstraints() {
         view.backgroundColor = AppColor.primary.color
         view.addSubview(collectionView)

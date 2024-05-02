@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7802BFE52BCDB030008C95B2 /* TokenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7802BFE42BCDB030008C95B2 /* TokenEntity.swift */; };
+		784BBED32BE36BAB008435FA /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 784BBED22BE36BAB008435FA /* KeychainSwift */; };
+		784BBED52BE42E2E008435FA /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784BBED42BE42E2E008435FA /* Notification+Extension.swift */; };
 		787C716B2BC2971600D2F36B /* SearchViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787C716A2BC2971600D2F36B /* SearchViewBuilder.swift */; };
 		787C716D2BC2C7BA00D2F36B /* SearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787C716C2BC2C7BA00D2F36B /* SearchHeader.swift */; };
 		787C71C42BC4526000D2F36B /* Search.json in Resources */ = {isa = PBXBuildFile; fileRef = 787C71C32BC4526000D2F36B /* Search.json */; };
@@ -97,6 +99,7 @@
 		78E4EFE22BDED6FC00982CA5 /* OrdersCurrentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EFE12BDED6FC00982CA5 /* OrdersCurrentViewModel.swift */; };
 		78E4EFE42BDED7F200982CA5 /* PastOrdersBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EFE32BDED7F200982CA5 /* PastOrdersBuilder.swift */; };
 		78E4EFE62BDED8DE00982CA5 /* CurrentOrdersBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EFE52BDED8DE00982CA5 /* CurrentOrdersBuilder.swift */; };
+		78E4EFE82BE03F6C00982CA5 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EFE72BE03F6C00982CA5 /* CustomImageView.swift */; };
 		78EA69382BD143EF004A961C /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69372BD143EF004A961C /* UserRepository.swift */; };
 		78EA693A2BD145BB004A961C /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69392BD145BB004A961C /* UserRequest.swift */; };
 		78EA693C2BD149E4004A961C /* UserRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */; };
@@ -126,6 +129,7 @@
 
 /* Begin PBXFileReference section */
 		7802BFE42BCDB030008C95B2 /* TokenEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenEntity.swift; sourceTree = "<group>"; };
+		784BBED42BE42E2E008435FA /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		787C716A2BC2971600D2F36B /* SearchViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewBuilder.swift; sourceTree = "<group>"; };
 		787C716C2BC2C7BA00D2F36B /* SearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeader.swift; sourceTree = "<group>"; };
 		787C71C32BC4526000D2F36B /* Search.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Search.json; sourceTree = "<group>"; };
@@ -213,6 +217,7 @@
 		78E4EFE12BDED6FC00982CA5 /* OrdersCurrentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCurrentViewModel.swift; sourceTree = "<group>"; };
 		78E4EFE32BDED7F200982CA5 /* PastOrdersBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastOrdersBuilder.swift; sourceTree = "<group>"; };
 		78E4EFE52BDED8DE00982CA5 /* CurrentOrdersBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentOrdersBuilder.swift; sourceTree = "<group>"; };
+		78E4EFE72BE03F6C00982CA5 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		78EA69372BD143EF004A961C /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		78EA69392BD145BB004A961C /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
 		78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRemoteDataSource.swift; sourceTree = "<group>"; };
@@ -247,6 +252,7 @@
 			files = (
 				78C1CB732BADC0A700748F3D /* Alamofire in Frameworks */,
 				78C1CB752BADC0A700748F3D /* AlamofireDynamic in Frameworks */,
+				784BBED32BE36BAB008435FA /* KeychainSwift in Frameworks */,
 				78C1CB6E2BADC09300748F3D /* SnapKit in Frameworks */,
 				78C1CB702BADC09300748F3D /* SnapKit-Dynamic in Frameworks */,
 			);
@@ -558,6 +564,8 @@
 			isa = PBXGroup;
 			children = (
 				78E4EF942BDCFA7400982CA5 /* SegmentController+Extension.swift */,
+				78E4EFE72BE03F6C00982CA5 /* CustomImageView.swift */,
+				784BBED42BE42E2E008435FA /* Notification+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -852,6 +860,7 @@
 				78C1CB6F2BADC09300748F3D /* SnapKit-Dynamic */,
 				78C1CB722BADC0A700748F3D /* Alamofire */,
 				78C1CB742BADC0A700748F3D /* AlamofireDynamic */,
+				784BBED22BE36BAB008435FA /* KeychainSwift */,
 			);
 			productName = FoodZ;
 			productReference = 78C1CAFC2BADC02700748F3D /* FoodZ.app */;
@@ -884,6 +893,7 @@
 			packageReferences = (
 				78C1CB6C2BADC09300748F3D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				78C1CB712BADC0A700748F3D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				784BBED12BE36BAB008435FA /* XCRemoteSwiftPackageReference "keychain-swift" */,
 			);
 			productRefGroup = 78C1CAFD2BADC02700748F3D /* Products */;
 			projectDirPath = "";
@@ -937,6 +947,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78E4EFE22BDED6FC00982CA5 /* OrdersCurrentViewModel.swift in Sources */,
+				78E4EFE82BE03F6C00982CA5 /* CustomImageView.swift in Sources */,
 				78C1CB642BADC04800748F3D /* AppCoordinator.swift in Sources */,
 				78EA69482BD44387004A961C /* CreateProductViewModelingProtocol.swift in Sources */,
 				78C1CB612BADC04800748F3D /* RegistrationModulBuilder.swift in Sources */,
@@ -971,6 +982,7 @@
 				78EA69552BD4533E004A961C /* CreateProductTableViewCell.swift in Sources */,
 				78B05AD52BB6F35B00D74385 /* HomeCoreDataManager.swift in Sources */,
 				78EA69572BD591E0004A961C /* ProfileViewModel.swift in Sources */,
+				784BBED52BE42E2E008435FA /* Notification+Extension.swift in Sources */,
 				78EA69662BD59562004A961C /* ProfileMainState.swift in Sources */,
 				78E4EFA12BDCFCDF00982CA5 /* OrdersIntent.swift in Sources */,
 				78EA69432BD442DA004A961C /* CategoryViewModel.swift in Sources */,
@@ -1257,6 +1269,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		784BBED12BE36BAB008435FA /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
 		78C1CB6C2BADC09300748F3D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1276,6 +1296,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		784BBED22BE36BAB008435FA /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 784BBED12BE36BAB008435FA /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
 		78C1CB6D2BADC09300748F3D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 78C1CB6C2BADC09300748F3D /* XCRemoteSwiftPackageReference "SnapKit" */;

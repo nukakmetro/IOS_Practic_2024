@@ -6,25 +6,39 @@
 //
 
 import Foundation
+import KeychainSwift
+
+enum KeychainKeys: String {
+    case accessToken = "accessToken"
+    case refreshToken = "refreshToken"
+}
 
 final class TokenManager {
-
-    private var tokenEntity: TokenEntity
-    static let shared = TokenManager()
+    private let keychain: KeychainSwift
 
     init() {
-        tokenEntity = TokenEntity()
+        keychain = KeychainSwift()
     }
 
     func updateToken(tokenEntity: TokenEntity) {
-        self.tokenEntity = tokenEntity
+        keychain.set(tokenEntity.getAccessToken(), forKey: KeychainKeys.accessToken.rawValue)
+        keychain.set(tokenEntity.getRefreshToken(), forKey: KeychainKeys.refreshToken.rawValue)
     }
 
     func getRefreshToken() -> RefreshRequest {
-        return RefreshRequest(refreshToken: tokenEntity.getRefreshToken())
+        return RefreshRequest(refreshToken: keychain.get(KeychainKeys.refreshToken.rawValue) ?? "")
     }
 
     func getAccessToken() -> String {
-        return tokenEntity.getAccessToken()
+        return keychain.get(KeychainKeys.accessToken.rawValue) ?? ""
+    }
+
+    func keysClear() {
+        keychain.delete(KeychainKeys.accessToken.rawValue)
+        keychain.delete(KeychainKeys.refreshToken.rawValue)
+        keychain.clear()
+    }
+    func getKeysBool() -> Bool? {
+        return keychain.getBool(KeychainKeys.refreshToken.rawValue)
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
+class SingleCollectionViewCell: UICollectionViewCell, ProfileSelfConfiguringCell {
 
     // MARK: Internal properties
 
@@ -122,7 +122,7 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         productCategoryLabel.text = cell.productCategory
         productCompoundLabel.text = cell.productCompound
         productWaitingTimerLabel.text = String(cell.productWaitingTime) + "min"
-        productImage.image = UIImage(named: cell.productImages.first?.imageName ?? "Cat")
+        productImage.image = UIImage(named: "Cat")
         productWaltingTimerImage.image = UIImage(systemName: "stopwatch.fill")
         productRatingImage.image = UIImage(systemName: "star.fill")
         productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)

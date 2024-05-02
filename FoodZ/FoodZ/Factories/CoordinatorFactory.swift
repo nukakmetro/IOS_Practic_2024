@@ -13,8 +13,8 @@ class CoordinatorFactory {
     func createAuthorizationCoordinator(navigationController: UINavigationController?) -> AuthorizationCoordinator {
         AuthorizationCoordinator(navigationController: navigationController)
     }
-    func createAppCoordinator(navigationController: UINavigationController) -> AppCoordinator {
-        AppCoordinator(navigationController: navigationController)
+    func createAppCoordinator(_ window: UIWindow?) -> AppCoordinator {
+        AppCoordinator(window: window)
     }
     func createHomeCoordinators(navigationController: UINavigationController) -> HomeCoordinator {
         HomeCoordinator(navigationController: navigationController)

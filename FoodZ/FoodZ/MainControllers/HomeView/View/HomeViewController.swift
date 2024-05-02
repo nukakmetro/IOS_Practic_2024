@@ -59,6 +59,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         createDataSource()
         configureIO()
         viewModel.trigger(.onDidLoad)
+        viewModel.trigger(.onLoad)
         navigationController?.isNavigationBarHidden = true
     }
 

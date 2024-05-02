@@ -50,7 +50,7 @@ final class ProfileViewModel: ProfileMainModeling {
     private(set) var stateDidChange: ObservableObjectPublisher
     private var output: ProfileMainModuleOutput?
     private var headerItem: [CellType]
-    private var repository: ProfileUserProtocol
+    private var repository: ProfileUserProtocol & UserExitProtocol
     private let displayDataMapper: DisplayDataMapper
 
     // MARK: Internal properties
@@ -63,7 +63,7 @@ final class ProfileViewModel: ProfileMainModeling {
 
     // MARK: Initializator
 
-    init(output: ProfileMainModuleOutput, repository: ProfileUserProtocol) {
+    init(output: ProfileMainModuleOutput, repository: ProfileUserProtocol & UserExitProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
         self.output = output
         self.state = .loading
@@ -114,13 +114,13 @@ final class ProfileViewModel: ProfileMainModeling {
         case 5:
             output?.processedHelpItemTapped()
         case 6:
-            output?.processedExitItemTapped()
+            exitUser()
         default:
             break
         }
     }
 
-    func reloadHeader() {
+    private func reloadHeader() {
         repository.fetchUserInfo { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -131,5 +131,10 @@ final class ProfileViewModel: ProfileMainModeling {
                 state = .error(headerItem)
             }
         }
+    }
+
+    private func exitUser() {
+        repository.fetchUserExit()
+        output?.processedExitItemTapped()
     }
 }

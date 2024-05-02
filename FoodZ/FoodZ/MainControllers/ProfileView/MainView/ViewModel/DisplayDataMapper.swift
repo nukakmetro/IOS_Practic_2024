@@ -12,8 +12,8 @@ final class DisplayDataMapper {
         return ProfileMainHeader(
             username: dataModel.username,
             nubmer: dataModel.number ?? "Номер телефона",
-            id: dataModel.id,
-            image: String(dataModel.image ?? 0)
+            id: dataModel.userId ?? 0,
+            image: String(dataModel.imageId ?? 0)
         )
     }
 }

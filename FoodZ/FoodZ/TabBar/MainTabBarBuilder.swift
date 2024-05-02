@@ -9,7 +9,13 @@ import Foundation
 
 class MainTabBarBuilder: Builder {
 
+    let authUser: ProcessUserExitDelegate
+
+    init(authUser: ProcessUserExitDelegate) {
+        self.authUser = authUser
+    }
+
     func build() -> MainTabBarController {
-        MainTabBarController()
+        MainTabBarController(authUser: authUser)
     }
 }

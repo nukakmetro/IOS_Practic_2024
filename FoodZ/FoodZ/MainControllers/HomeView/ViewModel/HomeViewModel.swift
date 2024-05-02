@@ -47,12 +47,20 @@ final class HomeViewModel: HomeViewModeling {
         case .onReload:
             updateSections()
         case .onDidLoad:
+            didLoadSections()
+        case .onLoad:
             updateSections()
-
         }
     }
 
-    func updateSections() {
+    private func didLoadSections() {
+        state = .loading
+        var sections: [Section] = []
+        sections.append(topSection)
+        state = .content(dispayData: sections)
+    }
+
+    private func updateSections() {
         state = .loading
         repository?.getFavoritesProducts(completion: { [weak self] result in
             guard let self else { return }
