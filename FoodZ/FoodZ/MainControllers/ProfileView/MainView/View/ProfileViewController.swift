@@ -122,14 +122,14 @@ final class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewControl
     }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
+        let layout = UICollectionViewCompositionalLayout {[weak self] sectionIndex, _ in
             switch sectionIndex {
             case 0:
-                return self.createTableSection(fractionalHeight: 0.3)
+                return self?.createTableSection(fractionalHeight: 0.3)
             case 1:
-                return self.createTableSection(fractionalHeight: 0.05)
+                return self?.createTableSection(fractionalHeight: 0.05)
             default:
-                return self.createTableSection(fractionalHeight: 0.3)
+                return self?.createTableSection(fractionalHeight: 0.3)
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()

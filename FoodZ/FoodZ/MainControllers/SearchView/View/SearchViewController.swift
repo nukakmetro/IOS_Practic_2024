@@ -103,11 +103,11 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>(collectionView: collectionView) { _, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             switch item {
             case .body(let data):
-                let cell = self.configure(SingleCollectionViewCell.self, for: indexPath)
-                cell.configure(with: data)
+                let cell = self?.configure(SingleCollectionViewCell.self, for: indexPath)
+                cell?.configure(with: data)
                 return cell
             case .header:
                 return UICollectionViewCell()

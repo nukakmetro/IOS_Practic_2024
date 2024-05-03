@@ -21,13 +21,12 @@ final class ProductRepository {
 
     // MARK: Private properties
 
-    private var statefulNetworkService: StatefulNetworkService
     private let remoteDataSource: ProductsRemoteDataSource
 
     // MARK: Initialization
 
     init() {
-        statefulNetworkService = StatefulNetworkService()
+        let statefulNetworkService = StatefulNetworkService()
         self.remoteDataSource = ProductsRemoteDataSource(networkService: StatefulNetworkService())
     }
 }
