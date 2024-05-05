@@ -59,6 +59,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         createDataSource()
         configureIO()
         viewModel.trigger(.onDidLoad)
+        viewModel.trigger(.onLoad)
         navigationController?.isNavigationBarHidden = true
     }
 
@@ -105,14 +106,14 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { _, indexPath, product in
-            switch self.sections[indexPath.section].type {
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {[weak self] _, indexPath, product in
+            switch self?.sections[indexPath.section].type {
             case "mediumTable":
-                return self.configure(MediumTableCell.self, with: product, for: indexPath)
+                return self?.configure(MediumTableCell.self, with: product, for: indexPath)
             case "topHeader":
                 return UICollectionViewCell()
             default:
-                return self.configure(MediumTableCell.self, with: product, for: indexPath)
+                return self?.configure(MediumTableCell.self, with: product, for: indexPath)
             }
         }
 
@@ -157,17 +158,17 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
     }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
-
-            let section = self.sections[sectionIndex]
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+            guard let self = self else { return self?.createMediumTableSection() }
+            let section = sections[sectionIndex]
 
             switch section.type {
             case "mediumTable":
-                return self.createMediumTableSection(using: section)
+                return createMediumTableSection()
             case "topHeader":
-                return self.createFirstTableSection()
+                return createFirstTableSection()
             default:
-                return self.createMediumTableSection(using: section)
+                return createMediumTableSection()
             }
         }
 
@@ -177,7 +178,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
         return layout
     }
 
-    private func createMediumTableSection(using section: Section) -> NSCollectionLayoutSection {
+    private func createMediumTableSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)

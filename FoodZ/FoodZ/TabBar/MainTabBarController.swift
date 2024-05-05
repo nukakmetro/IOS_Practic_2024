@@ -9,16 +9,27 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
 
+    private let profileCoordinator: ProfileCoordinator
+    private let homeCoordinator: HomeCoordinator
+//    private let savedViewController: SavedViewController
+//    private let cartViewContoller: CartViewController
+
+    init(authUser: ProcessUserExitDelegate){
+        homeCoordinator = CoordinatorFactory().createHomeCoordinators(navigationController: UINavigationController())
+        homeCoordinator.start()
+        profileCoordinator = CoordinatorFactory().createProfileCoordinator(navigationController: UINavigationController())
+        profileCoordinator.authUser = authUser
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // потом координаторы добавлю
-        let homeCoordinator = CoordinatorFactory().createHomeCoordinators(navigationController: UINavigationController())
-        homeCoordinator.start()
         let homeViewController = homeCoordinator.navigationController
-
-        let profileCoordinator = CoordinatorFactory().createProfileCoordinator(navigationController: UINavigationController())
         let profileViewContoller = profileCoordinator.navigationController
-
         let savedViewController = UINavigationController(rootViewController: SavedViewController())
         let cartViewContoller = UINavigationController(rootViewController: CartViewController())
 

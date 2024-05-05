@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SnapKit
 
-final class ProfileMainBodyCell: UICollectionViewCell {
+final class ProfileMainBodyCell: UICollectionViewCell, ProfileSelfConfiguringCell {
 
     // MARK: Private properties
 
@@ -67,7 +67,7 @@ final class ProfileMainBodyCell: UICollectionViewCell {
 
 // MARK: ProfileSelfConfiguringCell protocol
 
-extension ProfileMainBodyCell: ProfileSelfConfiguringCell {
+extension ProfileMainBodyCell {
 
     static var reuseIdentifier: String {
         return String(describing: self)

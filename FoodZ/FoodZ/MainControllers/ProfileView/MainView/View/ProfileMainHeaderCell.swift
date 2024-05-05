@@ -12,7 +12,7 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     // MARK: Private properties
 
     private lazy var usernameLabel = UILabel()
-    private lazy var userImage = UIImageView()
+    private lazy var userImage = CustomImageView()
     private lazy var userNumberLabel = UILabel()
 
     // MARK: Initialization
@@ -21,6 +21,7 @@ class ProfileMainHeaderCell: UICollectionViewCell {
         super.init(frame: frame)
         makeConstraints()
         setupDisplay()
+        userImage.image = UIImage(systemName: "person.fill")
     }
 
     required init?(coder: NSCoder) {
@@ -68,7 +69,7 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     func configure(with cell: ProfileMainHeader) {
         usernameLabel.text = cell.username
         userNumberLabel.text = cell.number
-        userImage.image = UIImage(systemName: "person.fill")
+        userImage.loadImage(withUsername: UserImageRequest(username: cell.username), path: .userImage)
     }
 }
 

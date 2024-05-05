@@ -49,6 +49,7 @@ final class OrdersViewController<ViewModel: OrdersViewModeling>: UIViewControlle
     // MARK: Private methods
 
     private func setupSegmentControl() {
+        segmentControl.selectedSegmentIndex = 0
         segmentControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 30)
         segmentControl.addUnderlineForSelectedSegment()
         segmentControl.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
@@ -62,7 +63,7 @@ final class OrdersViewController<ViewModel: OrdersViewModeling>: UIViewControlle
             [viewControllers[currentPageIndex]],
             direction: .forward,
             animated: false
-        ) { isFinished -> Void in }
+        )
     }
 
     @objc private func changeSegment(_ sender: UISegmentedControl) {
@@ -143,13 +144,7 @@ final class OrdersViewController<ViewModel: OrdersViewModeling>: UIViewControlle
     var lastContentOffset: CGFloat = 0
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentContentOffset = scrollView.contentOffset.x
-        let segmentWidth = view.frame.width / CGFloat(items.count)
-        let nearestIndex = Int(round(currentContentOffset / segmentWidth))
-        let newPositionX = CGFloat(nearestIndex) * segmentWidth
-        segmentControl.changeUnderLine(position: newPositionX)
-    }
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         lastContentOffset = scrollView.contentOffset.x
+        print(lastContentOffset)
     }
 }

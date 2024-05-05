@@ -12,20 +12,19 @@ class AppCoordinator {
 
     // MARK: Internal properties
 
-    weak var navigationController: UINavigationController?
+    private var window: UIWindow?
 
     // MARK: Initializator
 
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-        start()
+    init(window: UIWindow?) {
+        self.window = window
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSessionExpired), name: .sessionExpired, object: nil)
     }
 
     // MARK: Internal methods
 
     func start() {
-        let isAuth = false
-        if isAuth {
+        if let isAuth = TokenManager().getKeysBool() {
             showTabBar()
         } else {
             showAuthorizationFlow()
@@ -35,18 +34,21 @@ class AppCoordinator {
     // MARK: Private methods
 
     private func showAuthorizationFlow() {
-
-        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navigationController: navigationController)
+        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navigationController: UINavigationController())
         authorizationCoordinator.delegate = self
         authorizationCoordinator.start()
+        window?.rootViewController = authorizationCoordinator.navigationController
+        window?.makeKeyAndVisible()
     }
 
     private func showTabBar() {
-        let tapbarController = MainTabBarController()
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate, let window = sceneDelegate.window {
-            window.rootViewController = tapbarController
-            window.makeKeyAndVisible()
-        }
+        let tapbarController = MainTabBarController(authUser: self)
+        window?.rootViewController = tapbarController
+        window?.makeKeyAndVisible()
+
+    }   
+    @objc private func handleSessionExpired() {
+        showAuthorizationFlow()
     }
 }
 
@@ -55,5 +57,13 @@ class AppCoordinator {
 extension AppCoordinator: ChangeCoordinator {
     func change() {
         showTabBar()
+    }
+}
+// MARK: ProcessUserExitDelegate
+
+extension AppCoordinator: ProcessUserExitDelegate {
+    func processesUserExit() {
+        TokenManager().keysClear()
+        showAuthorizationFlow()
     }
 }

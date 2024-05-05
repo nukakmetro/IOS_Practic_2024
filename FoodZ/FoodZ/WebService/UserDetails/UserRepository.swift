@@ -19,6 +19,10 @@ protocol ProfileUserProtocol {
     func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void)
 }
 
+protocol UserExitProtocol {
+    func fetchUserExit() -> Bool
+}
+
 final class UserRepository {
 
     // MARK: Private properties
@@ -32,7 +36,7 @@ final class UserRepository {
     }
 }
 
-// MARK: UserRegistrationProtocol protocol
+// MARK: UserRegistrationProtocol
 
 extension UserRepository: UserRegistrationProtocol {
     func userRegistration(userRegistrationRequest: UserRegistrationRequest, completion: @escaping (Result<UserRegistrationResponse, Error>) -> Void) {
@@ -40,7 +44,7 @@ extension UserRepository: UserRegistrationProtocol {
     }
 }
 
-// MARK: UserAuthorizationProtocol protocol
+// MARK: UserAuthorizationProtocol
 
 extension UserRepository: UserAuthorizationProtocol {
     func userAuthorization(userRequest: UserRequest, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -48,8 +52,18 @@ extension UserRepository: UserAuthorizationProtocol {
     }
 }
 
+// MARK: ProfileUserProtocol
+
 extension UserRepository: ProfileUserProtocol {
     func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void) {
         remoteDataSource.getUserInfo(completion: completion)
+    }
+}
+
+// MARK: UserExitProtocol
+
+extension UserRepository: UserExitProtocol {
+    func fetchUserExit() -> Bool {
+        return remoteDataSource.userExit()
     }
 }

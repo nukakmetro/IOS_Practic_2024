@@ -22,6 +22,7 @@ class AuthorizationCoordinator: Coordinator {
 
     init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
+        start()
     }
 
     // MARK: Internal methods

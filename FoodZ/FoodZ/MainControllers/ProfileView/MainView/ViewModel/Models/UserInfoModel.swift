@@ -8,15 +8,8 @@
 import Foundation
 
 struct UserInfoModel: Decodable {
-    var id: Int
+    var userId: Int?
     var username: String
-    var image: Int?
+    var imageId: Int?
     var number: String?
-
-    init(username: String, nubmer: String, id: Int, image: Int) {
-        self.username = username
-        self.number = nubmer
-        self.id = id
-        self.image = image
-    }
 }

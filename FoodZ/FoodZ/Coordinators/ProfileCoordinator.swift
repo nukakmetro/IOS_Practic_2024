@@ -8,10 +8,14 @@
 import Foundation
 import UIKit
 
+protocol ProcessUserExitDelegate: AnyObject {
+    func processesUserExit()
+}
+
 final class ProfileCoordinator: Coordinator {
 
     // MARK: Internal properties
-
+    weak var authUser: ProcessUserExitDelegate?
     weak var navigationController: UINavigationController?
 
     // MARK: Initializator
@@ -74,7 +78,7 @@ extension ProfileCoordinator: ProfileMainModuleOutput {
     }
 
     func processedExitItemTapped() {
-
+        authUser?.processesUserExit()
     }
 }
 

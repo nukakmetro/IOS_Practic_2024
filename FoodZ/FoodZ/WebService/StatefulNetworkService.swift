@@ -14,21 +14,24 @@ protocol NetworkServiceProtocol {
 
 final class StatefulNetworkService: NetworkServiceProtocol {
 
-    private var tokenManager = TokenManager.shared
+    private var tokenManager = TokenManager()
 
     func sendRequest<Response: Decodable>(target: Target, responseType: Response.Type, completion: @escaping (Result<Response, Error>) -> Void) {
         target.addAuthHeader(access: tokenManager.getAccessToken())
+        print(target.baseURL)
         print(target.headers)
         AF.request(target.baseURL, method: target.method, parameters: target.parameters, encoder: JSONParameterEncoder.default, headers: target.headers).validate(statusCode: 200..<299).responseDecodable(of: responseType) { [weak self] result in
             guard let self else { return }
             print(result.response?.statusCode)
+            print(result.request)
             guard result.response?.statusCode != 401 else {
                 refreshToken { result in
-
                     switch result {
                     case .success:
                         self.sendRequest(target: target, responseType: responseType, completion: completion)
                     case .failure(let error):
+                        self.tokenManager.keysClear()
+                        NotificationCenter.default.post(name: .sessionExpired, object: nil)
                         completion(.failure(error))
                     }
                 }
@@ -44,7 +47,15 @@ final class StatefulNetworkService: NetworkServiceProtocol {
     }
 
     private func refreshToken(completion: @escaping (Result<Void, Error>) -> Void) {
-        AF.request("http://localhost:8080/demo/updateToken", method: .post, parameters: tokenManager.getRefreshToken(), encoder: JSONParameterEncoder.default, headers: HTTPHeaders(HTTPHeaderFields.dictionary)).validate(statusCode: 200..<300).responseDecodable(of: TokenEntity.self) { [weak self] responce in
+        AF.request(
+            "http://localhost:8080/demo/user/secured/updateToken",
+            method: .post,
+            parameters: tokenManager.getRefreshToken(),
+            encoder: JSONParameterEncoder.default,
+            headers: HTTPHeaders(HTTPHeaderFields.dictionary)
+        )
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: TokenEntity.self) { [weak self] responce in
             switch responce.result {
             case .success(let tokenEntity):
                 print("token updated")

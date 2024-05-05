@@ -12,22 +12,21 @@ protocol ProductFavorietesProtocol {
 }
 
 protocol ProductSearchProtocol {
-    func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Section], Error>) -> Void))
+    func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Product], Error>) -> Void))
 
-    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> Void))
+    func getStartRecommendations(completion: @escaping ((Result<[Product], Error>) -> Void))
 }
 
 final class ProductRepository {
 
     // MARK: Private properties
 
-    private var statefulNetworkService: StatefulNetworkService
     private let remoteDataSource: ProductsRemoteDataSource
 
     // MARK: Initialization
 
     init() {
-        statefulNetworkService = StatefulNetworkService()
+        let statefulNetworkService = StatefulNetworkService()
         self.remoteDataSource = ProductsRemoteDataSource(networkService: StatefulNetworkService())
     }
 }
@@ -44,11 +43,11 @@ extension ProductRepository: ProductFavorietesProtocol {
 
 extension ProductRepository: ProductSearchProtocol {
 
-    func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Section], Error>) -> Void)) {
+    func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Product], Error>) -> Void)) {
         remoteDataSource.getSearchProducts(productSearchRequest: productRequest, completion: completion)
     }
 
-    func getStartRecommendations(completion: @escaping ((Result<[Section], Error>) -> Void)) {
+    func getStartRecommendations(completion: @escaping ((Result<[Product], Error>) -> Void)) {
         remoteDataSource.getRecomendationsSearch(completion: completion)
     }
 }
