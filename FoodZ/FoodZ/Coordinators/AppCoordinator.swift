@@ -24,7 +24,7 @@ class AppCoordinator {
     // MARK: Internal methods
 
     func start() {
-        if let isAuth = TokenManager().getKeysBool() {
+        if TokenManager().getKeysBool() != nil {
             showTabBar()
         } else {
             showAuthorizationFlow()
@@ -34,19 +34,18 @@ class AppCoordinator {
     // MARK: Private methods
 
     private func showAuthorizationFlow() {
-        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(navigationController: UINavigationController())
-        authorizationCoordinator.delegate = self
+        let authorizationCoordinator = CoordinatorFactory().createAuthorizationCoordinator(self, navigationController: UINavigationController())
         authorizationCoordinator.start()
         window?.rootViewController = authorizationCoordinator.navigationController
         window?.makeKeyAndVisible()
     }
 
     private func showTabBar() {
-        let tapbarController = MainTabBarController(authUser: self)
+        let tapbarController = MainTabBarBuilder(authUser: self).build()
         window?.rootViewController = tapbarController
         window?.makeKeyAndVisible()
+    }
 
-    }   
     @objc private func handleSessionExpired() {
         showAuthorizationFlow()
     }
@@ -61,7 +60,7 @@ extension AppCoordinator: ChangeCoordinator {
 }
 // MARK: ProcessUserExitDelegate
 
-extension AppCoordinator: ProcessUserExitDelegate {
+extension AppCoordinator: UserExitProcessorDelegate {
     func processesUserExit() {
         TokenManager().keysClear()
         showAuthorizationFlow()

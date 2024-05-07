@@ -15,9 +15,9 @@ enum Role {
 }
 
 enum HTTPHeaderFields: String {
-    case contentType     = "Content-Type"
-    case acceptType      = "Accept"
-    case acceptEncoding  = "Accept-Encoding"
+    case contentType = "Content-Type"
+    case acceptType = "Accept"
+    case acceptEncoding = "Accept-Encoding"
 
     static var dictionary: [String: String] {
         return [
@@ -38,6 +38,7 @@ class Target {
     var headers: HTTPHeaders?
 
     var parameters: AnyEncodable?
+    var parametersImage: [String: Any]?
 
     var role: Role
 
@@ -52,6 +53,19 @@ class Target {
         self.role = role
         guard let parameters = parameters else { return }
         self.parameters = AnyEncodable(parameters)
+    }
+
+    init(path: String, method: HTTPMethod, setParametresFromMuiltipart parameters: [String: String]?, role: Role) {
+        if let url = URL(string: "http://localhost:8080/demo" + path) {
+            self.baseURL = url
+        } else {
+            fatalError("Invalid base URL: \(path)")
+        }
+        self.method = method
+        self.headers = HTTPHeaders(HTTPHeaderFields.dictionary)
+        self.role = role
+        guard let parameters = parameters else { return }
+        self.parametersImage = parameters
     }
 
     init(path: String, method: HTTPMethod, setParametresFromDictionary parameters: [String: String]?, role: Role) {

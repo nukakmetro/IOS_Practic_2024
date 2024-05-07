@@ -9,9 +9,9 @@ import Foundation
 
 class MainTabBarBuilder: Builder {
 
-    let authUser: ProcessUserExitDelegate
+    let authUser: UserExitProcessorDelegate
 
-    init(authUser: ProcessUserExitDelegate) {
+    init(authUser: UserExitProcessorDelegate) {
         self.authUser = authUser
     }
 

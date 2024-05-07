@@ -11,9 +11,12 @@ protocol ProductFavorietesProtocol {
     func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void))
 }
 
+protocol AddProductProtocol {
+    func sendProduct(product: ProductRequest, images: [Data], completion: @escaping (Result<Bool, Error>) -> Void)
+}
+
 protocol ProductSearchProtocol {
     func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Product], Error>) -> Void))
-
     func getStartRecommendations(completion: @escaping ((Result<[Product], Error>) -> Void))
 }
 
@@ -31,7 +34,7 @@ final class ProductRepository {
     }
 }
 
-// MARK: ProductFavorietesProtocol protocol
+// MARK: - ProductFavorietesProtocol protocol
 
 extension ProductRepository: ProductFavorietesProtocol {
     func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void)) {
@@ -39,7 +42,7 @@ extension ProductRepository: ProductFavorietesProtocol {
     }
 }
 
-// MARK: ProductSearchProtocol protocol
+// MARK: - ProductSearchProtocol protocol
 
 extension ProductRepository: ProductSearchProtocol {
 
@@ -49,5 +52,15 @@ extension ProductRepository: ProductSearchProtocol {
 
     func getStartRecommendations(completion: @escaping ((Result<[Product], Error>) -> Void)) {
         remoteDataSource.getRecomendationsSearch(completion: completion)
+    }
+}
+
+import UIKit
+
+// MARK: - AddProductProtocol protocol
+
+extension ProductRepository: AddProductProtocol {
+    func sendProduct(product: ProductRequest, images: [Data], completion: @escaping (Result<Bool, Error>) -> Void) {
+        remoteDataSource.sendProduct(product: product, images: images, completion: completion)
     }
 }
