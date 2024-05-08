@@ -12,9 +12,9 @@ final class AddCoordinator: Coordinator {
 
     // MARK: Private properties
 
-    private var fillingInput: FillingModuleInput?
-    private var mainInput: AddMainModuleInput?
-
+    weak private var fillingInput: FillingModuleInput?
+    weak private var mainInput: AddMainModuleInput?
+    weak private var addImageInput: AddImageModuleInput?
     // MARK: Internal properties
 
     weak var navigationController: UINavigationController?
@@ -62,14 +62,17 @@ final class AddCoordinator: Coordinator {
 // MARK: - FillingModuleOutput
 
 extension AddCoordinator: FillingModuleOutput {
-    func proccessedTappedBackView() {
 
+    func fillingProccesedTappedSaveButton(product: ProductEntity) {
+        popToRootView()
+        mainInput?.proccesedSaveProduct(product: product)
     }
-    
+
     func proccesedTappedNextView(product: ProductEntity) {
-        
+        showAddImageView()
+        addImageInput?.addImageModuleGiveAwayProduct(product: product)
     }
-    
+
     func fillingModuleDidLoad(input: FillingModuleInput) {
         fillingInput = input
     }
@@ -83,6 +86,7 @@ extension AddCoordinator: AddArhiveModuleOutput {
 // MARK: - AddDraftsModuleOutput
 
 extension AddCoordinator: AddDraftsModuleOutput {
+
     func proccesedTappedNext(_ product: ProductEntity) {
         showFillingView()
         fillingInput?.proccesedGiveAwayProduct(product: product)
@@ -92,11 +96,11 @@ extension AddCoordinator: AddDraftsModuleOutput {
 // MARK: - AddMainModuleOutput
 
 extension AddCoordinator: AddMainModuleOutput {
+
     func proccesedMainTappedCreateProduct(product: ProductEntity) {
         showFillingView()
         fillingInput?.proccesedGiveAwayProduct(product: product)
     }
-    
 
     func addMainModuleDidLoad(input: AddMainModuleInput) {
         mainInput = input
@@ -110,11 +114,12 @@ extension AddCoordinator: AddMainModuleOutput {
 // MARK: - AddImageModuleOutput
 
 extension AddCoordinator: AddImageModuleOutput {
-    func addImageModuleDidLoad(input: AddImageModuleInput) {
 
+    func addImageModuleDidLoad(input: AddImageModuleInput) {
+        addImageInput = input
     }
 
-    func proccesedTappedSaveButton(product: ProductEntity) {
+    func imageProccesedTappedSaveButton(product: ProductEntity) {
         popToRootView()
         mainInput?.proccesedSaveProduct(product: product)
     }
@@ -125,8 +130,6 @@ extension AddCoordinator: AddImageModuleOutput {
     }
 
     func proccesedTappedAddProduct() {
-        
+
     }
-
-
 }

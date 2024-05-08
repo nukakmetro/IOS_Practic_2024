@@ -55,7 +55,7 @@ class Target {
         self.parameters = AnyEncodable(parameters)
     }
 
-    init(path: String, method: HTTPMethod, setParametresFromMuiltipart parameters: [String: String]?, role: Role) {
+    init(path: String, method: HTTPMethod, setParametresFromMuiltipart parameters: [String: Int]?, role: Role) {
         if let url = URL(string: "http://localhost:8080/demo" + path) {
             self.baseURL = url
         } else {

@@ -10,10 +10,11 @@ import UIKit
 
 enum AddImageIntent {
     case onDidLoad
+    case onLoad
     case onClose
     case onReload
     case proccesedTappedSendProduct
     case proccesedAddImage(_ image: UIImage)
-    case proccesedTappedSave
+    case proccesedTappedSaveButton
     case proccesedTappedDeleteImage(id: UUID)
 }

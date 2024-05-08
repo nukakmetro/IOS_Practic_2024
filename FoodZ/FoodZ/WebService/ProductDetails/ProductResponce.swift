@@ -8,5 +8,5 @@
 import Foundation
 
 struct ProductResponce: Decodable {
-    let id: String
+    let id: Int
 }

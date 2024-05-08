@@ -34,22 +34,24 @@ final class FillingCell: UICollectionViewCell {
     // MARK: Private methods
 
     private func makeConstraint() {
-        let stackView = UIStackView(arrangedSubviews: [
-           label,
-           textField
-        ])
-        contentView.addSubview(stackView)
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.snp.makeConstraints { make in
+        contentView.addSubview(label)
+        contentView.addSubview(textField)
+
+        label.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(15)
-            make.top.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+        }
+        textField.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(15)
+            make.top.equalTo(label.snp.bottom).offset(5)
+            make.bottom.equalToSuperview()
         }
 
     }
 
     private func setupDisplay() {
         textField.placeholder = "Введите значение"
+        textField.borderStyle = .roundedRect
     }
 
     // MARK: Internal methods

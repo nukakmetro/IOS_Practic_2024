@@ -39,7 +39,6 @@ class CreateProductBuilder {
     private var productDescription: String?
     private var productWaitingTime: Int?
 
-
     func addProductName(_ name: String) -> Self {
            self.productName = name
            return self
@@ -81,5 +80,3 @@ class CreateProductBuilder {
         )
     }
 }
-
-

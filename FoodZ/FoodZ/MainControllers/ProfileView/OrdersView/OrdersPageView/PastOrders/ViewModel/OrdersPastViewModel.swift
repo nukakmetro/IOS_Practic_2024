@@ -55,7 +55,7 @@ final class OrdersPastViewModel: OrdersPageViewModeling {
             switch result {
             case .success(let data):
                 state = .content(dataMapper.dispayData(from: data))
-            case .failure(_):
+            case .failure:
                 state = .error([])
             }
         }

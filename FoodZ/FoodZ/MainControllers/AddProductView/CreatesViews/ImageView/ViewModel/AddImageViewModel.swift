@@ -41,7 +41,7 @@ final class AddImageViewModel: AddImageViewModeling {
         }
     }
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(output: AddImageModuleOutput, repository: AddProductProtocol, fileManager: ImageFileManager?) {
         self.stateDidChange = ObjectWillChangePublisher()
@@ -73,29 +73,29 @@ final class AddImageViewModel: AddImageViewModeling {
         case .proccesedAddImage(let image):
             addImage(image: image)
 
-        case .proccesedTappedSave:
+        case .proccesedTappedSaveButton:
             guard let product = selfProduct else { return }
-            output?.proccesedTappedSaveButton(product: product)
+            output?.imageProccesedTappedSaveButton(product: product)
 
         case .proccesedTappedDeleteImage(let id):
             deleteImage(id: id)
+
+        case .onLoad:
+            state = .content(items)
         }
     }
 
     // MARK: Private methods
 
     private func addImage(image: UIImage) {
-        guard
-            let fileManager = fileManager,
-            let imageData = image.pngData() else { return }
         let id = UUID()
         items.insert(.image(ImageCelltype(id: id, image: image)), at: 0)
-        fileManager.writeImage(id: id, image: imageData)
         state = .content(items)
     }
 
     private func saveProduct() {
         guard
+            let fileManager = fileManager,
             let product = selfProduct,
             let managedObjectContext = product.managedObjectContext
         else { 
@@ -104,21 +104,23 @@ final class AddImageViewModel: AddImageViewModeling {
         selfProduct?.images = []
         for item in items {
             if case .image(let imageCelltype) = item {
+
+                guard let imageData = imageCelltype.image.pngData() else { return }
+                fileManager.writeImage(id: imageCelltype.id, image: imageData)
+
                 let productImage = ProductImage(context: managedObjectContext)
                 productImage.id = imageCelltype.id
                 selfProduct?.images.insert(productImage)
             }
         }
-        output?.proccesedTappedSaveButton(product: product)
+        output?.imageProccesedTappedSaveButton(product: product)
     }
 
     private func deleteImage(id: UUID) {
-        guard let fileManager = fileManager else { return }
 
         if let image = selfProduct?.images.first(where: { $0.id == id }) {
             selfProduct?.images.remove(image)
         }
-        fileManager.removeImage(id: id)
         items = items.filter { element in
             if case .image(let imageCellType) = element {
                 return imageCellType.id != id
@@ -135,16 +137,16 @@ final class AddImageViewModel: AddImageViewModeling {
             case .addImage:
                 break
             case .image(let image):
-                guard let data = image.image.jpegData(compressionQuality: 0.8) else { return }
+                guard let data = image.image.jpegData(compressionQuality: 0.5) else { return }
                 sendImages.append(data)
             }
         }
         guard let selfProduct = selfProduct else { return }
         repository.sendProduct(product: selfProduct.mapToRequest(), images: sendImages) { [weak self] result in
             switch result {
-            case .success(_):
+            case .success:
                 self?.trigger(.onClose)
-            case .failure(_):
+            case .failure:
                 break
             }
         }
@@ -166,6 +168,5 @@ extension AddImageViewModel: AddImageModuleInput {
             }
             items.insert(.image(ImageCelltype(id: image.id, image: fetchImage)), at: 0)
         }
-        state = .content(items)
     }
 }

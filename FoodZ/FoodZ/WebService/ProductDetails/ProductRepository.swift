@@ -30,7 +30,7 @@ final class ProductRepository {
 
     init() {
         let statefulNetworkService = StatefulNetworkService()
-        self.remoteDataSource = ProductsRemoteDataSource(networkService: StatefulNetworkService())
+        self.remoteDataSource = ProductsRemoteDataSource(networkService: statefulNetworkService)
     }
 }
 

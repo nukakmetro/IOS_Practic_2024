@@ -22,7 +22,7 @@ final class StatefulNetworkService: NetworkServiceProtocol {
     }
 
     func upload<Response: Decodable>(target: Target, image: Data, responseType: Response.Type, completion: @escaping (Result<Response, Error>) -> Void) {
-
+        target.addAuthHeader(access: tokenManager.getAccessToken())
         AF.upload(
             multipartFormData: { multipartFormData in
             if let parameters = target.parametersImage {
@@ -35,20 +35,18 @@ final class StatefulNetworkService: NetworkServiceProtocol {
             }
         },
             to: target.baseURL,
-            method: target.method
+            method: target.method,
+            headers: target.headers
         )
         .validate(statusCode: 200..<299)
         .responseDecodable(of: responseType) { [weak self] result in
-
             guard let self else { return }
 
-            print(result.response?.statusCode)
-            print(result.request)
             guard result.response?.statusCode != 401 else {
                 refreshToken { result in
                     switch result {
                     case .success:
-                        self.sendRequest(target: target, responseType: responseType, completion: completion)
+                        self.upload(target: target, image: image, responseType: responseType, completion: completion)
                     case .failure(let error):
                         self.tokenManager.keysClear()
                         NotificationCenter.default.post(name: .sessionExpired, object: nil)
@@ -57,6 +55,7 @@ final class StatefulNetworkService: NetworkServiceProtocol {
                 }
                 return
             }
+
             switch result.result {
             case .success(let responce):
                 completion(.success(responce))
@@ -68,12 +67,11 @@ final class StatefulNetworkService: NetworkServiceProtocol {
 
     func sendRequest<Response: Decodable>(target: Target, responseType: Response.Type, completion: @escaping (Result<Response, Error>) -> Void) {
         target.addAuthHeader(access: tokenManager.getAccessToken())
-        print(target.baseURL)
-        print(target.headers)
-        AF.request(target.baseURL, method: target.method, parameters: target.parameters, encoder: JSONParameterEncoder.default, headers: target.headers).validate(statusCode: 200..<299).responseDecodable(of: responseType) { [weak self] result in
+
+        AF.request(target.baseURL, method: target.method, parameters: target.parameters, encoder: JSONParameterEncoder.default, headers: target.headers)
+            .validate(statusCode: 200..<299)
+            .responseDecodable(of: responseType) { [weak self] result in
             guard let self else { return }
-            print(result.response?.statusCode)
-            print(result.request)
             guard result.response?.statusCode != 401 else {
                 refreshToken { result in
                     switch result {

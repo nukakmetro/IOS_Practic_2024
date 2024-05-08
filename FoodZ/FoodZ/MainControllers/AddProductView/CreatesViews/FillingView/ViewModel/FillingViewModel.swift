@@ -29,6 +29,7 @@ final class FillingViewModel: FillingViewModeling {
     private var repository: ProfileUserProtocol
     private let dataMapper: FillingDataMapper
     private var items: [FillingCellType]
+    private var count: Int
 
     // MARK: Internal properties
 
@@ -38,7 +39,7 @@ final class FillingViewModel: FillingViewModeling {
         }
     }
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(output: FillingModuleOutput, repository: ProfileUserProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
@@ -47,6 +48,7 @@ final class FillingViewModel: FillingViewModeling {
         self.state = .loading
         self.dataMapper = FillingDataMapper()
         self.items = []
+        count = 0
     }
 
     // MARK: Internal methods
@@ -54,31 +56,44 @@ final class FillingViewModel: FillingViewModeling {
     func trigger(_ intent: FilingIntent) {
         switch intent {
         case .onDidLoad:
-            state = .loading
             output?.fillingModuleDidLoad(input: self)
-            trigger(.onLoad(items))
         case .onClose:
             break
         case .onReload:
             state = .loading
-            state = .content(self.items)
+            state = .content(items)
         case .proccesedTappedContinue(let data):
             tappedContinue(fillingData: data)
-        case .onLoad(let items):
+        case .onLoad:
             state = .content(items)
+        case .proccesedTappedSaveButton(let data):
+            tappedSave(fillingData: data)
         }
+    }
+
+    // MARK: Private methods
+
+    private func tappedSave(fillingData: [FillingData]) {
+        guard let product = dataMapper.reverse(data: fillingData) else { return }
+        output?.fillingProccesedTappedSaveButton(product: product)
     }
 
     private func tappedContinue(fillingData: [FillingData]) {
         var isError = false
-        for var data in fillingData {
-            if data.value == nil {
-                data.error = true
+        var newFillingData = fillingData
+        newFillingData.indices.forEach { index in
+            let data = newFillingData[index]
+            if data.value == "" {
                 isError = true
-            }
+                newFillingData[index] = FillingData(
+                    name: newFillingData[index].name,
+                    value: newFillingData[index].value,
+                    error: true
+                )
+            } 
         }
         if isError {
-            state = .error(dataMapper.displayData(from: fillingData))
+            state = .error(dataMapper.displayData(from: newFillingData))
         } else {
             guard let product = dataMapper.reverse(data: fillingData) else { return }
             output?.proccesedTappedNextView(product: product)

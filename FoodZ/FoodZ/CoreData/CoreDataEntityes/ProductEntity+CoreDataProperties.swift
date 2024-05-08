@@ -53,8 +53,8 @@ extension ProductEntity {
     func mapToRequest() -> ProductRequest {
         ProductRequest(
             productName: productName,
-            productPrice: productPrice,
-            productWaitingTime: productWaitingTime,
+            productPrice: Int(productPrice ?? "1"),
+            productWaitingTime: Int(productWaitingTime ?? "1"),
             productCategory: productCategory,
             productCompound: productCompound,
             productDescription: productDescription

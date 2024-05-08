@@ -23,8 +23,8 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
         collectionView.register(
-            OrderCell.self,
-            forCellWithReuseIdentifier: OrderCell.reuseIdentifier
+            FillingCell.self,
+            forCellWithReuseIdentifier: FillingCell.reuseIdentifier
         )
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -38,6 +38,7 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
         self.items = []
+        viewModel.trigger(.onDidLoad)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -51,12 +52,16 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
         makeConstraints()
         createDataSource()
         configureIO()
-        viewModel.trigger(.onDidLoad)
-        view.backgroundColor = .red
-        navigationController?.isNavigationBarHidden = true
+        viewModel.trigger(.onLoad)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", image: nil, target: self, action: #selector(saveButton))
+        navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: Private methods
+
+    @objc private func saveButton() {
+        viewModel.trigger(.proccesedTappedSaveButton(collectDataFromCells()))
+    }
 
     @objc private func didPullToRefresh() {
         DispatchQueue.global().async {
@@ -89,13 +94,6 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
         }
     }
 
-    private func configure<T: SelfConfiguringOrderCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
-            fatalError("Unable to dequeue \(cellType)")
-        }
-        return cell
-    }
-
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, FillingCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             guard let self = self else { return UICollectionViewCell() }
@@ -104,6 +102,7 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FillingCell.reuseIdentifier, for: indexPath) as? FillingCell else {
                     fatalError("Unable to dequeue \(FillingCell.self)")
                 }
+                cell.configure(with: data)
                 return cell
             }
         }
@@ -119,7 +118,7 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch sectionIndex {
             case 0:
-                return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
+                return self?.createTableSection(fractionalHeight: 0.1, fractionalWidth: 0.9)
             default:
                 return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
             }
@@ -130,7 +129,7 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
     }
 
     private func createTableSection(fractionalHeight: CGFloat, fractionalWidth: CGFloat) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
         layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
@@ -147,7 +146,6 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
     }
 
     private func makeConstraints() {
-        setupButton()
         view.backgroundColor = AppColor.primary.color
         view.addSubview(collectionView)
         view.addSubview(continueButton)

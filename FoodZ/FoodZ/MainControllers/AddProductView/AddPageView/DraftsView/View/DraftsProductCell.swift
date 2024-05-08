@@ -12,7 +12,6 @@ protocol SelfConfiguringDraftsCell {
     static var reuseIdentifier: String { get }
 }
 
-
 final class DraftsProductCell: UICollectionViewCell, SelfConfiguringDraftsCell {
 
     // MARK: Internal static properties

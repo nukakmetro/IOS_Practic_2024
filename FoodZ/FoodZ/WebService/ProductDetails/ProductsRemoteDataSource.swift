@@ -37,7 +37,7 @@ final class ProductsRemoteDataSource {
     }
 
     func sendProduct(product: ProductRequest, images: [Data], completion: @escaping (Result<Bool, Error>) -> Void) {
-        var target = Target(path: "/product/setProduct", method: .post, setParametresFromEncodable: product, role: .user)
+        let target = Target(path: "/user/product/set", method: .post, setParametresFromEncodable: product, role: .user)
 
         networkService.sendRequest(target: target, responseType: ProductResponce.self) { [weak self] responce in
             guard let self = self else { return }
@@ -56,7 +56,7 @@ final class ProductsRemoteDataSource {
     }
 
     private func sendImages(image: Data, value: ProductResponce, completion: @escaping (Result<Bool, Error>) -> Void) {
-        let target = Target(path: "/product/setImage", method: .post, setParametresFromMuiltipart: ["id": value.id], role: .user)
+        let target = Target(path: "/user/product/image/set", method: .post, setParametresFromMuiltipart: ["id": value.id], role: .user)
         networkService.upload(target: target, image: image, responseType: Bool.self, completion: completion)
     }
 }

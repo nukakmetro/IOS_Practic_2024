@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UICollectionViewDelegate, UIImagePickerControllerDelegate {
+final class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: Private properties
 
@@ -16,7 +16,7 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
     private var dataSource: UICollectionViewDiffableDataSource<Int, AddImageCellType >?
     private var items: [AddImageCellType]
     private var cancellables: Set<AnyCancellable> = []
-    private let imagePicker = UIImagePickerController()
+    private let imagePicker: UIImagePickerController
 
     private lazy var continueButton = UIButton()
     private lazy var collectionView: UICollectionView = {
@@ -24,6 +24,7 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
         collectionView.backgroundColor = AppColor.secondary.color
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
+        collectionView.delegate = self
         collectionView.register(
             ImageCell.self,
             forCellWithReuseIdentifier: ImageCell.reuseIdentifier
@@ -35,12 +36,13 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
         return collectionView
     }()
 
-
     // MARK: Initialization
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
         self.items = []
+        imagePicker = UIImagePickerController()
+        viewModel.trigger(.onDidLoad)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -54,12 +56,16 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
         makeConstraints()
         createDataSource()
         configureIO()
-        viewModel.trigger(.onDidLoad)
-        view.backgroundColor = .red
-        navigationController?.isNavigationBarHidden = true
+        viewModel.trigger(.onLoad)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", image: nil, target: self, action: #selector(saveButton))
+        navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: Private methods
+
+    @objc private func saveButton() {
+        viewModel.trigger(.proccesedTappedSaveButton)
+    }
 
     private func configureIO() {
         viewModel
@@ -95,13 +101,13 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.reuseIdentifier, for: indexPath) as? ImageCell else {
                     fatalError("Unable to dequeue \(ImageCell.self)")
                 }
-                cell.configure(image: image.image, indexPathRow: indexPath.row)
+                cell.configure(image: image.image, id: image.id)
                 cell.delegate = self
                 return cell
             }
         }
     }
-    
+
     private func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<Int, AddImageCellType>()
         snapshot.appendSections([0])
@@ -120,8 +126,8 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
 
     private func createTableSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.2),
-            heightDimension: .fractionalHeight(0.2)
+            widthDimension: .fractionalWidth(0.33),
+            heightDimension: .fractionalHeight(1)
         )
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -129,9 +135,9 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
 
         let layoutGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .fractionalHeight(1)
+            heightDimension: .fractionalHeight(0.1)
         )
-        let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
+        let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         layoutSection.orthogonalScrollingBehavior = .none
@@ -139,20 +145,19 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
     }
 
     private func makeConstraints() {
-        setupButton()
         view.backgroundColor = AppColor.primary.color
         view.addSubview(collectionView)
         view.addSubview(continueButton)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.snp.makeConstraints { make in
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
         }
         continueButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview().inset(30)
-            make.bottom.equalToSuperview().inset(40)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(30)
         }
     }
 
@@ -171,13 +176,14 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if items.count - 1 == indexPath.row {
             imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
             present(imagePicker, animated: true, completion: nil)
         }
     }
 
     // MARK: - UIImagePickerControllerDelegate
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[.originalImage] as? UIImage {
             viewModel.trigger(.proccesedAddImage(pickedImage))
         }
@@ -188,7 +194,7 @@ class AddImageViewController<ViewModel: AddImageViewModel>: UIViewController, UI
 // MARK: - ImageCellDelegate
 
 extension AddImageViewController: ImageCellDelegate {
-    func proccesedTappedDelete(_ indexPathRow: Int) {
-
+    func proccesedTappedDelete(_ id: UUID) {
+        viewModel.trigger(.proccesedTappedDeleteImage(id: id))
     }
 }

@@ -13,7 +13,7 @@ protocol AddImageModuleInput: AnyObject {
 
 protocol AddImageModuleOutput: AnyObject {
     func addImageModuleDidLoad(input: AddImageModuleInput)
-    func proccesedTappedSaveButton(product: ProductEntity)
+    func imageProccesedTappedSaveButton(product: ProductEntity)
     func proccesedCloseView(product: ProductEntity)
     func proccesedTappedAddProduct()
 }

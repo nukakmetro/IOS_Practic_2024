@@ -14,5 +14,5 @@ protocol FillingModuleInput: AnyObject {
 protocol FillingModuleOutput: AnyObject {
     func fillingModuleDidLoad(input: FillingModuleInput)
     func proccesedTappedNextView(product: ProductEntity)
-    func proccessedTappedBackView()
+    func fillingProccesedTappedSaveButton(product: ProductEntity)
 }

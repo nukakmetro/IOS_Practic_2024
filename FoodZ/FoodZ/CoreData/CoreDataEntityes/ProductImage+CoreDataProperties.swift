@@ -23,6 +23,6 @@ extension ProductImage {
 
 }
 
-extension ProductImage : Identifiable {
+extension ProductImage: Identifiable {
 
 }

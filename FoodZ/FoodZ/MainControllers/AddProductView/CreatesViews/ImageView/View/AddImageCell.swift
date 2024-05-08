@@ -41,5 +41,6 @@ final class AddImageCell: UICollectionViewCell {
 
     private func setupImage() {
         image.contentMode = .scaleAspectFit
+        image.image = UIImage(systemName: "photo.badge.plus")
     }
 }

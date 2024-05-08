@@ -23,7 +23,7 @@ class CoordinatorFactory {
     func createHomeCoordinators(navigationController: UINavigationController) -> Coordinator {
         HomeCoordinator(navigationController: navigationController)
     }
-    
+
     func createProfileCoordinator(authUser: UserExitProcessorDelegate, navigationController: UINavigationController) -> Coordinator {
         let coordinator = ProfileCoordinator(navigationController: navigationController)
         coordinator.authUser = authUser

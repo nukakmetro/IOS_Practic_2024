@@ -23,7 +23,7 @@ final class CoreDataManager {
 
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "ProductCoreData")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
@@ -48,27 +48,6 @@ final class CoreDataManager {
     func createNewProduct() -> ProductEntity {
         let product = ProductEntity(context: viewContext)
         product.productId = UUID()
-        return product
-    }
-
-    func createProduct(
-        productCategory: String?,
-        productCompound: String?,
-        productDescription: String?,
-        productWaitingTime: String?,
-        productName: String?,
-        productPrice: String?
-    ) -> ProductEntity {
-
-        let product = ProductEntity(context: viewContext)
-        product.productId = UUID()
-        product.productCategory = productCategory
-        product.productCompound = productCompound
-        product.productDescription = productDescription
-        product.productWaitingTime = productWaitingTime
-        product.productPrice = productPrice
-        product.productName = productName
-        saveContext()
         return product
     }
 

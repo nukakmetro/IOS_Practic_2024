@@ -34,7 +34,7 @@ final class DraftsDataMapper {
         {
             fetchImage = imageData
         }
-        
+
         let product = DraftsProduct(
             id: data.productId,
             name: data.productName,

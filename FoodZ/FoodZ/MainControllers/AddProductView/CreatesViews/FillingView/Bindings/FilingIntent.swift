@@ -9,8 +9,9 @@ import Foundation
 
 enum FilingIntent {
     case onDidLoad
-    case onLoad([FillingCellType])
+    case onLoad
     case onClose
     case onReload
+    case proccesedTappedSaveButton([FillingData])
     case proccesedTappedContinue([FillingData])
 }

@@ -12,11 +12,4 @@ struct OrderEntity: Hashable {
     var orderPrice: String
     var orderTime: String
     var orderType: String
-
-    init(orderId: String, orderPrice: String, orderTime: String, orderType: String) {
-        self.orderId = orderId
-        self.orderPrice = orderPrice
-        self.orderTime = orderTime
-        self.orderType = orderType
-    }
 }

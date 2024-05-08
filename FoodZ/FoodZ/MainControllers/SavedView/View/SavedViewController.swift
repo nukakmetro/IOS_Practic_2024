@@ -16,7 +16,7 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
     private let viewModel: ViewModel
     private var dataSource: UICollectionViewDiffableDataSource<Int, SavedCellType>?
     private var cancellables: Set<AnyCancellable> = []
-    
+
     private lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         collectionView.backgroundColor = AppColor.secondary.color
@@ -115,7 +115,7 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
     }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+        let layout = UICollectionViewCompositionalLayout { [weak self] _, _ in
 
             return self?.createBodyTableSection()
         }
