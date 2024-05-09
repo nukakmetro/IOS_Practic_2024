@@ -75,7 +75,7 @@ final class AddImageViewModel: AddImageViewModeling {
 
         case .proccesedTappedSaveButton:
             guard let product = selfProduct else { return }
-            output?.imageProccesedTappedSaveButton(product: product)
+            saveProduct()
 
         case .proccesedTappedDeleteImage(let id):
             deleteImage(id: id)

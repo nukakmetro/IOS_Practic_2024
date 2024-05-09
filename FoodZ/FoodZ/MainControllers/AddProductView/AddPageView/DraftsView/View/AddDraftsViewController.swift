@@ -27,8 +27,6 @@ final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewCon
             DraftsProductCell.self,
             forCellWithReuseIdentifier: DraftsProductCell.reuseIdentifier
         )
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
     }()
 
@@ -56,15 +54,6 @@ final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewCon
     }
 
     // MARK: Private methods
-
-    @objc private func didPullToRefresh() {
-        DispatchQueue.global().async {
-            self.viewModel.trigger(.onReload)
-            DispatchQueue.main.async {
-                self.collectionView.refreshControl?.endRefreshing()
-            }
-        }
-    }
 
     private func configureIO() {
         viewModel
@@ -113,26 +102,20 @@ final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewCon
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            switch sectionIndex {
-            case 0:
-                return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
-            default:
-                return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
-            }
+            return self?.createTableSection(fractionalHeight: 0.15)
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
         layout.configuration = config
         return layout
     }
 
-    private func createTableSection(fractionalHeight: CGFloat, fractionalWidth: CGFloat) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2), heightDimension: .fractionalHeight(1))
-
+    private func createTableSection(fractionalHeight: CGFloat) -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0)
 
         let layoutGroupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(fractionalWidth),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .fractionalHeight(fractionalHeight)
         )
         let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])

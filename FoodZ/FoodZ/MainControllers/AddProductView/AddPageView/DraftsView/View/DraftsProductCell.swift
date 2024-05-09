@@ -54,21 +54,25 @@ final class DraftsProductCell: UICollectionViewCell, SelfConfiguringDraftsCell {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
+
         productImage.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.leading.equalToSuperview().inset(20)
+            make.width.equalToSuperview().multipliedBy(0.25)
         }
         editImage.snp.makeConstraints { make in
-            make.trailing.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(20)
         }
         stackView.snp.makeConstraints { make in
-            make.leading.equalTo(productImage.snp.trailing)
-            make.top.bottom.equalToSuperview()
-            make.trailing.equalTo(editImage.snp.leading)
+            make.leading.equalTo(productImage.snp.trailing).offset(10)
+            make.centerY.equalToSuperview()
         }
     }
 
     private func setupDisplay() {
-
+        editImage.image = UIImage(systemName: "pencil")
+        productImage.contentMode = .scaleToFill
     }
 
     // MARK: Internal methods
@@ -76,6 +80,8 @@ final class DraftsProductCell: UICollectionViewCell, SelfConfiguringDraftsCell {
     func configure(with cell: DraftsProduct) {
         if let data = cell.image {
             productImage.image = UIImage(data: data)
+        } else {
+            productImage.image = UIImage(systemName: "photo")
         }
         productNameLabel.text = cell.name
         productPriceLabel.text = cell.price
