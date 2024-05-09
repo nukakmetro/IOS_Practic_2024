@@ -8,12 +8,12 @@
 import Foundation
 
 protocol AddImageModuleInput: AnyObject {
-    func addImageModuleGiveAwayProduct(product: ProductEntity)
+    func addImageModuleGiveAwayProduct(product: ProductCreator)
 }
 
 protocol AddImageModuleOutput: AnyObject {
     func addImageModuleDidLoad(input: AddImageModuleInput)
-    func imageProccesedTappedSaveButton(product: ProductEntity)
-    func proccesedCloseView(product: ProductEntity)
+    func imageProccesedTappedSaveButton(product: ProductCreator)
+    func proccesedCloseView(product: ProductCreator)
     func proccesedTappedAddProduct()
 }

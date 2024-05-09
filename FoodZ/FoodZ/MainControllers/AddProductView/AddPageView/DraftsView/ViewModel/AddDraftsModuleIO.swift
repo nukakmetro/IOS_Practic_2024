@@ -7,6 +7,15 @@
 
 import Foundation
 
+// MARK: - AddDraftsModuleInput
+
+protocol AddDraftsModuleInput: AnyObject {
+
+    func proccesedSaveProduct(product: ProductCreator)
+    func proccesedSaveDeleteProduct(product: ProductCreator)
+}
+
 protocol AddDraftsModuleOutput: AnyObject {
-    func proccesedTappedNext(_ product: ProductEntity)
+    func proccesedTappedNext(_ product: ProductCreator)
+    func addDraftsModuleDidLoad(input: AddDraftsModuleInput)
 }

@@ -104,7 +104,7 @@ final class FillingViewModel: FillingViewModeling {
 // MARK: - FillingModuleInput
 
 extension FillingViewModel: FillingModuleInput {
-    func proccesedGiveAwayProduct(product: ProductEntity) {
+    func proccesedGiveAwayProduct(product: ProductCreator) {
         items = dataMapper.dispayData(from: product)
     }
 }

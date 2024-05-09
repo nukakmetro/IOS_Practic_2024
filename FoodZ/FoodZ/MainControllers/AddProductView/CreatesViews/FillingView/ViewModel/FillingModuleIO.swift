@@ -8,11 +8,11 @@
 import Foundation
 
 protocol FillingModuleInput: AnyObject {
-    func proccesedGiveAwayProduct(product: ProductEntity)
+    func proccesedGiveAwayProduct(product: ProductCreator)
 }
 
 protocol FillingModuleOutput: AnyObject {
     func fillingModuleDidLoad(input: FillingModuleInput)
-    func proccesedTappedNextView(product: ProductEntity)
-    func fillingProccesedTappedSaveButton(product: ProductEntity)
+    func proccesedTappedNextView(product: ProductCreator)
+    func fillingProccesedTappedSaveButton(product: ProductCreator)
 }

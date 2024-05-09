@@ -9,9 +9,9 @@ import Foundation
 
 final class FillingDataMapper {
 
-    var product: ProductEntity?
+    var product: ProductCreator?
 
-    func dispayData(from dataModel: ProductEntity) -> [FillingCellType] {
+    func dispayData(from dataModel: ProductCreator) -> [FillingCellType] {
         var result: [FillingCellType] = []
         product = dataModel
         result.append(.oneLine(FillingData(name: "Введите название", value: dataModel.productName, error: false)))
@@ -27,7 +27,7 @@ final class FillingDataMapper {
         data.map { .oneLine($0) }
     }
 
-    func reverse(data: [FillingData]) -> ProductEntity? {
+    func reverse(data: [FillingData]) -> ProductCreator? {
         product?.productName = data[0].value
         product?.productPrice = data[1].value
         product?.productWaitingTime = data[2].value

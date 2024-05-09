@@ -28,7 +28,7 @@ final class AddMainBuilder: Builder {
 
     func build() -> UIViewController {
         let remoteRepository = UserRepository()
-        let coreDataManager = CoreDataManager.shared
+        let coreDataManager = CoreDataManager()
         let viewModel = AddMainViewModel(output: output, repository: remoteRepository, coreDataManager: coreDataManager)
         let controllers = [
             AddDraftsBuilder(output: outputDrafts, coreDataManager: coreDataManager).build(),

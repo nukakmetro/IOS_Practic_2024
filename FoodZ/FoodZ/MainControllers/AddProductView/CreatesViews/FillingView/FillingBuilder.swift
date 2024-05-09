@@ -26,6 +26,7 @@ final class FillingBuilder: Builder {
         let repository = UserRepository()
         let viewModel = FillingViewModel(output: output, repository: repository)
         let controller = FillingViewController(viewModel: viewModel)
+        controller.hidesBottomBarWhenPushed = true
         return controller
     }
 }

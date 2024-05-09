@@ -11,10 +11,6 @@ import UIKit
 
 final class CoreDataManager {
 
-    static let shared = CoreDataManager()
-
-    private init() {}
-
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -45,12 +41,32 @@ final class CoreDataManager {
         }
     }
 
-    func createNewProduct() -> ProductEntity {
-        let product = ProductEntity(context: viewContext)
-        product.productId = UUID()
+    func createNewProduct() -> ProductCreator {
+        let product = ProductCreator(productId: UUID())
         return product
     }
 
+    func saveProduct(product: ProductCreator) {
+        var productEntity = ProductEntity(context: viewContext)
+        productEntity.productName = product.productName
+        productEntity.productCategory = product.productCategory
+        productEntity.productPrice = product.productPrice
+        productEntity.productCompound = product.productCompound
+        productEntity.productId = product.productId
+        productEntity.productWaitingTime = product.productWaitingTime
+        productEntity.images = createImages(images: product.images)
+        saveContext()
+    }
+
+    func createImages(images: Set<UUID>) -> Set<ProductImage> {
+        var productImages = Set<ProductImage>()
+        images.forEach { id in
+            let productImage = ProductImage(context: viewContext)
+            productImage.id = id
+            productImages.insert(productImage)
+        }
+        return productImages
+    }
     func fetchProducts() -> [ProductEntity] {
         let productFetch = ProductEntity.fetchRequest()
         let result = try? viewContext.fetch(productFetch)

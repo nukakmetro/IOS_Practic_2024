@@ -37,6 +37,7 @@ final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewCon
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
         self.items = []
+        viewModel.trigger(.onDidLoad)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -49,7 +50,7 @@ final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewCon
         makeConstraints()
         createDataSource()
         configureIO()
-        viewModel.trigger(.onDidLoad)
+        viewModel.trigger(.onLoad)
         view.backgroundColor = .red
         navigationController?.isNavigationBarHidden = true
     }

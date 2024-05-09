@@ -121,6 +121,7 @@
 		78C1CB752BADC0A700748F3D /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB742BADC0A700748F3D /* AlamofireDynamic */; };
 		78D41B562BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B522BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift */; };
 		78D41B582BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B542BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift */; };
+		78D41B5A2BED0F26004CB7AD /* ProductCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B592BED0F26004CB7AD /* ProductCreator.swift */; };
 		78DB41832BD000B000EADD3E /* StatefulNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41822BD000B000EADD3E /* StatefulNetworkService.swift */; };
 		78DB41852BD0077B00EADD3E /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41842BD0077B00EADD3E /* Target.swift */; };
 		78DB41872BD0213B00EADD3E /* ProductsRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41862BD0213B00EADD3E /* ProductsRemoteDataSource.swift */; };
@@ -290,6 +291,7 @@
 		78C1CB472BADC04800748F3D /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		78D41B522BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductImage+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		78D41B542BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		78D41B592BED0F26004CB7AD /* ProductCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCreator.swift; sourceTree = "<group>"; };
 		78DB41822BD000B000EADD3E /* StatefulNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatefulNetworkService.swift; sourceTree = "<group>"; };
 		78DB41842BD0077B00EADD3E /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
 		78DB41862BD0213B00EADD3E /* ProductsRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsRemoteDataSource.swift; sourceTree = "<group>"; };
@@ -535,6 +537,7 @@
 			children = (
 				78D41B522BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift */,
 				78D41B542BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift */,
+				78D41B592BED0F26004CB7AD /* ProductCreator.swift */,
 			);
 			path = CoreDataEntityes;
 			sourceTree = "<group>";
@@ -1482,6 +1485,7 @@
 				784BBED72BE536F6008435FA /* SavedCoordinator.swift in Sources */,
 				78B05AD92BB8B1E300D74385 /* SectionHeader.swift in Sources */,
 				78E4EFD32BDE9FDF00982CA5 /* OrdersPageViewController.swift in Sources */,
+				78D41B5A2BED0F26004CB7AD /* ProductCreator.swift in Sources */,
 				784BBEF12BE6C2EE008435FA /* AddMainState.swift in Sources */,
 				78EA694F2BD44672004A961C /* CreateProductInput.swift in Sources */,
 				784BBF3F2BE7CFB8008435FA /* FillingViewModel.swift in Sources */,

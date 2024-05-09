@@ -30,6 +30,7 @@ final class AddImageBuilder: Builder {
         }
         let viewModel = AddImageViewModel(output: output, repository: repository, fileManager: fileManager)
         let controller = AddImageViewController(viewModel: viewModel)
+        controller.hidesBottomBarWhenPushed = true
         return controller
     }
 }

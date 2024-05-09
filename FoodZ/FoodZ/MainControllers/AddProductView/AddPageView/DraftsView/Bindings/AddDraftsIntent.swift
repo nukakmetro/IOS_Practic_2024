@@ -9,6 +9,7 @@ import Foundation
 
 enum AddDraftsIntent {
     case onDidLoad
+    case onLoad
     case onClose
     case onReload
 }

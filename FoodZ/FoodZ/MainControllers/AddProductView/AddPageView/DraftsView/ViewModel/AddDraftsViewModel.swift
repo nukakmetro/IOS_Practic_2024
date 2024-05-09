@@ -47,10 +47,12 @@ final class AddDraftsViewModel: AddDraftsViewModeling {
     func trigger(_ intent: AddDraftsIntent) {
         switch intent {
         case .onDidLoad:
-            fetchProducts()
+            output?.addDraftsModuleDidLoad(input: self)
         case .onClose:
             break
         case .onReload:
+            fetchProducts()
+        case .onLoad:
             fetchProducts()
         }
     }
@@ -58,5 +60,19 @@ final class AddDraftsViewModel: AddDraftsViewModeling {
     private func fetchProducts() {
         state = .loading
         state = .content(dataMapper.dispayData(from: coreDataManager.fetchProducts()))
+    }
+}
+
+// MARK: - AddDraftsModuleInput
+
+extension AddDraftsViewModel: AddDraftsModuleInput {
+
+    func proccesedSaveProduct(product: ProductCreator) {
+        coreDataManager.saveProduct(product: product)
+        trigger(.onReload)
+    }
+
+    func proccesedSaveDeleteProduct(product: ProductCreator) {
+
     }
 }

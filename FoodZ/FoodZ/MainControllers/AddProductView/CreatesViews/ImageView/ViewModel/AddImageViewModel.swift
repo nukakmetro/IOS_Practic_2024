@@ -30,7 +30,7 @@ final class AddImageViewModel: AddImageViewModeling {
     private var repository: AddProductProtocol
     private let dataMapper: FillingDataMapper
     private var items: [AddImageCellType]
-    private var selfProduct: ProductEntity?
+    private var selfProduct: ProductCreator?
     private let fileManager: ImageFileManager?
 
     // MARK: Internal properties
@@ -96,8 +96,7 @@ final class AddImageViewModel: AddImageViewModeling {
     private func saveProduct() {
         guard
             let fileManager = fileManager,
-            let product = selfProduct,
-            let managedObjectContext = product.managedObjectContext
+            let product = selfProduct
         else { 
             return
         }
@@ -107,10 +106,7 @@ final class AddImageViewModel: AddImageViewModeling {
 
                 guard let imageData = imageCelltype.image.pngData() else { return }
                 fileManager.writeImage(id: imageCelltype.id, image: imageData)
-
-                let productImage = ProductImage(context: managedObjectContext)
-                productImage.id = imageCelltype.id
-                selfProduct?.images.insert(productImage)
+                selfProduct?.images.insert(imageCelltype.id)
             }
         }
         output?.imageProccesedTappedSaveButton(product: product)
@@ -118,7 +114,7 @@ final class AddImageViewModel: AddImageViewModeling {
 
     private func deleteImage(id: UUID) {
 
-        if let image = selfProduct?.images.first(where: { $0.id == id }) {
+        if let image = selfProduct?.images.first(where: { $0 == id }) {
             selfProduct?.images.remove(image)
         }
         items = items.filter { element in
@@ -156,17 +152,17 @@ final class AddImageViewModel: AddImageViewModeling {
 // MARK: - AddImageModuleInput
 
 extension AddImageViewModel: AddImageModuleInput {
-    func addImageModuleGiveAwayProduct(product: ProductEntity) {
+    func addImageModuleGiveAwayProduct(product: ProductCreator) {
         selfProduct = product
         product.images.forEach { [weak self] image in
             guard let self = self else { return }
             guard
-                let imageData = fileManager?.fetchImage(id: image.id),
+                let imageData = fileManager?.fetchImage(id: image),
                 let fetchImage = UIImage(data: imageData)
             else {
                 return
             }
-            items.insert(.image(ImageCelltype(id: image.id, image: fetchImage)), at: 0)
+            items.insert(.image(ImageCelltype(id: image, image: fetchImage)), at: 0)
         }
     }
 }

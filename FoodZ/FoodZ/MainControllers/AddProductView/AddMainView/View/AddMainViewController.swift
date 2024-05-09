@@ -29,7 +29,7 @@ final class AddMainViewController<ViewModel: AddMainViewModel>: UIViewController
     init( viewModel: ViewModel, viewControllers: [UIViewController]) {
         self.viewModel = viewModel
         self.viewControllers = viewControllers
-        items = ["Предстоящие заказы", "Прошлые заказы"]
+        items = ["Черновики", "Архивы"]
         self.currentPageIndex = 0
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,9 +45,9 @@ final class AddMainViewController<ViewModel: AddMainViewModel>: UIViewController
         setupPageController()
         setupButton()
         view.backgroundColor = AppColor.background.color
-        navigationController?.isNavigationBarHidden = false
         navigationItem.title = "Мои Объявления"
         navigationItem.titleView?.backgroundColor = AppColor.primary.color
+        navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: Private methods
