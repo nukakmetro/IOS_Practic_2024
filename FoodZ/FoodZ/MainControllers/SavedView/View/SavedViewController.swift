@@ -93,7 +93,7 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
         }
         return cell
     }
-    
+
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, SavedCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             guard let self = self else { return UICollectionViewCell() }

@@ -19,7 +19,7 @@ class MainTabBarController: UITabBarController {
         let coordinatorFactory = CoordinatorFactory()
         homeCoordinator = coordinatorFactory.createHomeCoordinators(navigationController: UINavigationController())
         profileCoordinator = coordinatorFactory.createProfileCoordinator(authUser: authUser, navigationController: UINavigationController())
-        savedCoordinator = coordinatorFactory.crateSavedCoordinator(navigationController: UINavigationController())
+        savedCoordinator = coordinatorFactory.createSavedCoordinator(navigationController: UINavigationController())
         addCoordinator = coordinatorFactory.createAddCoordinator(navigationController: UINavigationController())
         super.init(nibName: nil, bundle: nil)
     }

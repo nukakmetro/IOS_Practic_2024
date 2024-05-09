@@ -54,9 +54,17 @@ final class AddDraftsViewModel: AddDraftsViewModeling {
             fetchProducts()
         case .onLoad:
             fetchProducts()
+        case .proccesedTappedCell(let id):
+            prossecedTappedCell(id)
         }
     }
 
+    // MARK: Private methods
+
+    private func prossecedTappedCell(_ id: UUID) {
+        guard let product = coreDataManager.fetchCreatorByid(id: id) else { return }
+        output?.proccesedTappedCell(product)
+    }
     private func fetchProducts() {
         state = .loading
         state = .content(dataMapper.dispayData(from: coreDataManager.fetchProducts()))

@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewController {
+final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewController, UICollectionViewDelegate {
 
     // MARK: Private properties
 
@@ -23,6 +23,7 @@ final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewCon
         collectionView.backgroundColor = AppColor.secondary.color
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
+        collectionView.delegate = self
         collectionView.register(
             DraftsProductCell.self,
             forCellWithReuseIdentifier: DraftsProductCell.reuseIdentifier
@@ -135,6 +136,14 @@ final class AddDraftsViewController<ViewModel: AddDraftsViewModeling>: UIViewCon
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
+        }
+    }
+
+    // MARK: - UICollectionViewDelegate
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if case .product(let draftsProduct) = items[indexPath.row] {
+            viewModel.trigger(.proccesedTappedCell(id: draftsProduct.id))
         }
     }
 }

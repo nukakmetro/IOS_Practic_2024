@@ -25,7 +25,7 @@ final class DraftsProductCell: UICollectionViewCell, SelfConfiguringDraftsCell {
     private lazy var label = UILabel()
     private lazy var editImage = UIImageView()
     private lazy var productImage = UIImageView()
-    private var orderId: String?
+    private var id: UUID?
 
     // MARK: Initialization
 
@@ -77,6 +77,10 @@ final class DraftsProductCell: UICollectionViewCell, SelfConfiguringDraftsCell {
 
     // MARK: Internal methods
 
+    func getId() -> UUID? {
+        return id
+    }
+
     func configure(with cell: DraftsProduct) {
         if let data = cell.image {
             productImage.image = UIImage(data: data)
@@ -86,5 +90,6 @@ final class DraftsProductCell: UICollectionViewCell, SelfConfiguringDraftsCell {
         productNameLabel.text = cell.name
         productPriceLabel.text = cell.price
         label.text = cell.time
+        id = cell.id
     }
 }

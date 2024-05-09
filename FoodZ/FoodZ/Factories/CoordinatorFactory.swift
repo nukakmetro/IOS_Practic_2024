@@ -30,11 +30,11 @@ class CoordinatorFactory {
         return coordinator
     }
 
-    func crateSavedCoordinator(navigationController: UINavigationController) -> Coordinator {
+    func createSavedCoordinator(navigationController: UINavigationController) -> Coordinator {
         SavedCoordinator(navigationController: navigationController)
     }
 
-    func createAddCoordinator(navigationController: UINavigationController) -> Coordinator { 
+    func createAddCoordinator(navigationController: UINavigationController) -> Coordinator {
         AddCoordinator(navigationController: navigationController)
     }
 }

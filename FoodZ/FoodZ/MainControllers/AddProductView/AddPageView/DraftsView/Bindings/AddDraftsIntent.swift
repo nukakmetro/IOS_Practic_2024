@@ -12,4 +12,5 @@ enum AddDraftsIntent {
     case onLoad
     case onClose
     case onReload
+    case proccesedTappedCell(id: UUID)
 }

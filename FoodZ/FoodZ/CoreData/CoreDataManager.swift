@@ -47,13 +47,14 @@ final class CoreDataManager {
     }
 
     func saveProduct(product: ProductCreator) {
-        var productEntity = ProductEntity(context: viewContext)
+        let productEntity = ProductEntity(context: viewContext)
         productEntity.productName = product.productName
         productEntity.productCategory = product.productCategory
         productEntity.productPrice = product.productPrice
         productEntity.productCompound = product.productCompound
         productEntity.productId = product.productId
         productEntity.productWaitingTime = product.productWaitingTime
+        productEntity.productDescription = product.productDescription
         productEntity.images = createImages(images: product.images)
         saveContext()
     }
@@ -77,6 +78,23 @@ final class CoreDataManager {
         let productFetch = ProductEntity.fetchRequest()
         if let result = try? viewContext.fetch(productFetch).first(where: { $0.productId == id }) {
             return result
+        }
+        return nil
+    }
+
+    func fetchCreatorByid(id: UUID) -> ProductCreator? {
+        let productFetch = ProductEntity.fetchRequest()
+        if let result = try? viewContext.fetch(productFetch).first(where: { $0.productId == id }) {
+            return ProductCreator(
+                productCategory: result.productCategory,
+                productCompound: result.productCompound,
+                productDescription: result.productDescription,
+                productId: result.productId,
+                productName: result.productName,
+                productPrice: result.productPrice,
+                productWaitingTime: result.productWaitingTime,
+                images: Set(result.images.compactMap { $0.id })
+            )
         }
         return nil
     }

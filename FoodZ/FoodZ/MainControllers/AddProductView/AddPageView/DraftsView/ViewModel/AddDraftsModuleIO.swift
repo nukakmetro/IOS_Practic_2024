@@ -16,6 +16,6 @@ protocol AddDraftsModuleInput: AnyObject {
 }
 
 protocol AddDraftsModuleOutput: AnyObject {
-    func proccesedTappedNext(_ product: ProductCreator)
+    func proccesedTappedCell(_ product: ProductCreator)
     func addDraftsModuleDidLoad(input: AddDraftsModuleInput)
 }

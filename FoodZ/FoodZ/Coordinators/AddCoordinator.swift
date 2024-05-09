@@ -89,13 +89,13 @@ extension AddCoordinator: AddArhiveModuleOutput {
 
 extension AddCoordinator: AddDraftsModuleOutput {
 
-    func addDraftsModuleDidLoad(input: AddDraftsModuleInput) {
-        addDraftsInput = input
-    }
-
-    func proccesedTappedNext(_ product: ProductCreator) {
+    func proccesedTappedCell(_ product: ProductCreator) {
         showFillingView()
         fillingInput?.proccesedGiveAwayProduct(product: product)
+    }
+
+    func addDraftsModuleDidLoad(input: AddDraftsModuleInput) {
+        addDraftsInput = input
     }
 }
 
