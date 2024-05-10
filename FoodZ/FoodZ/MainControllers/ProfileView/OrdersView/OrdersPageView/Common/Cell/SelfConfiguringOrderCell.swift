@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 protocol SelfConfiguringOrderCell {
     static var reuseIdentifier: String { get }
 }

@@ -112,12 +112,12 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
     }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch sectionIndex {
             case 0:
-                return self.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
+                return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
             default:
-                return self.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
+                return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()

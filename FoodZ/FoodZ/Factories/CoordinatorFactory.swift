@@ -10,16 +10,31 @@ import UIKit
 
 class CoordinatorFactory {
 
-    func createAuthorizationCoordinator(navigationController: UINavigationController?) -> AuthorizationCoordinator {
-        AuthorizationCoordinator(navigationController: navigationController)
+    func createAuthorizationCoordinator(_ delegate: ChangeCoordinator, navigationController: UINavigationController?) -> Coordinator {
+        let coordinator = AuthorizationCoordinator(navigationController: navigationController)
+        coordinator.delegate = delegate
+        return coordinator
     }
+
     func createAppCoordinator(_ window: UIWindow?) -> AppCoordinator {
         AppCoordinator(window: window)
     }
-    func createHomeCoordinators(navigationController: UINavigationController) -> HomeCoordinator {
+
+    func createHomeCoordinators(navigationController: UINavigationController) -> Coordinator {
         HomeCoordinator(navigationController: navigationController)
     }
-    func createProfileCoordinator(navigationController: UINavigationController) -> ProfileCoordinator {
-        ProfileCoordinator(navigationController: navigationController)
+
+    func createProfileCoordinator(authUser: UserExitProcessorDelegate, navigationController: UINavigationController) -> Coordinator {
+        let coordinator = ProfileCoordinator(navigationController: navigationController)
+        coordinator.authUser = authUser
+        return coordinator
+    }
+
+    func createSavedCoordinator(navigationController: UINavigationController) -> Coordinator {
+        SavedCoordinator(navigationController: navigationController)
+    }
+
+    func createAddCoordinator(navigationController: UINavigationController) -> Coordinator {
+        AddCoordinator(navigationController: navigationController)
     }
 }

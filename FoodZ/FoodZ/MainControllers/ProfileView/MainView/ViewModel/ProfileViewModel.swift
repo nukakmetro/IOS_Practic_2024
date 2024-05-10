@@ -34,11 +34,6 @@ struct ProfileMainHeader: Hashable, Decodable {
 struct ProfileMainBody: Hashable {
     var cellName: String
     var cellImageName: String
-
-    init(cellName: String, cellImageName: String) {
-        self.cellName = cellName
-        self.cellImageName = cellImageName
-    }
 }
 
 protocol ProfileMainModeling: UIKitViewModel where State == ProfileMainState, Intent == ProfileMainIntent {}

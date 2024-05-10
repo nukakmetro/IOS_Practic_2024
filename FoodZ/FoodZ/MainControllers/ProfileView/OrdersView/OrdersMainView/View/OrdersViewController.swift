@@ -43,6 +43,9 @@ final class OrdersViewController<ViewModel: OrdersViewModeling>: UIViewControlle
         setupSegmentControl()
         setupPageController()
         view.backgroundColor = AppColor.background.color
+        navigationController?.isNavigationBarHidden = false
+        navigationItem.title = "Мои заказы"
+        navigationItem.titleView?.backgroundColor = AppColor.primary.color
 
     }
 

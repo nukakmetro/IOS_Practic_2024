@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class HomeCoordinator {
+final class HomeCoordinator: Coordinator {
 
     // MARK: Internal properties
 

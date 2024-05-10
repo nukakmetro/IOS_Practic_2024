@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-protocol ProcessUserExitDelegate: AnyObject {
+protocol UserExitProcessorDelegate: AnyObject {
     func processesUserExit()
 }
 
 final class ProfileCoordinator: Coordinator {
 
     // MARK: Internal properties
-    weak var authUser: ProcessUserExitDelegate?
+    weak var authUser: UserExitProcessorDelegate?
     weak var navigationController: UINavigationController?
 
     // MARK: Initializator
@@ -46,7 +46,6 @@ final class ProfileCoordinator: Coordinator {
     private func popView() {
         navigationController?.popViewController(animated: false)
     }
-
 }
 
 // MARK: ProfileMainModuleOutput protocol

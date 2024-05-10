@@ -43,7 +43,7 @@ extension UISegmentedControl {
     }
 
     func changeUnderLine(position: CGFloat) {
-        
+
         guard let underline = self.viewWithTag(1) else {return}
         UIView.animate(withDuration: 0, animations: {
             underline.frame.origin.x = position

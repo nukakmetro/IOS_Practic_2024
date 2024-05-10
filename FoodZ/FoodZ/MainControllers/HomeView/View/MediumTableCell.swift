@@ -23,7 +23,7 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
     private lazy var productWaitingTimerLabel = UILabel()
     private lazy var productPriceLabel = UILabel()
     private lazy var productSavedButton = UIButton()
-    private lazy var productImage = UIImageView()
+    private lazy var productImage = CustomImageView()
     private lazy var productWaltingTimerImage = UIImageView()
     private lazy var productRatingImage = UIImageView()
     private lazy var containerView: UIView = {
@@ -118,7 +118,7 @@ class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
         productCategoryLabel.text = cell.productCategory
         productCompoundLabel.text = cell.productCompound
         productWaitingTimerLabel.text = String(cell.productWaitingTime) + "min"
-        productImage.image = UIImage(named: "Cat")
+        productImage.loadImage(withId: cell.productImageId, path: .productImage)
         productWaltingTimerImage.image = UIImage(systemName: "stopwatch.fill")
         productRatingImage.image = UIImage(systemName: "star.fill")
         productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)

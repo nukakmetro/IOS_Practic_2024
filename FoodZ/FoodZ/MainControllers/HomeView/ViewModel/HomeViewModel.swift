@@ -48,6 +48,7 @@ final class HomeViewModel: HomeViewModeling {
             updateSections()
         case .onDidLoad:
             didLoadSections()
+            trigger(.onLoad)
         case .onLoad:
             updateSections()
         }
@@ -69,7 +70,9 @@ final class HomeViewModel: HomeViewModeling {
 
             switch result {
             case .success(let dispayData):
-                updateSections.append(contentsOf: dispayData)
+                if !dispayData[0].products.isEmpty {
+                    updateSections.append(contentsOf: dispayData)
+                }
                 state = .content(dispayData: updateSections)
             case .failure:
                 state = .error(displayData: updateSections)

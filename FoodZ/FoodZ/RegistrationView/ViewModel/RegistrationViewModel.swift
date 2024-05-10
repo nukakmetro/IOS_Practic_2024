@@ -57,7 +57,7 @@ final class RegistrationViewModel: RegistrationViewModeling {
                 switch result {
                 case .success:
                     trigger(.onClose)
-                case .failure(_):
+                case .failure:
                     state = .error("Некоректные данные")
                 }
             }

@@ -9,38 +9,53 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
 
-    private let profileCoordinator: ProfileCoordinator
-    private let homeCoordinator: HomeCoordinator
-//    private let savedViewController: SavedViewController
+    private let profileCoordinator: Coordinator
+    private let homeCoordinator: Coordinator
+    private let savedCoordinator: Coordinator
+    private let addCoordinator: Coordinator
 //    private let cartViewContoller: CartViewController
 
-    init(authUser: ProcessUserExitDelegate){
-        homeCoordinator = CoordinatorFactory().createHomeCoordinators(navigationController: UINavigationController())
-        homeCoordinator.start()
-        profileCoordinator = CoordinatorFactory().createProfileCoordinator(navigationController: UINavigationController())
-        profileCoordinator.authUser = authUser
+    init(authUser: UserExitProcessorDelegate) {
+        let coordinatorFactory = CoordinatorFactory()
+        homeCoordinator = coordinatorFactory.createHomeCoordinators(navigationController: UINavigationController())
+        profileCoordinator = coordinatorFactory.createProfileCoordinator(authUser: authUser, navigationController: UINavigationController())
+        savedCoordinator = coordinatorFactory.createSavedCoordinator(navigationController: UINavigationController())
+        addCoordinator = coordinatorFactory.createAddCoordinator(navigationController: UINavigationController())
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        let homeViewController = homeCoordinator.navigationController
-        let profileViewContoller = profileCoordinator.navigationController
-        let savedViewController = UINavigationController(rootViewController: SavedViewController())
-        let cartViewContoller = UINavigationController(rootViewController: CartViewController())
+        let homeNavigationController = homeCoordinator.navigationController
+        let profileNavigationController = profileCoordinator.navigationController
+        let savedNavigationController = savedCoordinator.navigationController
+        let addNavigationController = addCoordinator.navigationController
+        let cartNavigationController = UINavigationController(rootViewController: CartViewController())
 
-        guard let homeViewController = homeViewController, let profileViewContoller = profileViewContoller else { return }
+        guard 
+            let homeNavigationController = homeNavigationController,
+            let profileNavigationController = profileNavigationController,
+            let savedNavigationController = savedNavigationController,
+            let addNavigationController = addNavigationController
+        else { return }
 
-        homeViewController.tabBarItem.image = UIImage(systemName: "house")
-        savedViewController.tabBarItem.image = UIImage(systemName: "heart")
-        cartViewContoller.tabBarItem.image = UIImage(systemName: "cart")
-        profileViewContoller.tabBarItem.image = UIImage(systemName: "person")
+        homeNavigationController.tabBarItem.image = UIImage(systemName: "house")
+        savedNavigationController.tabBarItem.image = UIImage(systemName: "heart")
+        cartNavigationController.tabBarItem.image = UIImage(systemName: "cart")
+        addNavigationController.tabBarItem.image = UIImage(systemName: "plus.app")
+        profileNavigationController.tabBarItem.image = UIImage(systemName: "person")
 
-        viewControllers = [homeViewController, savedViewController, cartViewContoller, profileViewContoller]
+        viewControllers = [
+            homeNavigationController,
+            savedNavigationController,
+            addNavigationController,
+            cartNavigationController,
+            profileNavigationController
+        ]
     }
 
 }
