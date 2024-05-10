@@ -11,6 +11,7 @@ import Combine
 enum DraftsCellType: Hashable {
     case product(DraftsProduct)
 }
+
 protocol AddDraftsViewModeling: UIKitViewModel where State == AddDraftsState, Intent == AddDraftsIntent {}
 
 final class AddDraftsViewModel: AddDraftsViewModeling {

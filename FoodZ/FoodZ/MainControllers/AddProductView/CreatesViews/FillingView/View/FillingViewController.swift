@@ -13,7 +13,7 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
     // MARK: Private properties
 
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<Int, FillingCellType >?
+    private var dataSource: UICollectionViewDiffableDataSource<Int, FillingCellType>?
     private var items: [FillingCellType]
     private var cancellables: Set<AnyCancellable> = []
 
@@ -110,7 +110,7 @@ class FillingViewController<ViewModel: FillingViewModeling>: UIViewController {
     private func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<Int, FillingCellType>()
         snapshot.appendSections([0])
-        snapshot.appendItems(Array(items), toSection: 0)
+        snapshot.appendItems(items, toSection: 0)
         dataSource?.apply(snapshot)
     }
 

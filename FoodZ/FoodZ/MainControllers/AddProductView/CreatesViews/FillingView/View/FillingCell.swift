@@ -18,7 +18,7 @@ final class FillingCell: UICollectionViewCell {
 
     private lazy var label = UILabel()
     private lazy var textField = UITextField()
-    private var fillingData: FillingData?
+
     // MARK: Initialization
 
     override init(frame: CGRect) {
@@ -52,29 +52,32 @@ final class FillingCell: UICollectionViewCell {
     private func setupDisplay() {
         textField.placeholder = "Введите значение"
         textField.borderStyle = .roundedRect
+        textField.delegate = self
     }
 
     // MARK: Internal methods
 
     func getData() -> FillingData {
+        if let textField = textField.text, textField.isEmpty {
+            self.textField.backgroundColor = .red
+        }
         return FillingData(name: label.text, value: textField.text, error: false)
     }
 
     func configure(with data: FillingData) {
         label.text = data.name
         textField.text = data.value
-        fillingData = data
         switch data.error {
         case true:
-            textField.tintColor = .red
+            textField.backgroundColor = .red
         case false:
-            textField.tintColor = .white
+            textField.backgroundColor = .white
         }
     }
 }
 
 extension FillingCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.tintColor = .white
+        textField.backgroundColor = .white
     }
 }
