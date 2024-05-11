@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SectionHeader: UICollectionReusableView {
+final class SectionHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
 
@@ -30,7 +30,7 @@ class SectionHeader: UICollectionReusableView {
         return button
     }()
 
-    // MARK: Initializator
+    // MARK: Initializaion
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,10 +58,11 @@ class SectionHeader: UICollectionReusableView {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, seeAllButton])
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(stackView)
+        contentView.addSubview(stackView)
+
         stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(15)
         }
     }
-
 }

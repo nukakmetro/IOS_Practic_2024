@@ -14,10 +14,11 @@ final class HomeViewModel: HomeViewModeling {
 
     // MARK: Private properties
 
-    private let topSection: Section
     private var output: HomeModuleOutput?
-    private let repository: ProductFavorietesProtocol?
+    private let repository: ProductFavorietesProtocol & ProductToggleLikeProtocol
     private(set) var stateDidChange: ObservableObjectPublisher
+    private var sections: [HomeSectionType]
+    private let dataMapper: HomeDataMapper
 
     // MARK: Internal properties
 
@@ -29,12 +30,14 @@ final class HomeViewModel: HomeViewModeling {
 
     // MARK: Initializator
 
-    init(output: HomeModuleOutput, remoteRepository: ProductFavorietesProtocol) {
+    init(output: HomeModuleOutput, remoteRepository: ProductFavorietesProtocol & ProductToggleLikeProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
         self.state = .loading
         self.output = output
         self.repository = remoteRepository
-        topSection = Section(id: 0, title: "hello", type: "topHeader", products: [])
+        self.sections = []
+        self.sections.append(.headerSection(.headerCell))
+        self.dataMapper = HomeDataMapper()
     }
 
     // MARK: Internal methods
@@ -42,13 +45,17 @@ final class HomeViewModel: HomeViewModeling {
     func trigger(_ intent: HomeViewIntent) {
         switch intent {
         case .onClose: break
+
         case .proccedButtonTapedToSearch:
             output?.proccesedButtonTapToSearch()
+
         case .onReload:
             updateSections()
+
         case .onDidLoad:
             didLoadSections()
             trigger(.onLoad)
+
         case .onLoad:
             updateSections()
         }
@@ -56,27 +63,51 @@ final class HomeViewModel: HomeViewModeling {
 
     private func didLoadSections() {
         state = .loading
-        var sections: [Section] = []
-        sections.append(topSection)
         state = .content(dispayData: sections)
     }
 
     private func updateSections() {
         state = .loading
-        repository?.getFavoritesProducts(completion: { [weak self] result in
+        repository.getFavoritesProducts(completion: { [weak self] result in
             guard let self else { return }
-            var updateSections: [Section] = []
-            updateSections.append(topSection)
 
             switch result {
             case .success(let dispayData):
-                if !dispayData[0].products.isEmpty {
-                    updateSections.append(contentsOf: dispayData)
-                }
-                state = .content(dispayData: updateSections)
+                sections.insert(contentsOf: dataMapper.displayData(sections: dispayData), at: 1)
+                state = .content(dispayData: sections)
+
             case .failure:
-                state = .error(displayData: updateSections)
+                state = .error(displayData: sections)
             }
         }
-    )}
+        )
+    }
+
+//    private func productTappedLike(productId: Int) {
+//        repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
+//            guard let self else { return }
+//            for sectionIndex in sections.indices {
+//                if sectionIndex != 0 {
+//                    sections[sectionIndex].products.forEach {
+//                        if $0.productImageId == productId {
+//                            sections[sectionIndex]
+//                    }
+//
+//                    }
+//                }
+//            }
+//
+//            switch result {
+//
+//            case .success(let like):
+//
+//            case .failure(_):
+//
+//            }
+//        }
+//    }
+//
+//    private func changeProductLike(like: Bool, sectionIndex: Int, productIndex: Int) {
+//        sections[sectionIndex].products[productIndex].productSavedStatus.s
+//    }
 }

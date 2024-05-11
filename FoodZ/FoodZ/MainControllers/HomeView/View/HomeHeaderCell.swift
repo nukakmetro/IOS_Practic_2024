@@ -12,7 +12,7 @@ protocol HomeHeaderDelegate: AnyObject {
     func proccesedButtonTapToSearch()
 }
 
-class HomeHeader: UICollectionReusableView {
+class HomeHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
 
@@ -45,7 +45,7 @@ class HomeHeader: UICollectionReusableView {
         return button
     }()
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -20,6 +20,10 @@ protocol ProductSearchProtocol {
     func getStartRecommendations(completion: @escaping ((Result<[Product], Error>) -> Void))
 }
 
+protocol ProductToggleLikeProtocol {
+    func proccesedTappedLikeButton(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
+}
+
 final class ProductRepository {
 
     // MARK: Private properties
@@ -34,7 +38,7 @@ final class ProductRepository {
     }
 }
 
-// MARK: - ProductFavorietesProtocol protocol
+// MARK: - ProductFavorietesProtocol
 
 extension ProductRepository: ProductFavorietesProtocol {
     func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void)) {
@@ -42,7 +46,7 @@ extension ProductRepository: ProductFavorietesProtocol {
     }
 }
 
-// MARK: - ProductSearchProtocol protocol
+// MARK: - ProductSearchProtocol
 
 extension ProductRepository: ProductSearchProtocol {
 
@@ -57,10 +61,18 @@ extension ProductRepository: ProductSearchProtocol {
 
 import UIKit
 
-// MARK: - AddProductProtocol protocol
+// MARK: - AddProductProtocol
 
 extension ProductRepository: AddProductProtocol {
     func sendProduct(product: ProductRequest, images: [Data], completion: @escaping (Result<Bool, Error>) -> Void) {
         remoteDataSource.sendProduct(product: product, images: images, completion: completion)
+    }
+}
+
+// MARK: - ProductToggleLikeProtocol
+
+extension ProductRepository: ProductToggleLikeProtocol {
+    func proccesedTappedLikeButton(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        remoteDataSource.toggleLike(productId: productId, completion: completion)
     }
 }

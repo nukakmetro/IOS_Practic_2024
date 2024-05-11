@@ -8,11 +8,11 @@
 import UIKit
 import SnapKit
 
-class MediumTableCell: UICollectionViewCell, SelfConfiguringCell {
+final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
 
-    static let reuseIdentifier: String = "MediumTableCell"
+    static let reuseIdentifier: String = "HomeCell"
 
     // MARK: Private properties
 
