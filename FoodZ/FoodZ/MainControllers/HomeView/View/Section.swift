@@ -7,10 +7,19 @@
 
 import Foundation
 
-struct Section: Decodable, Hashable {
-    let id: Int
+enum HomeSectionType: Hashable {
+    case headerSection(HomeCellType)
+    case bodyHeaderSection(HomeCellType)
+    case bodySection([HomeCellType])
+}
+
+enum HomeCellType: Hashable {
+    case headerCell
+    case bodyHeaderCell(title: String)
+    case bodyCell(Product)
+}
+struct Section: Decodable {
     let title: String
-    let type: String
     let products: [Product]
 }
 
@@ -25,6 +34,7 @@ struct Product: Decodable, Hashable {
     var productCategory: String
     var productCompound: String
     var productImageId: Int
+    var productSavedStatus: Bool
 }
 
 struct Image: Decodable, Hashable {

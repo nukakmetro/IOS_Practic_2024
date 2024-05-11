@@ -9,6 +9,6 @@ import Foundation
 
 enum HomeViewState {
     case loading
-    case content(dispayData: [Section])
-    case error(displayData: [Section])
+    case content(dispayData: [HomeSectionType])
+    case error(displayData: [HomeSectionType])
 }
