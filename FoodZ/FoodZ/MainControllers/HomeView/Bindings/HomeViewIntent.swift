@@ -11,6 +11,8 @@ enum HomeViewIntent {
     case onClose
     case onDidLoad
     case onLoad
-    case proccedButtonTapedToSearch
+    case proccesedTappedButtonSearch
     case onReload
+    case proccesedTappedLikeButton(id: Int)
+
 }

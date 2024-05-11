@@ -8,14 +8,23 @@
 import UIKit
 import SnapKit
 
+protocol HomeCellDelegate: AnyObject {
+    func proccesedTappedLike(id: Int)
+}
+
 final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
 
     static let reuseIdentifier: String = "HomeCell"
 
+    // MARK: Internal properties
+
+    weak var delegate: HomeCellDelegate?
+
     // MARK: Private properties
 
+    private var id: Int?
     private lazy var productNameLabel = UILabel()
     private lazy var productCategoryLabel = UILabel()
     private lazy var productCompoundLabel = UILabel()
@@ -86,8 +95,12 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
 
     private func setupDisplay() {
         productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
-        let action = UIAction { _ in
-
+        let action = UIAction { [weak self] _ in
+            guard
+                let self = self,
+                let id = id
+            else { return }
+            delegate?.proccesedTappedLike(id: id)
         }
         productSavedButton.addAction(action, for: .touchUpInside)
         productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX - 30), y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
@@ -120,7 +133,12 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         productWaitingTimerLabel.text = String(cell.productWaitingTime) + "min"
         productImage.loadImage(withId: cell.productImageId, path: .productImage)
         productWaltingTimerImage.image = UIImage(systemName: "stopwatch.fill")
+        if cell.productSavedStatus {
+            productSavedButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
         productRatingImage.image = UIImage(systemName: "star.fill")
-        productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        id = cell.productId
     }
 }

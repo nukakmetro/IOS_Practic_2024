@@ -56,7 +56,7 @@ final class ProductsRemoteDataSource {
     }
 
     func toggleLike(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
-        let target = Target(path: "user/product/like", method: .post, setParametresFromEncodable: productId, role: .user)
+        let target = Target(path: "/user/product/like", method: .post, setParametresFromEncodable: productId, role: .user)
         networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
     }
 

@@ -18,6 +18,7 @@ enum HomeCellType: Hashable {
     case bodyHeaderCell(title: String)
     case bodyCell(Product)
 }
+
 struct Section: Decodable {
     let title: String
     let products: [Product]

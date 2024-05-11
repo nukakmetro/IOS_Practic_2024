@@ -46,7 +46,7 @@ final class HomeViewModel: HomeViewModeling {
         switch intent {
         case .onClose: break
 
-        case .proccedButtonTapedToSearch:
+        case .proccesedTappedButtonSearch:
             output?.proccesedButtonTapToSearch()
 
         case .onReload:
@@ -58,6 +58,9 @@ final class HomeViewModel: HomeViewModeling {
 
         case .onLoad:
             updateSections()
+
+        case .proccesedTappedLikeButton(id: let id):
+            productTappedLike(productId: id)
         }
     }
 
@@ -83,31 +86,45 @@ final class HomeViewModel: HomeViewModeling {
         )
     }
 
-//    private func productTappedLike(productId: Int) {
-//        repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
-//            guard let self else { return }
-//            for sectionIndex in sections.indices {
-//                if sectionIndex != 0 {
-//                    sections[sectionIndex].products.forEach {
-//                        if $0.productImageId == productId {
-//                            sections[sectionIndex]
-//                    }
-//
-//                    }
-//                }
-//            }
-//
-//            switch result {
-//
-//            case .success(let like):
-//
-//            case .failure(_):
-//
-//            }
-//        }
-//    }
-//
-//    private func changeProductLike(like: Bool, sectionIndex: Int, productIndex: Int) {
-//        sections[sectionIndex].products[productIndex].productSavedStatus.s
-//    }
+    private func productTappedLike(productId: Int) {
+        state = .loading
+
+        repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+
+            case .success(let like):
+                changeProductLike(like: like, id: productId)
+                state = .content(dispayData: sections)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    private func changeProductLike(like: Bool, id: Int) {
+
+        for sectionIndex in sections.indices {
+
+            var section = sections[sectionIndex]
+
+            if case .bodySection(var products) = section {
+
+                for productIndex in products.indices {
+
+                    if 
+                        case .bodyCell(var product) = products[productIndex],
+                        product.productId == id 
+                    {
+
+                        product.productSavedStatus = like
+                        products[productIndex] = .bodyCell(product)
+                        sections[sectionIndex] = .bodySection(products)
+                    }
+                }
+            }
+
+        }
+    }
 }
