@@ -124,7 +124,7 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal methods
 
-    func configure(with cell: Product) {
+    func configure(with cell: ProductCell) {
         productNameLabel.text = cell.productName
         productPriceLabel.text = String(cell.productPrice)
         productRatingLabel.text = String(cell.productRating)

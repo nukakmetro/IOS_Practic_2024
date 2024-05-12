@@ -26,9 +26,10 @@ final class SearchViewModel: SearchViewModeling {
 
     private(set) var stateDidChange: ObservableObjectPublisher
     private let output: SearchModuleOutput
-    private let remoteRepository: ProductSearchProtocol?
+    private let remoteRepository: ProductSearchProtocol
     private var countOffset: Int
     private var inputSearchText: String
+    private var sections: [SearchSomeSection]
 
     // MARK: Internal properties
 
@@ -47,6 +48,8 @@ final class SearchViewModel: SearchViewModeling {
         self.remoteRepository = remoteRepository
         self.countOffset = 0
         self.inputSearchText = ""
+        sections = []
+        sections.append(.header([.header]))
     }
 
     // MARK: Internal methods
@@ -69,8 +72,9 @@ final class SearchViewModel: SearchViewModeling {
     // MARK: Private methods
 
     private func updateSections() {
+        sections = sections.filter { $0 == sections.first }
         state = .loading
-        remoteRepository?.getStartRecommendations(completion: { [weak self] result in
+        remoteRepository.getStartRecommendations(completion: { [weak self] result in
             guard let self else { return }
 
             switch result {
@@ -79,7 +83,8 @@ final class SearchViewModel: SearchViewModeling {
                 for data in dispayData {
                     updateSection.append(.body(data))
                 }
-                self.state = .content(dispayData: [SearchSomeSection.body(updateSection)])
+                sections.append(.body(updateSection))
+                state = .content(dispayData: sections)
             case .failure:
                 state = .error
             }
@@ -87,6 +92,7 @@ final class SearchViewModel: SearchViewModeling {
     }
 
     private func proccedInputSearchText(inputText: String) {
+        sections = sections.filter { $0 == sections.first }
         countOffset = 0
         inputSearchText = inputText
         getSearchProducts(inputText: inputText, offset: 0)
@@ -100,7 +106,7 @@ final class SearchViewModel: SearchViewModeling {
         state = .loading
         let productSearchRequest = ProductSearchRequest(searchString: inputText, limit: 5, offset: offset)
 
-        remoteRepository?.getSearchProducts(productRequest: productSearchRequest, completion: { [weak self] result in
+        remoteRepository.getSearchProducts(productRequest: productSearchRequest, completion: { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let dispayData):
@@ -108,8 +114,9 @@ final class SearchViewModel: SearchViewModeling {
                 for data in dispayData {
                     updateSection.append(.body(data))
                 }
+                sections.append(.body(updateSection))
                 countOffset += 1
-                self.state = .content(dispayData: [SearchSomeSection.body(updateSection)])
+                self.state = .content(dispayData: sections)
             case .failure:
                 state = .error
             }

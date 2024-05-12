@@ -117,9 +117,9 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
                 cell.delegate = self
                 return cell
 
-            case .bodyHeaderCell(let title):
+            case .bodyHeaderCell(let header):
                 let cell = configure(SectionHeaderCell.self, for: indexPath)
-                cell.configure(title: title)
+                cell.configure(title: header.title)
                 return cell
             }
         }

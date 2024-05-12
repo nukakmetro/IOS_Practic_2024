@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SingleCollectionViewCell: UICollectionViewCell, ProfileSelfConfiguringCell {
+class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal properties
 

@@ -70,6 +70,7 @@ final class HomeViewModel: HomeViewModeling {
     }
 
     private func updateSections() {
+        sections = sections.filter { $0 == sections.first }
         state = .loading
         repository.getFavoritesProducts(completion: { [weak self] result in
             guard let self else { return }
@@ -124,7 +125,6 @@ final class HomeViewModel: HomeViewModeling {
                     }
                 }
             }
-
         }
     }
 }
