@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SingleCollectionViewCell: UICollectionViewCell, ProfileSelfConfiguringCell {
+class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal properties
 
@@ -32,7 +32,7 @@ class SingleCollectionViewCell: UICollectionViewCell, ProfileSelfConfiguringCell
 
         return button
     }()
-    private lazy var productImage = UIImageView()
+    private lazy var productImage = CustomImageView()
 
     private lazy var containerView: UIView = {
         var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width * 0.45, height: bounds.height))
@@ -113,18 +113,27 @@ class SingleCollectionViewCell: UICollectionViewCell, ProfileSelfConfiguringCell
         productSavedButton.layer.cornerRadius = productSavedButton.frame.width / 2
     }
 
+    private func changeLike(like: Bool) {
+        if like {
+            productSavedButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+    }
+
     // MARK: Internal methods
 
-    func configure(with cell: Product) {
+    func configure(with cell: ProductCell) {
         productNameLabel.text = cell.productName
         productPriceLabel.text = String(cell.productPrice)
         productRatingLabel.text = String(cell.productRating)
         productCategoryLabel.text = cell.productCategory
         productCompoundLabel.text = cell.productCompound
         productWaitingTimerLabel.text = String(cell.productWaitingTime) + "min"
-        productImage.image = UIImage(named: "Cat")
+        productImage.loadImage(withId: cell.productImageId, path: .productImage)
         productWaltingTimerImage.image = UIImage(systemName: "stopwatch.fill")
         productRatingImage.image = UIImage(systemName: "star.fill")
         productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        changeLike(like: cell.productSavedStatus)
     }
 }

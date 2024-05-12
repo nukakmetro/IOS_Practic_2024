@@ -15,9 +15,31 @@ enum HomeSectionType: Hashable {
 
 enum HomeCellType: Hashable {
     case headerCell
-    case bodyHeaderCell(title: String)
-    case bodyCell(Product)
+    case bodyHeaderCell(ProductHeader)
+    case bodyCell(ProductCell)
+
 }
+
+struct ProductHeader: Hashable {
+    var id: UUID
+    var title: String
+}
+
+struct ProductCell: Hashable {
+    var cellId: UUID
+    var productDescription: String
+    var productId: Int
+    var productName: String
+    var productPrice: Int
+    var productWaitingTime: Int
+    var productRating: Int
+    var productUsername: String
+    var productCategory: String
+    var productCompound: String
+    var productImageId: Int
+    var productSavedStatus: Bool
+}
+
 struct Section: Decodable {
     let title: String
     let products: [Product]

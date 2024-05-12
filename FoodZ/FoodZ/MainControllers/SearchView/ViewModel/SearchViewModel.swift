@@ -10,7 +10,7 @@ import Combine
 
 enum SearchCellType: Hashable {
     case header
-    case body(Product)
+    case bodyCell(ProductCell)
 }
 
 enum SearchSomeSection: Hashable {
@@ -26,9 +26,11 @@ final class SearchViewModel: SearchViewModeling {
 
     private(set) var stateDidChange: ObservableObjectPublisher
     private let output: SearchModuleOutput
-    private let remoteRepository: ProductSearchProtocol?
+    private let remoteRepository: ProductSearchProtocol
     private var countOffset: Int
     private var inputSearchText: String
+    private var sections: [SearchSomeSection]
+    private var dataMapper: SearchDataMapper
 
     // MARK: Internal properties
 
@@ -43,10 +45,13 @@ final class SearchViewModel: SearchViewModeling {
     init(output: SearchModuleOutput, remoteRepository: ProductSearchProtocol) {
         self.stateDidChange = ObservableObjectPublisher()
         self.output = output
-        self.state = .loading
         self.remoteRepository = remoteRepository
         self.countOffset = 0
         self.inputSearchText = ""
+        self.dataMapper = SearchDataMapper()
+        sections = []
+        sections.append(.header([.header]))
+        self.state = .content(dispayData: sections)
     }
 
     // MARK: Internal methods
@@ -69,17 +74,15 @@ final class SearchViewModel: SearchViewModeling {
     // MARK: Private methods
 
     private func updateSections() {
+        sections = sections.filter { $0 == sections.first }
         state = .loading
-        remoteRepository?.getStartRecommendations(completion: { [weak self] result in
+        remoteRepository.getStartRecommendations(completion: { [weak self] result in
             guard let self else { return }
 
             switch result {
-            case .success(let dispayData):
-                var updateSection: [SearchCellType] = []
-                for data in dispayData {
-                    updateSection.append(.body(data))
-                }
-                self.state = .content(dispayData: [SearchSomeSection.body(updateSection)])
+            case .success(let products):
+                sections.append(.body(dataMapper.displayData(products: products)))
+                state = .content(dispayData: sections)
             case .failure:
                 state = .error
             }
@@ -87,6 +90,7 @@ final class SearchViewModel: SearchViewModeling {
     }
 
     private func proccedInputSearchText(inputText: String) {
+        sections = sections.filter { $0 == sections.first }
         countOffset = 0
         inputSearchText = inputText
         getSearchProducts(inputText: inputText, offset: 0)
@@ -100,16 +104,13 @@ final class SearchViewModel: SearchViewModeling {
         state = .loading
         let productSearchRequest = ProductSearchRequest(searchString: inputText, limit: 5, offset: offset)
 
-        remoteRepository?.getSearchProducts(productRequest: productSearchRequest, completion: { [weak self] result in
+        remoteRepository.getSearchProducts(productRequest: productSearchRequest, completion: { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success(let dispayData):
-                var updateSection: [SearchCellType] = []
-                for data in dispayData {
-                    updateSection.append(.body(data))
-                }
+            case .success(let products):
+                sections.append(.body(dataMapper.displayData(products: products)))
                 countOffset += 1
-                self.state = .content(dispayData: [SearchSomeSection.body(updateSection)])
+                self.state = .content(dispayData: sections)
             case .failure:
                 state = .error
             }

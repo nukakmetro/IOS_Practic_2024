@@ -46,7 +46,7 @@ final class HomeViewModel: HomeViewModeling {
         switch intent {
         case .onClose: break
 
-        case .proccedButtonTapedToSearch:
+        case .proccesedTappedButtonSearch:
             output?.proccesedButtonTapToSearch()
 
         case .onReload:
@@ -58,6 +58,9 @@ final class HomeViewModel: HomeViewModeling {
 
         case .onLoad:
             updateSections()
+
+        case .proccesedTappedLikeButton(let id, let input):
+            productTappedLike(productId: id, cellInput: input)
         }
     }
 
@@ -67,6 +70,7 @@ final class HomeViewModel: HomeViewModeling {
     }
 
     private func updateSections() {
+        sections = sections.filter { $0 == sections.first }
         state = .loading
         repository.getFavoritesProducts(completion: { [weak self] result in
             guard let self else { return }
@@ -79,35 +83,26 @@ final class HomeViewModel: HomeViewModeling {
             case .failure:
                 state = .error(displayData: sections)
             }
-        }
-        )
+        })
     }
 
-//    private func productTappedLike(productId: Int) {
-//        repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
-//            guard let self else { return }
-//            for sectionIndex in sections.indices {
-//                if sectionIndex != 0 {
-//                    sections[sectionIndex].products.forEach {
-//                        if $0.productImageId == productId {
-//                            sections[sectionIndex]
-//                    }
-//
-//                    }
-//                }
-//            }
-//
-//            switch result {
-//
-//            case .success(let like):
-//
-//            case .failure(_):
-//
-//            }
-//        }
-//    }
-//
-//    private func changeProductLike(like: Bool, sectionIndex: Int, productIndex: Int) {
-//        sections[sectionIndex].products[productIndex].productSavedStatus.s
-//    }
+    private func productTappedLike(productId: Int, cellInput: HomeCellInput) {
+        state = .loading
+
+        repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let like):
+            changeProductLike(like: like, id: productId, cellInput: cellInput)
+                state = .content(dispayData: sections)
+            case .failure:
+                cellInput.proccesedChangeLikeError()
+            }
+        }
+    }
+
+    private func changeProductLike(like: Bool, id: Int, cellInput: HomeCellInput) {
+        cellInput.proccesedChangeLike(like: like)
+    }
 }

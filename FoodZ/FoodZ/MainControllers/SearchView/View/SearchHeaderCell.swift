@@ -13,11 +13,11 @@ protocol SearchHeaderDelegate: AnyObject {
     func proccesedInputTextToSearch(inputText: String)
 }
 
-final class SearchHeader: UICollectionReusableView {
+final class SearchHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
 
-    static var reuseIdentifier: String = "SearchHeader"
+    static var reuseIdentifier: String = "SearchHeaderCell"
 
     // MARK: Internal properties
 
@@ -86,9 +86,9 @@ final class SearchHeader: UICollectionReusableView {
         titleLabel.textColor = AppColor.secondary.color
         backButton.tintColor = AppColor.secondary.color
         backgroundColor = AppColor.primary.color
-        addSubview(searchTextField)
-        addSubview(backButton)
-        addSubview(titleLabel)
+        contentView.addSubview(searchTextField)
+        contentView.addSubview(backButton)
+        contentView.addSubview(titleLabel)
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         backButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +110,7 @@ final class SearchHeader: UICollectionReusableView {
     }
 }
 
-extension SearchHeader: UITextFieldDelegate {
+extension SearchHeaderCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         timerTextField?.invalidate()
         timerTextField = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false, block: { [weak self] _ in

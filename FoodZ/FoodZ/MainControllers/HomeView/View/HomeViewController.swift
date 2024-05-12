@@ -114,11 +114,12 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
             case .bodyCell(let data):
                 let cell = configure(HomeCell.self, for: indexPath)
                 cell.configure(with: data)
+                cell.delegate = self
                 return cell
 
-            case .bodyHeaderCell(let title):
+            case .bodyHeaderCell(let header):
                 let cell = configure(SectionHeaderCell.self, for: indexPath)
-                cell.configure(title: title)
+                cell.configure(title: header.title)
                 return cell
             }
         }
@@ -225,10 +226,18 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
     }
 }
 
-// MARK: SearchHeaderDelegate protocol
+// MARK: - SearchHeaderDelegate
 
 extension HomeViewController: HomeHeaderDelegate {
     func proccesedButtonTapToSearch() {
-        viewModel.trigger(.proccedButtonTapedToSearch)
+        viewModel.trigger(.proccesedTappedButtonSearch)
+    }
+}
+
+// MARK: - HomeCellDelegate
+
+extension HomeViewController: HomeCellDelegate {
+    func proccesedTappedLike(id: Int, input: HomeCellInput) {
+        viewModel.trigger(.proccesedTappedLikeButton(id: id, cellinput: input))
     }
 }

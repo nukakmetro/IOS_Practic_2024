@@ -23,9 +23,8 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
         collectionView.register(
-            SearchHeader.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: SearchHeader.reuseIdentifier
+            SearchHeaderCell.self,
+            forCellWithReuseIdentifier: SearchHeaderCell.reuseIdentifier
         )
         collectionView.register(
             SingleCollectionViewCell.self,
@@ -85,17 +84,14 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         case .loading:
             break
         case .content(dispayData: let dispayData):
-            guard let first = sections.first else { return }
-            sections = []
-            sections.append(first)
-            sections.append(contentsOf: dispayData)
+            sections = dispayData
             reloadData()
         case .error:
             break
         }
     }
 
-    private func configure<T: ProfileSelfConfiguringCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
+    private func configure<T: SelfConfiguringCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Unable to dequeue \(cellType)")
         }
@@ -104,45 +100,30 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
 
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+            guard let self = self else { return UICollectionViewCell() }
             switch item {
-            case .body(let data):
-                let cell = self?.configure(SingleCollectionViewCell.self, for: indexPath)
-                cell?.configure(with: data)
+            case .bodyCell(let data):
+                let cell = configure(SingleCollectionViewCell.self, for: indexPath)
+                cell.configure(with: data)
                 return cell
             case .header:
-                return UICollectionViewCell()
+                let cell = configure(SearchHeaderCell.self, for: indexPath)
+                cell.searchDelegate = self
+                return cell
             }
-        }
-
-        dataSource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-
-            if indexPath.section == 0 {
-                guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: SearchHeader.reuseIdentifier,
-                    for: indexPath
-                ) as? SearchHeader else {
-                    return SearchHeader()
-                }
-                sectionHeader.searchDelegate = self
-                return sectionHeader
-            }
-            return nil
         }
     }
 
     private func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<SearchSomeSection, SearchCellType>()
-        for section in sections {
-            snapshot.appendSections([section])
-        }
+        snapshot.appendSections(sections)
 
         for section in sections {
             switch section {
             case .header(let data):
-                snapshot.appendItems(data)
+                snapshot.appendItems(data, toSection: section)
             case .body(let data):
-                snapshot.appendItems(data)
+                snapshot.appendItems(data, toSection: section)
             }
         }
         dataSource?.apply(snapshot)
@@ -153,13 +134,11 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
 
             guard let self = self else { return self?.createBodyTableSection() }
             let section = sections[sectionIndex]
-            switch sectionIndex {
-            case 0:
+            switch section {
+            case .body:
+                return createBodyTableSection()
+            case .header:
                 return createHeaderTableSection()
-            case 1:
-                return createBodyTableSection()
-            default:
-                return createBodyTableSection()
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -193,19 +172,8 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         layoutSection.orthogonalScrollingBehavior = .none
-        let layoutSectionHeader = createTopHeader()
-        layoutSection.boundarySupplementaryItems = [layoutSectionHeader]
-        return layoutSection
-    }
 
-    private func createTopHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let layoutSectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2))
-        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: layoutSectionHeaderSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        return layoutSectionHeader
+        return layoutSection
     }
 
     private func makeConstraints() {

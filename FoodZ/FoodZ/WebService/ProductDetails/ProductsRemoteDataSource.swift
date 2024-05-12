@@ -56,8 +56,13 @@ final class ProductsRemoteDataSource {
     }
 
     func toggleLike(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
-        let target = Target(path: "user/product/like", method: .post, setParametresFromEncodable: productId, role: .user)
+        let target = Target(path: "/user/product/like", method: .post, setParametresFromEncodable: productId, role: .user)
         networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
+    }
+
+    func getSavedProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
+        let target = Target(path: "/user/product/saved", method: .get, setParametresFromMuiltipart: nil, role: .user)
+        networkService.sendRequest(target: target, responseType: [Product].self, completion: completion)
     }
 
     private func sendImages(image: Data, value: ProductResponce, completion: @escaping (Result<Bool, Error>) -> Void) {

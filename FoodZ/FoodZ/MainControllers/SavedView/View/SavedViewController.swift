@@ -12,9 +12,9 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
 
     // MARK: Private properties
 
-    private var items: [SavedCellType]
+    private var sections: [SavedSectionType]
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<Int, SavedCellType>?
+    private var dataSource: UICollectionViewDiffableDataSource<SavedSectionType, SavedCellType>?
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var collectionView: UICollectionView = {
@@ -23,8 +23,8 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
             collectionView.register(
-                ProfileMainBodyCell.self,
-                forCellWithReuseIdentifier: ProfileMainBodyCell.reuseIdentifier
+                SingleCollectionViewCell.self,
+                forCellWithReuseIdentifier: SingleCollectionViewCell.reuseIdentifier
             )
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -34,7 +34,7 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
     // MARK: Initialization
 
     init( viewModel: ViewModel) {
-        self.items = []
+        self.sections = []
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -80,14 +80,14 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
         case .loading:
             break
         case .content(let dispayData):
-            self.items = dispayData
+            self.sections = dispayData
             reloadData()
         case .error:
             break
         }
     }
 
-    private func configure<T: ProfileSelfConfiguringCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
+    private func configure<T: SelfConfiguringCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Unable to dequeue \(cellType)")
         }
@@ -95,10 +95,10 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, SavedCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<SavedSectionType, SavedCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             guard let self = self else { return UICollectionViewCell() }
             switch item {
-            case .body(let data):
+            case .bodyCell(let data):
                 let cell = configure(SingleCollectionViewCell.self, for: indexPath)
                 cell.configure(with: data)
                 return cell
@@ -107,17 +107,27 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
     }
 
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, SavedCellType>()
-        snapshot.appendSections([0])
-        snapshot.appendItems(items)
+        var snapshot = NSDiffableDataSourceSnapshot<SavedSectionType, SavedCellType>()
+        snapshot.appendSections(sections)
+        for section in sections {
+            switch section {
+            case .bodySection(let items):
+                snapshot.appendItems(items, toSection: section)
+            }
+        }
 
         dataSource?.apply(snapshot)
     }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] _, _ in
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
 
-            return self?.createBodyTableSection()
+            guard let self = self else { return self?.createBodyTableSection() }
+            let section = sections[sectionIndex]
+            switch section {
+            case .bodySection:
+                return createBodyTableSection()
+            }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
         layout.configuration = config
