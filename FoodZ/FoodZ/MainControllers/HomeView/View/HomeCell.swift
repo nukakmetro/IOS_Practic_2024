@@ -9,7 +9,12 @@ import UIKit
 import SnapKit
 
 protocol HomeCellDelegate: AnyObject {
-    func proccesedTappedLike(id: Int)
+    func proccesedTappedLike(id: Int, input: HomeCellInput)
+}
+
+protocol HomeCellInput: AnyObject {
+    func proccesedChangeLike(like: Bool)
+    func proccesedChangeLikeError()
 }
 
 final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
@@ -23,8 +28,8 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
     weak var delegate: HomeCellDelegate?
 
     // MARK: Private properties
-
     private var id: Int?
+    private var like: Bool?
     private lazy var productNameLabel = UILabel()
     private lazy var productCategoryLabel = UILabel()
     private lazy var productCompoundLabel = UILabel()
@@ -96,11 +101,15 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
     private func setupDisplay() {
         productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
         let action = UIAction { [weak self] _ in
+            self?.like?.toggle()
             guard
                 let self = self,
+                let like = like,
                 let id = id
             else { return }
-            delegate?.proccesedTappedLike(id: id)
+
+            changeLike(like: like)
+            delegate?.proccesedTappedLike(id: id, input: self)
         }
         productSavedButton.addAction(action, for: .touchUpInside)
         productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX - 30), y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
@@ -122,6 +131,14 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         productSavedButton.layer.cornerRadius = productSavedButton.frame.width / 2
     }
 
+    private func changeLike(like: Bool) {
+        if like {
+            productSavedButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+    }
+
     // MARK: Internal methods
 
     func configure(with cell: ProductCell) {
@@ -133,12 +150,23 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         productWaitingTimerLabel.text = String(cell.productWaitingTime) + "min"
         productImage.loadImage(withId: cell.productImageId, path: .productImage)
         productWaltingTimerImage.image = UIImage(systemName: "stopwatch.fill")
-        if cell.productSavedStatus {
-            productSavedButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        } else {
-            productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
+        changeLike(like: cell.productSavedStatus)
         productRatingImage.image = UIImage(systemName: "star.fill")
+        like = cell.productSavedStatus
         id = cell.productId
+    }
+}
+// MARK: - HomeCellInput
+
+extension HomeCell: HomeCellInput {
+    func proccesedChangeLikeError() {
+        like?.toggle()
+        guard let like = like else { return }
+        changeLike(like: like)
+    }
+    
+    func proccesedChangeLike(like: Bool) {
+        changeLike(like: like)
+        self.like = like
     }
 }

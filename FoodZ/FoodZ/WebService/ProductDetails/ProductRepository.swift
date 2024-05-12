@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol ProductSavedProtocol {
+    func getSaveProducts(completion: @escaping ((Result<[Product], Error>) -> Void))
+}
+
 protocol ProductFavorietesProtocol {
     func getFavoritesProducts(completion: @escaping ((Result<[Section], Error>) -> Void))
 }
@@ -74,5 +78,13 @@ extension ProductRepository: AddProductProtocol {
 extension ProductRepository: ProductToggleLikeProtocol {
     func proccesedTappedLikeButton(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
         remoteDataSource.toggleLike(productId: productId, completion: completion)
+    }
+}
+
+// MARK: - ProductSavedProtocol
+
+extension ProductRepository: ProductSavedProtocol {
+    func getSaveProducts(completion: @escaping ((Result<[Product], Error>) -> Void)) {
+        remoteDataSource.getSavedProducts(completion: completion)
     }
 }

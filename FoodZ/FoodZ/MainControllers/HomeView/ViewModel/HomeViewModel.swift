@@ -59,8 +59,8 @@ final class HomeViewModel: HomeViewModeling {
         case .onLoad:
             updateSections()
 
-        case .proccesedTappedLikeButton(id: let id):
-            productTappedLike(productId: id)
+        case .proccesedTappedLikeButton(let id, let input):
+            productTappedLike(productId: id, cellInput: input)
         }
     }
 
@@ -83,48 +83,26 @@ final class HomeViewModel: HomeViewModeling {
             case .failure:
                 state = .error(displayData: sections)
             }
-        }
-        )
+        })
     }
 
-    private func productTappedLike(productId: Int) {
+    private func productTappedLike(productId: Int, cellInput: HomeCellInput) {
         state = .loading
 
         repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
             guard let self else { return }
 
             switch result {
-
             case .success(let like):
-                changeProductLike(like: like, id: productId)
+            changeProductLike(like: like, id: productId, cellInput: cellInput)
                 state = .content(dispayData: sections)
             case .failure:
-                break
+                cellInput.proccesedChangeLikeError()
             }
         }
     }
 
-    private func changeProductLike(like: Bool, id: Int) {
-
-        for sectionIndex in sections.indices {
-
-            var section = sections[sectionIndex]
-
-            if case .bodySection(var products) = section {
-
-                for productIndex in products.indices {
-
-                    if 
-                        case .bodyCell(var product) = products[productIndex],
-                        product.productId == id 
-                    {
-
-                        product.productSavedStatus = like
-                        products[productIndex] = .bodyCell(product)
-                        sections[sectionIndex] = .bodySection(products)
-                    }
-                }
-            }
-        }
+    private func changeProductLike(like: Bool, id: Int, cellInput: HomeCellInput) {
+        cellInput.proccesedChangeLike(like: like)
     }
 }

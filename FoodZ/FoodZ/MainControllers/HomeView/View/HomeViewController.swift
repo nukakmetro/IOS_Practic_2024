@@ -237,7 +237,7 @@ extension HomeViewController: HomeHeaderDelegate {
 // MARK: - HomeCellDelegate
 
 extension HomeViewController: HomeCellDelegate {
-    func proccesedTappedLike(id: Int) {
-        viewModel.trigger(.proccesedTappedLikeButton(id: id))
+    func proccesedTappedLike(id: Int, input: HomeCellInput) {
+        viewModel.trigger(.proccesedTappedLikeButton(id: id, cellinput: input))
     }
 }

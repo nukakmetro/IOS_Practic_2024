@@ -10,7 +10,7 @@ import Combine
 
 enum SearchCellType: Hashable {
     case header
-    case body(Product)
+    case bodyCell(ProductCell)
 }
 
 enum SearchSomeSection: Hashable {
@@ -30,6 +30,7 @@ final class SearchViewModel: SearchViewModeling {
     private var countOffset: Int
     private var inputSearchText: String
     private var sections: [SearchSomeSection]
+    private var dataMapper: SearchDataMapper
 
     // MARK: Internal properties
 
@@ -44,12 +45,13 @@ final class SearchViewModel: SearchViewModeling {
     init(output: SearchModuleOutput, remoteRepository: ProductSearchProtocol) {
         self.stateDidChange = ObservableObjectPublisher()
         self.output = output
-        self.state = .loading
         self.remoteRepository = remoteRepository
         self.countOffset = 0
         self.inputSearchText = ""
+        self.dataMapper = SearchDataMapper()
         sections = []
         sections.append(.header([.header]))
+        self.state = .content(dispayData: sections)
     }
 
     // MARK: Internal methods
@@ -78,12 +80,8 @@ final class SearchViewModel: SearchViewModeling {
             guard let self else { return }
 
             switch result {
-            case .success(let dispayData):
-                var updateSection: [SearchCellType] = []
-                for data in dispayData {
-                    updateSection.append(.body(data))
-                }
-                sections.append(.body(updateSection))
+            case .success(let products):
+                sections.append(.body(dataMapper.displayData(products: products)))
                 state = .content(dispayData: sections)
             case .failure:
                 state = .error
@@ -109,12 +107,8 @@ final class SearchViewModel: SearchViewModeling {
         remoteRepository.getSearchProducts(productRequest: productSearchRequest, completion: { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success(let dispayData):
-                var updateSection: [SearchCellType] = []
-                for data in dispayData {
-                    updateSection.append(.body(data))
-                }
-                sections.append(.body(updateSection))
+            case .success(let products):
+                sections.append(.body(dataMapper.displayData(products: products)))
                 countOffset += 1
                 self.state = .content(dispayData: sections)
             case .failure:

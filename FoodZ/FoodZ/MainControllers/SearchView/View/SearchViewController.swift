@@ -102,7 +102,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             guard let self = self else { return UICollectionViewCell() }
             switch item {
-            case .body(let data):
+            case .bodyCell(let data):
                 let cell = configure(SingleCollectionViewCell.self, for: indexPath)
                 cell.configure(with: data)
                 return cell

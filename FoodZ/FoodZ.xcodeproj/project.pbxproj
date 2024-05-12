@@ -127,6 +127,8 @@
 		78DB41852BD0077B00EADD3E /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41842BD0077B00EADD3E /* Target.swift */; };
 		78DB41872BD0213B00EADD3E /* ProductsRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41862BD0213B00EADD3E /* ProductsRemoteDataSource.swift */; };
 		78DB41892BD02D4900EADD3E /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41882BD02D4900EADD3E /* SearchEntity.swift */; };
+		78DD39C52BF101DC0025BB36 /* SavedDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39C42BF101DC0025BB36 /* SavedDataMapper.swift */; };
+		78DD39C72BF103E30025BB36 /* SearchDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39C62BF103E30025BB36 /* SearchDataMapper.swift */; };
 		78E4EF952BDCFA7400982CA5 /* SegmentController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EF942BDCFA7400982CA5 /* SegmentController+Extension.swift */; };
 		78E4EF992BDCFC3D00982CA5 /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EF982BDCFC3D00982CA5 /* OrdersViewController.swift */; };
 		78E4EF9F2BDCFCBB00982CA5 /* OrdersState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EF9E2BDCFCBB00982CA5 /* OrdersState.swift */; };
@@ -298,6 +300,8 @@
 		78DB41842BD0077B00EADD3E /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
 		78DB41862BD0213B00EADD3E /* ProductsRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsRemoteDataSource.swift; sourceTree = "<group>"; };
 		78DB41882BD02D4900EADD3E /* SearchEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEntity.swift; sourceTree = "<group>"; };
+		78DD39C42BF101DC0025BB36 /* SavedDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDataMapper.swift; sourceTree = "<group>"; };
+		78DD39C62BF103E30025BB36 /* SearchDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataMapper.swift; sourceTree = "<group>"; };
 		78E4EF942BDCFA7400982CA5 /* SegmentController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SegmentController+Extension.swift"; sourceTree = "<group>"; };
 		78E4EF982BDCFC3D00982CA5 /* OrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
 		78E4EF9E2BDCFCBB00982CA5 /* OrdersState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersState.swift; sourceTree = "<group>"; };
@@ -380,6 +384,7 @@
 			children = (
 				784BBED82BE53AD7008435FA /* SavedViewModel.swift */,
 				784BBEDC2BE53B03008435FA /* SavedModuleIO.swift */,
+				78DD39C42BF101DC0025BB36 /* SavedDataMapper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -646,6 +651,7 @@
 			children = (
 				78B05B392BBD8C9000D74385 /* SearchModuleIO.swift */,
 				78B05B372BBD8C7400D74385 /* SearchViewModel.swift */,
+				78DD39C62BF103E30025BB36 /* SearchDataMapper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1337,6 +1343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78DD39C52BF101DC0025BB36 /* SavedDataMapper.swift in Sources */,
 				78E4EFE22BDED6FC00982CA5 /* OrdersCurrentViewModel.swift in Sources */,
 				78E4EFE82BE03F6C00982CA5 /* CustomImageView.swift in Sources */,
 				784BBF122BE6C7D8008435FA /* AddArhiveBuilder.swift in Sources */,
@@ -1454,6 +1461,7 @@
 				78E4EFA72BDCFDE600982CA5 /* OrdersModuleIO.swift in Sources */,
 				78C1CB652BADC04800748F3D /* AuthorizationCoordinator.swift in Sources */,
 				78E4EFD62BDEBDB500982CA5 /* SelfConfiguringOrderCell.swift in Sources */,
+				78DD39C72BF103E30025BB36 /* SearchDataMapper.swift in Sources */,
 				78C1CB632BADC04800748F3D /* SceneDelegate.swift in Sources */,
 				78C1CB4C2BADC04800748F3D /* Coordinator.swift in Sources */,
 				784BBF412BE7D01C008435FA /* FillingModuleIO.swift in Sources */,

@@ -17,11 +17,7 @@ enum HomeCellType: Hashable {
     case headerCell
     case bodyHeaderCell(ProductHeader)
     case bodyCell(ProductCell)
-}
 
-struct Section: Decodable {
-    let title: String
-    let products: [Product]
 }
 
 struct ProductHeader: Hashable {
@@ -29,8 +25,8 @@ struct ProductHeader: Hashable {
     var title: String
 }
 
-struct Product: Decodable, Hashable {
-
+struct ProductCell: Hashable {
+    var cellId: UUID
     var productDescription: String
     var productId: Int
     var productName: String
@@ -44,9 +40,12 @@ struct Product: Decodable, Hashable {
     var productSavedStatus: Bool
 }
 
-struct ProductCell: Decodable, Hashable {
+struct Section: Decodable {
+    let title: String
+    let products: [Product]
+}
 
-    var cellId: UUID
+struct Product: Decodable, Hashable {
     var productDescription: String
     var productId: Int
     var productName: String

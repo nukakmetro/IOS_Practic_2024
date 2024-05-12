@@ -60,6 +60,11 @@ final class ProductsRemoteDataSource {
         networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
     }
 
+    func getSavedProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
+        let target = Target(path: "/user/product/saved", method: .get, setParametresFromMuiltipart: nil, role: .user)
+        networkService.sendRequest(target: target, responseType: [Product].self, completion: completion)
+    }
+
     private func sendImages(image: Data, value: ProductResponce, completion: @escaping (Result<Bool, Error>) -> Void) {
         let target = Target(path: "/user/product/image/set", method: .post, setParametresFromMuiltipart: ["id": value.id], role: .user)
         networkService.upload(target: target, image: image, responseType: Bool.self, completion: completion)
