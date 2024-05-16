@@ -74,7 +74,6 @@ final class AddImageViewModel: AddImageViewModeling {
             addImage(image: image)
 
         case .proccesedTappedSaveButton:
-            guard let product = selfProduct else { return }
             saveProduct()
 
         case .proccesedTappedDeleteImage(let id):
@@ -128,23 +127,28 @@ final class AddImageViewModel: AddImageViewModeling {
 
     private func sendProduct() {
         var sendImages: [Data] = []
-        items.forEach { celltype in
-            switch celltype {
-            case .addImage:
-                break
-            case .image(let image):
-                guard let data = image.image.jpegData(compressionQuality: 0.5) else { return }
-                sendImages.append(data)
+        if items.count > 1 {
+            items.forEach { celltype in
+                switch celltype {
+                case .addImage:
+                    break
+                case .image(let image):
+                    guard let data = image.image.jpegData(compressionQuality: 0.5) else { return }
+                    sendImages.append(data)
+                }
             }
-        }
-        guard let selfProduct = selfProduct else { return }
-        repository.sendProduct(product: selfProduct.mapToRequest(), images: sendImages) { [weak self] result in
-            switch result {
-            case .success:
-                self?.trigger(.onClose)
-            case .failure:
-                break
+            guard let selfProduct = selfProduct else { return }
+            repository.sendProduct(product: selfProduct.mapToRequest(), images: sendImages) { [weak self] result in
+                switch result {
+                case .success:
+                    self?.trigger(.onClose)
+                case .failure:
+                    break
+                }
             }
+        } else {
+            state = .error
+
         }
     }
 }

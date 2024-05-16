@@ -39,10 +39,11 @@ class Target {
 
     var parameters: AnyEncodable?
     var parametersImage: [String: Any]?
+    var encoder: ParameterEncoder
 
     var role: Role
 
-    init(path: String, method: HTTPMethod, setParametresFromEncodable parameters: Encodable?, role: Role) {
+    init(path: String, method: HTTPMethod, setParametresFromEncodable parameters: Encodable?, role: Role, encoder: ParameterEncoder = JSONParameterEncoder.default) {
         if let url = URL(string: "http://localhost:8080/demo" + path) {
             self.baseURL = url
         } else {
@@ -51,11 +52,12 @@ class Target {
         self.method = method
         self.headers = HTTPHeaders(HTTPHeaderFields.dictionary)
         self.role = role
+        self.encoder = encoder
         guard let parameters = parameters else { return }
         self.parameters = AnyEncodable(parameters)
     }
 
-    init(path: String, method: HTTPMethod, setParametresFromMuiltipart parameters: [String: Int]?, role: Role) {
+    init(path: String, method: HTTPMethod, setParametresFromMuiltipart parameters: [String: Int]?, role: Role, encoder: ParameterEncoder = JSONParameterEncoder.default) {
         if let url = URL(string: "http://localhost:8080/demo" + path) {
             self.baseURL = url
         } else {
@@ -64,8 +66,10 @@ class Target {
         self.method = method
         self.headers = HTTPHeaders(HTTPHeaderFields.dictionary)
         self.role = role
+        self.encoder = encoder
         guard let parameters = parameters else { return }
         self.parametersImage = parameters
+
     }
 
     init(path: String, method: HTTPMethod, setParametresFromDictionary parameters: [String: String]?, role: Role) {
@@ -78,6 +82,7 @@ class Target {
         self.headers = HTTPHeaders(HTTPHeaderFields.dictionary)
         self.parameters = AnyEncodable(parameters)
         self.role = role
+        encoder = JSONParameterEncoder.default
     }
 
     func addAuthHeader(access: String) {

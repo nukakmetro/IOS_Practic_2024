@@ -14,7 +14,7 @@ enum ImageLoadPath: String {
     case productImage = "/image"
 }
 
-struct UserImageRequest: Encodable {
+struct IdRequest: Encodable {
     let id: Int
 }
 
@@ -24,7 +24,7 @@ final class CustomImageView: UIImageView {
         let target = Target(
             path: path.rawValue,
             method: .get,
-            setParametresFromEncodable: UserImageRequest(id: id),
+            setParametresFromEncodable: IdRequest(id: id),
             role: .guest
         )
         DispatchQueue.global().async {
@@ -45,27 +45,4 @@ final class CustomImageView: UIImageView {
             }
         }
     }
-
-    func loadImage(withId id: Int, userImage path: ImageLoadPath) {
-        let target = Target(
-            path: path.rawValue,
-            method: .get,
-            setParametresFromEncodable: UserImageRequest(id: id),
-            role: .guest)
-        DispatchQueue.global().async {
-            AF.request(target.baseURL, method: target.method, parameters: target.parameters).validate(statusCode: 200..<299).responseData { responce in
-                switch responce.result {
-                case .success(let data):
-                    DispatchQueue.main.async {
-                        self.image = UIImage(data: data)
-                    }
-                case .failure:
-                    DispatchQueue.main.async {
-                        self.image = UIImage(named: "Cat")
-                    }
-                }
-            }
-        }
-    }
-
 }

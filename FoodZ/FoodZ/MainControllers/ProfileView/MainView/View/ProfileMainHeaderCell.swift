@@ -69,11 +69,11 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     func configure(with cell: ProfileMainHeader) {
         usernameLabel.text = cell.username
         userNumberLabel.text = cell.number
-        userImage.loadImage(withId: cell.id, userImage: .userImage)
+        userImage.loadImage(withId: cell.id, path: .userImage)
     }
 }
 
-// MARK: ProfileSelfConfiguringCell protocol
+// MARK: - ProfileSelfConfiguringCell
 
 extension ProfileMainHeaderCell: ProfileSelfConfiguringCell {
 

@@ -9,7 +9,9 @@ import UIKit
 import Combine
 import SnapKit
 
-final class AddMainViewController<ViewModel: AddMainViewModel>: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
+protocol AddMainViewControllerConfiguration: UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {}
+
+final class AddMainViewController<ViewModel: AddMainViewModel>: UIViewController, AddMainViewControllerConfiguration {
 
     // MARK: Private properties
 

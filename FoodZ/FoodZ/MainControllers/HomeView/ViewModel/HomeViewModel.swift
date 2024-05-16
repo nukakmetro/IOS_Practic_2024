@@ -47,7 +47,7 @@ final class HomeViewModel: HomeViewModeling {
         case .onClose: break
 
         case .proccesedTappedButtonSearch:
-            output?.proccesedButtonTapToSearch()
+            output?.proccesedTappedButtonSearch()
 
         case .onReload:
             updateSections()
@@ -61,6 +61,9 @@ final class HomeViewModel: HomeViewModeling {
 
         case .proccesedTappedLikeButton(let id, let input):
             productTappedLike(productId: id, cellInput: input)
+
+        case .proccesedTappedCell(let id):
+            output?.proccesedTappedProductCell(id: id)
         }
     }
 

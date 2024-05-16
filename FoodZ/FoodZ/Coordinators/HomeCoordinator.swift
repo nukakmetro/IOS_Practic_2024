@@ -13,8 +13,9 @@ final class HomeCoordinator: Coordinator {
     // MARK: Internal properties
 
     weak var navigationController: UINavigationController?
+    weak var productInput: SelfProductModuleInput?
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -38,27 +39,41 @@ final class HomeCoordinator: Coordinator {
         navigationController?.pushViewController(controller, animated: false)
     }
 
+    private func showSelfProductView() {
+        let controller = SelfProductBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: false)
+    }
+
     private func closePushView() {
         navigationController?.popViewController(animated: false)
     }
 }
 
-// MARK: HomeViewOutput protocol
+// MARK: - HomeViewOutput
 
 extension HomeCoordinator: HomeModuleOutput {
-    func proccesedButtonTapToSearch() {
+    func proccesedTappedButtonSearch() {
         showSearcView()
     }
-
-    func proccesedButtonTapToProduct() {
-
+    
+    func proccesedTappedProductCell(id: Int) {
+        showSelfProductView()
+        productInput?.proccesedSendId(id: id)
     }
 }
 
-// MARK: SearchModuleOutput protocol
+// MARK: - SearchModuleOutput
 
 extension HomeCoordinator: SearchModuleOutput {
     func moduleWantsToClose() {
         closePushView()
+    }
+}
+
+// MARK: - SelfProductModuleOutput
+
+extension HomeCoordinator: SelfProductModuleOutput {
+    func selfProductModuleDidLoad(input: SelfProductModuleInput) {
+        productInput = input
     }
 }

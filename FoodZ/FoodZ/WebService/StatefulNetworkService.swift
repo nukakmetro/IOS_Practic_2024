@@ -68,7 +68,7 @@ final class StatefulNetworkService: NetworkServiceProtocol {
     func sendRequest<Response: Decodable>(target: Target, responseType: Response.Type, completion: @escaping (Result<Response, Error>) -> Void) {
         target.addAuthHeader(access: tokenManager.getAccessToken())
 
-        AF.request(target.baseURL, method: target.method, parameters: target.parameters, encoder: JSONParameterEncoder.default, headers: target.headers)
+        AF.request(target.baseURL, method: target.method, parameters: target.parameters, encoder: target.encoder, headers: target.headers)
             .validate(statusCode: 200..<299)
             .responseDecodable(of: responseType) { [weak self] result in
             guard let self else { return }

@@ -14,5 +14,5 @@ enum HomeViewIntent {
     case proccesedTappedButtonSearch
     case onReload
     case proccesedTappedLikeButton(id: Int, cellinput: HomeCellInput)
-
+    case proccesedTappedCell(id: Int)
 }
