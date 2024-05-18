@@ -37,4 +37,8 @@ class CoordinatorFactory {
     func createAddCoordinator(navigationController: UINavigationController) -> Coordinator {
         AddCoordinator(navigationController: navigationController)
     }
+
+    func createCartCoordinator(navigationController: UINavigationController) -> Coordinator {
+        CartCoordinator(navigationController: navigationController)
+    }
 }

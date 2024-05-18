@@ -28,7 +28,7 @@ final class HomeViewModel: HomeViewModeling {
         }
     }
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(output: HomeModuleOutput, remoteRepository: ProductFavorietesProtocol & ProductToggleLikeProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
@@ -98,7 +98,6 @@ final class HomeViewModel: HomeViewModeling {
             switch result {
             case .success(let like):
             changeProductLike(like: like, id: productId, cellInput: cellInput)
-                state = .content(dispayData: sections)
             case .failure:
                 cellInput.proccesedChangeLikeError()
             }

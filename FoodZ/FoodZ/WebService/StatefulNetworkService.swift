@@ -96,7 +96,7 @@ final class StatefulNetworkService: NetworkServiceProtocol {
 
     private func refreshToken(completion: @escaping (Result<Void, Error>) -> Void) {
         AF.request(
-            "http://localhost:8080/demo/user/updateToken",
+            "http://localhost:8080/demo/updateToken",
             method: .post,
             parameters: tokenManager.getRefreshToken(),
             encoder: JSONParameterEncoder.default,

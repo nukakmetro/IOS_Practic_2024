@@ -165,7 +165,7 @@ extension HomeCell: HomeCellInput {
         guard let like = like else { return }
         changeLike(like: like)
     }
-    
+
     func proccesedChangeLike(like: Bool) {
         changeLike(like: like)
         self.like = like
