@@ -217,6 +217,7 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
         view.addSubview(collectionView)
         view.addSubview(addCartButton)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        addCartButton.translatesAutoresizingMaskIntoConstraints = false
 
         collectionView.snp.makeConstraints { make in
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
@@ -234,15 +235,18 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
     private func setupDisplayView(viewData: SelfProductContentData) {
         let actionMyProduct = UIAction { [weak self] _ in
             guard let self = self else { return }
+            addCartButton.isEnabled = false
             viewModel.trigger(.proccesedTappedButtonAddToCart)
         }
         let actionInCart = UIAction { [weak self] _ in
             guard let self = self else { return }
         }
+        addCartButton.isEnabled = true
         switch viewData.cartButton {
         case 0:
             addCartButton.backgroundColor = .lightGray
             addCartButton.setTitle("Ваш продукт", for: .normal)
+            addCartButton.isEnabled = false
         case 1:
             addCartButton.addAction(actionMyProduct, for: .touchUpInside)
             addCartButton.backgroundColor = .blue
@@ -256,7 +260,6 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
             break
         }
 
-        addCartButton.translatesAutoresizingMaskIntoConstraints = false
         if viewData.likeButton {
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "suit.heart.fill")
         } else {

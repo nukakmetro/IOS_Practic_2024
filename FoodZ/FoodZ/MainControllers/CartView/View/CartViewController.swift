@@ -113,7 +113,7 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
 
         for section in sections {
             switch section {
-            case .bodySection(let data):
+            case .bodySection(_, let data):
                 snapshot.appendItems(data, toSection: section)
             }
         }
@@ -180,19 +180,19 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
 // MARK: - CartCellDelegate
 
 extension CartViewController: CartCellDelegate {
-    func proccesedTappedButtonReduce(id: Int, _ input: CartCellInput) {
-        viewModel.trigger(.proccesedTappedButtonReduce(id: id, inputCell: input))
+    func proccesedTappedButtonSave(id: Int) {
+        viewModel.trigger(.proccesedTappedButtonSave(id: id))
     }
 
-    func proccesedTappedButtonIncrease(id: Int, _ input: CartCellInput) {
-        viewModel.trigger(.proccesedTappedButtonIncrease(id: id, inputCell: input))
+    func proccesedTappedButtonReduce(id: Int) {
+        viewModel.trigger(.proccesedTappedButtonReduce(id: id))
     }
-    
-    func proccesedTappedButtonTrash(id: Int, _ input: CartCellInput) {
+
+    func proccesedTappedButtonIncrease(id: Int) {
+        viewModel.trigger(.proccesedTappedButtonIncrease(id: id))
+    }
+
+    func proccesedTappedButtonTrash(id: Int) {
         viewModel.trigger(.proccesedTappedButtonTrash(id: id))
-    }
-    
-    func proccesedTappedButtonSave(id: Int, _ input: CartCellInput) {
-
     }
 }

@@ -58,14 +58,16 @@ final class CartViewModel: CartViewModeling {
             break
         case .onReload:
             getCart()
-        case .proccesedTappedButtonReduce(let id, let inputCell):
-            reduceCartItem(cartId: id, inputCell: inputCell)
-        case .proccesedTappedButtonIncrease(let id, let inputCell):
-            increaseCartItem(cartId: id, inputCell: inputCell)
+        case .proccesedTappedButtonReduce(let id):
+            reduceCartItem(cartItemId: id)
+        case .proccesedTappedButtonIncrease(let id):
+            increaseCartItem(cartItemId: id)
         case .proccesedTappedButtonTrash(let id):
-            removeCartItem(cartId: id)
+            removeCartItem(cartItemId: id)
         case .proccesedTappedButtonCell(let id):
             output?.proccesedTappedProductCell(id: id)
+        case .proccesedTappedButtonSave(let id):
+            saveProductItem(cartItemId: id)
         }
     }
 
@@ -83,43 +85,99 @@ final class CartViewModel: CartViewModeling {
         }
     }
 
-    private func increaseCartItem(cartId: Int, inputCell: CartCellInput) {
-        repository.increaseCart(cartId: cartId) { [weak self] result in
+    private func increaseCartItem(cartItemId: Int) {
+        repository.increaseCart(cartId: cartItemId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let data):
-                inputCell.proccesedTappedButtonIncrease(quantity: String(data.cartItemQuantity), price: String(data.cartItemPrice))
-            case .failure:
-                break
-            }
-        }
-    }
-
-    private func reduceCartItem(cartId: Int, inputCell: CartCellInput) {
-        repository.reduceCart(cartId: cartId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let data):
-                inputCell.proccesedTappedButtonReduce(quantity: String(data.cartItemQuantity), price: String(data.cartItemPrice))
-            case .failure:
-                break
-            }
-        }
-    }
-
-    private func removeCartItem(cartId: Int) {
-        repository.removeCart(cartId: cartId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success: break
                 for sectionIndex in sections.indices {
                     var section = sections[sectionIndex]
-                    if case .bodySection(var items) = section {
+                    if case .bodySection(let id, var items) = section {
                         for itemIndex in items.indices {
-                            if case .bodyICell(var cart) = items[itemIndex],
-                                cart.cartItemId == cartId {
+                            if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                                var newProduct = product
+                                newProduct.id = UUID()
+                                newProduct.quantity = String(data.cartItemQuantity)
+                                newProduct.productPrice = String(data.totalPrice)
+                                items[itemIndex] = .bodyICell(newProduct)
+                                sections[sectionIndex] = .bodySection(id: id, items: items)
+                                state = .content(displayData: sections)
+                            }
+                        }
+                    }
+                }
+            case .failure:
+                break
+            }
+        }
+    }
+
+    private func saveProductItem(cartItemId: Int) {
+        for sectionIndex in sections.indices {
+            var section = sections[sectionIndex]
+            if case .bodySection(let id, var items) = section {
+                for itemIndex in items.indices {
+                    if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                        repository.proccesedTappedLikeButton(productId: product.productId) { [weak self] result in
+                            guard let self = self else { return }
+                            switch result {
+                            case .success(let data):
+                                var newProduct = product
+                                newProduct.id = UUID()
+                                newProduct.productSavedStatus = data
+                                items[itemIndex] = .bodyICell(newProduct)
+                                sections[sectionIndex] = .bodySection(id: id, items: items)
+                                state = .content(displayData: sections)
+                            case .failure:
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func reduceCartItem(cartItemId: Int) {
+        repository.reduceCart(cartId: cartItemId) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                for sectionIndex in sections.indices {
+                    var section = sections[sectionIndex]
+                    if case .bodySection(let id, var items) = section {
+                        for itemIndex in items.indices {
+                            if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                                var newProduct = product
+                                newProduct.id = UUID()
+                                newProduct.quantity = String(data.cartItemQuantity)
+                                newProduct.productPrice = String(data.totalPrice)
+                                items[itemIndex] = .bodyICell(newProduct)
+                                sections[sectionIndex] = .bodySection(id: id, items: items)
+                                state = .content(displayData: sections)
+                            }
+                        }
+                    }
+                }
+            case .failure:
+                break
+            }
+        }
+    }
+
+    private func removeCartItem(cartItemId: Int) {
+        repository.removeCart(cartId: cartItemId) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                for sectionIndex in sections.indices {
+                    var section = sections[sectionIndex]
+                    if case .bodySection(let id, var items) = section {
+                        for itemIndex in items.indices {
+                            if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
                                 items.remove(at: itemIndex)
-                                sections[sectionIndex] = .bodySection(items)
+                                sections[sectionIndex] = .bodySection(id: id, items: items)
+                                state = .content(displayData: sections)
                             }
                         }
                     }

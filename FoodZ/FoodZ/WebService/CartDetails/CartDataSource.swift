@@ -45,4 +45,9 @@ final class CartDataSource {
         let target = Target(path: "/user/cart/insert", method: .post, setParametresFromEncodable: productId, role: .user)
         networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
     }
+
+    func toggleLike(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let target = Target(path: "/user/product/like", method: .post, setParametresFromEncodable: productId, role: .user)
+        networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
+    }
 }

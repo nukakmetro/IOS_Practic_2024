@@ -14,12 +14,13 @@ final class CartDataMapper {
         for cartItem in data.cartItems {
             cartItems.append(.bodyICell(mapTo(it: cartItem)))
         }
-        cartSection.append(.bodySection(cartItems))
+        cartSection.append(.bodySection(id: UUID(), items: cartItems))
         return cartSection
     }
 
     func mapTo(it: CartProductResponce) -> CartProduct {
         return CartProduct(
+            id: UUID(),
             productId: it.productId,
             cartItemId: it.cartItemId,
             productPrice: String(it.productPrice),

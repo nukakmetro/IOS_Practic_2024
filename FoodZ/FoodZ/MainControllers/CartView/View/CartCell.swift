@@ -9,16 +9,10 @@ import UIKit
 import SnapKit
 
 protocol CartCellDelegate: AnyObject {
-    func proccesedTappedButtonReduce(id: Int, _ input: CartCellInput)
-    func proccesedTappedButtonIncrease(id: Int, _ input: CartCellInput)
-    func proccesedTappedButtonTrash(id: Int, _ input: CartCellInput)
-    func proccesedTappedButtonSave(id: Int, _ input: CartCellInput)
-}
-
-protocol CartCellInput: AnyObject {
-    func proccesedTappedButtonReduce(quantity: String, price: String)
-    func proccesedTappedButtonIncrease(quantity: String, price: String)
-    func proccesedTappedButtonSave()
+    func proccesedTappedButtonReduce(id: Int)
+    func proccesedTappedButtonIncrease(id: Int)
+    func proccesedTappedButtonTrash(id: Int)
+    func proccesedTappedButtonSave(id: Int)
 }
 
 final class CartCell: UICollectionViewCell, SelfConfiguringCell {
@@ -34,6 +28,7 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Private properties
 
+    private var saveStatus: Bool?
     private lazy var quantityLabel = UILabel()
     private lazy var nameLabel = UILabel()
     private lazy var descriptionLabel = UILabel()
@@ -59,19 +54,19 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
     // MARK: Private methods
 
     private func makeConstraint() {
-        var quantityStackView: UIStackView = UIStackView(arrangedSubviews: [reduceButton, quantityLabel, increaseButton])
+        let quantityStackView: UIStackView = UIStackView(arrangedSubviews: [reduceButton, quantityLabel, increaseButton])
         quantityStackView.axis = .horizontal
         quantityStackView.alignment = .center
         quantityStackView.spacing = 5
         quantityStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        var buttonStackView: UIStackView = UIStackView(arrangedSubviews: [saveButton, trashButton])
+        let buttonStackView: UIStackView = UIStackView(arrangedSubviews: [saveButton, trashButton])
         buttonStackView.axis = .horizontal
         buttonStackView.alignment = .center
         buttonStackView.spacing = 5
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        var textStackView: UIStackView = UIStackView(arrangedSubviews: [priceLabel, nameLabel, descriptionLabel])
+        let textStackView: UIStackView = UIStackView(arrangedSubviews: [priceLabel, nameLabel, descriptionLabel])
         textStackView.axis = .vertical
         textStackView.alignment = .leading
         textStackView.spacing = 10
@@ -158,7 +153,7 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
                 let id = id
             else { return }
 
-            delegate?.proccesedTappedButtonTrash(id: id, self)
+            delegate?.proccesedTappedButtonTrash(id: id)
         }
         trashButton.addAction(action, for: .touchUpInside)
         trashButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
@@ -174,7 +169,7 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
                 let id = id
             else { return }
 
-            delegate?.proccesedTappedButtonReduce(id: id, self)
+            delegate?.proccesedTappedButtonReduce(id: id)
         }
         reduceButton.addAction(action, for: .touchUpInside)
         reduceButton.setImage(UIImage(systemName: "minus"), for: .normal)
@@ -191,7 +186,7 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
                 let id = id
             else { return }
 
-            delegate?.proccesedTappedButtonIncrease(id: id, self)
+            delegate?.proccesedTappedButtonIncrease(id: id)
         }
         increaseButton.addAction(action, for: .touchUpInside)
         increaseButton.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -208,7 +203,7 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
                 let id = id
             else { return }
 
-            delegate?.proccesedTappedButtonSave(id: id, self)
+            delegate?.proccesedTappedButtonSave(id: id)
         }
         saveButton.addAction(action, for: .touchUpInside)
         saveButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -226,23 +221,10 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
         quantityLabel.text = cell.quantity
         descriptionLabel.text = cell.productDescription
         id = cell.cartItemId
-    }
-}
-
-// MARK: - CartCellInput
-
-extension CartCell: CartCellInput {
-    func proccesedTappedButtonReduce(quantity: String, price: String) {
-        quantityLabel.text = quantity
-        priceLabel.text = price
-    }
-
-    func proccesedTappedButtonIncrease(quantity: String, price: String) {
-        quantityLabel.text = quantity
-        priceLabel.text = price
-    }
-
-    func proccesedTappedButtonSave() {
-
+        if cell.productSavedStatus {
+            saveButton.tintColor = .red
+        } else {
+            saveButton.tintColor = .black
+        }
     }
 }

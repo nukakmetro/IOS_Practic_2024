@@ -12,8 +12,9 @@ enum CartViewIntent {
     case onDidLoad
     case onLoad
     case onReload
-    case proccesedTappedButtonReduce(id: Int, inputCell: CartCellInput)
-    case proccesedTappedButtonIncrease(id: Int, inputCell: CartCellInput)
+    case proccesedTappedButtonReduce(id: Int)
+    case proccesedTappedButtonIncrease(id: Int)
     case proccesedTappedButtonTrash(id: Int)
     case proccesedTappedButtonCell(id: Int)
+    case proccesedTappedButtonSave(id: Int)
 }

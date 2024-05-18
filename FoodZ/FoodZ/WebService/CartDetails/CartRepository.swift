@@ -13,6 +13,7 @@ protocol CartProtocol {
     func reduceCart(cartId: Int, completion: @escaping (Result<CartRecountResponce, Error>) -> Void)
     func removeCart(cartId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
     func insertCart(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
+    func proccesedTappedLikeButton(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
 final class CartRepository {
@@ -32,6 +33,10 @@ final class CartRepository {
 // MARK: - CartProtocol
 
 extension CartRepository: CartProtocol {
+    func proccesedTappedLikeButton(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        dataSource.toggleLike(productId: productId, completion: completion)
+    }
+    
     func getCart(completion: @escaping (Result<CartResponce, Error>) -> Void) {
         dataSource.getCart(completion: completion)
     }
