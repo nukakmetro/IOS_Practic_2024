@@ -25,10 +25,11 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal properties
 
+    var id: Int?
     weak var delegate: HomeCellDelegate?
 
     // MARK: Private properties
-    private var id: Int?
+
     private var like: Bool?
     private lazy var productNameLabel = UILabel()
     private lazy var productCategoryLabel = UILabel()

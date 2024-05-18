@@ -28,6 +28,10 @@ protocol ProductToggleLikeProtocol {
     func proccesedTappedLikeButton(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
+protocol ProductSelfProtocol {
+    func getProduct(productId: Int, completion: @escaping (Result<ProductSelf, Error>) -> Void)
+}
+
 final class ProductRepository {
 
     // MARK: Private properties
@@ -86,5 +90,13 @@ extension ProductRepository: ProductToggleLikeProtocol {
 extension ProductRepository: ProductSavedProtocol {
     func getSaveProducts(completion: @escaping ((Result<[Product], Error>) -> Void)) {
         remoteDataSource.getSavedProducts(completion: completion)
+    }
+}
+
+// MARK: - ProductSelfProtocol
+
+extension ProductRepository: ProductSelfProtocol {
+    func getProduct(productId: Int, completion: @escaping (Result<ProductSelf, Error>) -> Void) {
+        remoteDataSource.productSelf(id: productId, completion: completion)
     }
 }

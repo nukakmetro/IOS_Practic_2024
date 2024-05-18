@@ -53,6 +53,7 @@ final class AddImageViewController<ViewModel: AddImageViewModel>: UIViewControll
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButton()
+        setupImagePicker()
         makeConstraints()
         createDataSource()
         configureIO()
@@ -171,13 +172,36 @@ final class AddImageViewController<ViewModel: AddImageViewModel>: UIViewControll
         continueButton.backgroundColor = .blue
     }
 
+    private func setupImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+    }
+
+    private func didTapAddCell() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        alert.addAction(UIAlertAction(title: "Галерея", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            imagePicker.sourceType = .photoLibrary
+            present(self.imagePicker, animated: true, completion: nil)
+        }))
+
+        alert.addAction(UIAlertAction(title: "Камера", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            imagePicker.sourceType = .camera
+            present(self.imagePicker, animated: true, completion: nil)
+        }))
+
+        alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
+
+        present(alert, animated: true, completion: nil)
+    }
+
     // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if items.count - 1 == indexPath.row {
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.delegate = self
-            present(imagePicker, animated: true, completion: nil)
+            didTapAddCell()
         }
     }
 

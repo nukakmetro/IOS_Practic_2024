@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Alamofire
+
 final class ProductsRemoteDataSource {
 
     // MARK: Private properties
@@ -68,5 +70,10 @@ final class ProductsRemoteDataSource {
     private func sendImages(image: Data, value: ProductResponce, completion: @escaping (Result<Bool, Error>) -> Void) {
         let target = Target(path: "/user/product/image/set", method: .post, setParametresFromMuiltipart: ["id": value.id], role: .user)
         networkService.upload(target: target, image: image, responseType: Bool.self, completion: completion)
+    }
+
+    func productSelf(id: Int, completion: @escaping (Result<ProductSelf, Error>) -> Void) {
+        let target = Target(path: "/user/product", method: .get, setParametresFromEncodable: IdRequest(id: id), role: .user, encoder: URLEncodedFormParameterEncoder.default)
+        networkService.sendRequest(target: target, responseType: ProductSelf.self, completion: completion)
     }
 }

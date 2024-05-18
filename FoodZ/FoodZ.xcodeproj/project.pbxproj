@@ -129,6 +129,16 @@
 		78DB41892BD02D4900EADD3E /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB41882BD02D4900EADD3E /* SearchEntity.swift */; };
 		78DD39C52BF101DC0025BB36 /* SavedDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39C42BF101DC0025BB36 /* SavedDataMapper.swift */; };
 		78DD39C72BF103E30025BB36 /* SearchDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39C62BF103E30025BB36 /* SearchDataMapper.swift */; };
+		78DD39CC2BF28EEA0025BB36 /* SelfProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39CB2BF28EEA0025BB36 /* SelfProductImageCell.swift */; };
+		78DD39CE2BF291700025BB36 /* SelfProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39CD2BF2916F0025BB36 /* SelfProductViewController.swift */; };
+		78DD39D02BF291A70025BB36 /* SelfProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39CF2BF291A70025BB36 /* SelfProductViewModel.swift */; };
+		78DD39D32BF291C30025BB36 /* SelfProductState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39D22BF291C30025BB36 /* SelfProductState.swift */; };
+		78DD39D52BF291CF0025BB36 /* SelfProductIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39D42BF291CF0025BB36 /* SelfProductIntent.swift */; };
+		78DD39D72BF294600025BB36 /* SelfProductImageGropeFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39D62BF294600025BB36 /* SelfProductImageGropeFooter.swift */; };
+		78DD39D92BF29BF90025BB36 /* SelfProductSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39D82BF29BF90025BB36 /* SelfProductSection.swift */; };
+		78DD39DB2BF2BAF80025BB36 /* SelfProductDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39DA2BF2BAF70025BB36 /* SelfProductDataMapper.swift */; };
+		78DD39DD2BF2C7780025BB36 /* SelfProductModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39DC2BF2C7780025BB36 /* SelfProductModuleIO.swift */; };
+		78DD39DF2BF2CA470025BB36 /* SelfProductBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD39DE2BF2CA470025BB36 /* SelfProductBuilder.swift */; };
 		78E4EF952BDCFA7400982CA5 /* SegmentController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EF942BDCFA7400982CA5 /* SegmentController+Extension.swift */; };
 		78E4EF992BDCFC3D00982CA5 /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EF982BDCFC3D00982CA5 /* OrdersViewController.swift */; };
 		78E4EF9F2BDCFCBB00982CA5 /* OrdersState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E4EF9E2BDCFCBB00982CA5 /* OrdersState.swift */; };
@@ -180,6 +190,7 @@
 		78EA69712BD910F7004A961C /* ProfileMainBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69702BD910F7004A961C /* ProfileMainBuilder.swift */; };
 		78EA69732BD9791A004A961C /* DisplayDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69722BD9791A004A961C /* DisplayDataMapper.swift */; };
 		78EA69762BD979BE004A961C /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EA69752BD979BE004A961C /* UserInfoModel.swift */; };
+		78F91A182BF51F1100AF2AC6 /* SelfProductInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F91A172BF51F1100AF2AC6 /* SelfProductInformationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -302,6 +313,16 @@
 		78DB41882BD02D4900EADD3E /* SearchEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEntity.swift; sourceTree = "<group>"; };
 		78DD39C42BF101DC0025BB36 /* SavedDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDataMapper.swift; sourceTree = "<group>"; };
 		78DD39C62BF103E30025BB36 /* SearchDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataMapper.swift; sourceTree = "<group>"; };
+		78DD39CB2BF28EEA0025BB36 /* SelfProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductImageCell.swift; sourceTree = "<group>"; };
+		78DD39CD2BF2916F0025BB36 /* SelfProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductViewController.swift; sourceTree = "<group>"; };
+		78DD39CF2BF291A70025BB36 /* SelfProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductViewModel.swift; sourceTree = "<group>"; };
+		78DD39D22BF291C30025BB36 /* SelfProductState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductState.swift; sourceTree = "<group>"; };
+		78DD39D42BF291CF0025BB36 /* SelfProductIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductIntent.swift; sourceTree = "<group>"; };
+		78DD39D62BF294600025BB36 /* SelfProductImageGropeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductImageGropeFooter.swift; sourceTree = "<group>"; };
+		78DD39D82BF29BF90025BB36 /* SelfProductSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductSection.swift; sourceTree = "<group>"; };
+		78DD39DA2BF2BAF70025BB36 /* SelfProductDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductDataMapper.swift; sourceTree = "<group>"; };
+		78DD39DC2BF2C7780025BB36 /* SelfProductModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductModuleIO.swift; sourceTree = "<group>"; };
+		78DD39DE2BF2CA470025BB36 /* SelfProductBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductBuilder.swift; sourceTree = "<group>"; };
 		78E4EF942BDCFA7400982CA5 /* SegmentController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SegmentController+Extension.swift"; sourceTree = "<group>"; };
 		78E4EF982BDCFC3D00982CA5 /* OrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
 		78E4EF9E2BDCFCBB00982CA5 /* OrdersState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersState.swift; sourceTree = "<group>"; };
@@ -353,6 +374,7 @@
 		78EA69702BD910F7004A961C /* ProfileMainBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainBuilder.swift; sourceTree = "<group>"; };
 		78EA69722BD9791A004A961C /* DisplayDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayDataMapper.swift; sourceTree = "<group>"; };
 		78EA69752BD979BE004A961C /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
+		78F91A172BF51F1100AF2AC6 /* SelfProductInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfProductInformationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -778,6 +800,7 @@
 		78C1CAFE2BADC02700748F3D /* FoodZ */ = {
 			isa = PBXGroup;
 			children = (
+				78DD39C82BF27B290025BB36 /* SelfProductView */,
 				784BBF1C2BE6DFA0008435FA /* ProductCoreData.xcdatamodeld */,
 				784BBF2A2BE6E357008435FA /* CoreData */,
 				78E4EF932BDCFA5700982CA5 /* Extension */,
@@ -953,6 +976,48 @@
 				78DB41842BD0077B00EADD3E /* Target.swift */,
 			);
 			path = WebService;
+			sourceTree = "<group>";
+		};
+		78DD39C82BF27B290025BB36 /* SelfProductView */ = {
+			isa = PBXGroup;
+			children = (
+				78DD39D12BF291B00025BB36 /* Bindings */,
+				78DD39CA2BF27B460025BB36 /* ViewModel */,
+				78DD39C92BF27B420025BB36 /* View */,
+				78DD39DE2BF2CA470025BB36 /* SelfProductBuilder.swift */,
+			);
+			path = SelfProductView;
+			sourceTree = "<group>";
+		};
+		78DD39C92BF27B420025BB36 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				78DD39CB2BF28EEA0025BB36 /* SelfProductImageCell.swift */,
+				78DD39CD2BF2916F0025BB36 /* SelfProductViewController.swift */,
+				78DD39D62BF294600025BB36 /* SelfProductImageGropeFooter.swift */,
+				78F91A172BF51F1100AF2AC6 /* SelfProductInformationCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		78DD39CA2BF27B460025BB36 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				78DD39CF2BF291A70025BB36 /* SelfProductViewModel.swift */,
+				78DD39D82BF29BF90025BB36 /* SelfProductSection.swift */,
+				78DD39DA2BF2BAF70025BB36 /* SelfProductDataMapper.swift */,
+				78DD39DC2BF2C7780025BB36 /* SelfProductModuleIO.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		78DD39D12BF291B00025BB36 /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				78DD39D22BF291C30025BB36 /* SelfProductState.swift */,
+				78DD39D42BF291CF0025BB36 /* SelfProductIntent.swift */,
+			);
+			path = Bindings;
 			sourceTree = "<group>";
 		};
 		78E4EF932BDCFA5700982CA5 /* Extension */ = {
@@ -1348,6 +1413,7 @@
 				78E4EFE82BE03F6C00982CA5 /* CustomImageView.swift in Sources */,
 				784BBF122BE6C7D8008435FA /* AddArhiveBuilder.swift in Sources */,
 				78C1CB642BADC04800748F3D /* AppCoordinator.swift in Sources */,
+				78DD39D32BF291C30025BB36 /* SelfProductState.swift in Sources */,
 				78EA69482BD44387004A961C /* CreateProductViewModelingProtocol.swift in Sources */,
 				78C1CB612BADC04800748F3D /* RegistrationModulBuilder.swift in Sources */,
 				78E4EFB72BDE8AF300982CA5 /* OrdersPastViewModel.swift in Sources */,
@@ -1384,6 +1450,7 @@
 				78C1CB572BADC04800748F3D /* AuthorizationViewModel.swift in Sources */,
 				784BBF0E2BE6C6DF008435FA /* AddArhiveViewController.swift in Sources */,
 				78E4EFC52BDE8CFC00982CA5 /* OrderEntity.swift in Sources */,
+				78DD39D02BF291A70025BB36 /* SelfProductViewModel.swift in Sources */,
 				784BBF602BE97788008435FA /* ProductResponce.swift in Sources */,
 				78C1CB4A2BADC04800748F3D /* ViewModule.swift in Sources */,
 				78EA69592BD5920E004A961C /* ProfilMainModuleIO.swift in Sources */,
@@ -1401,6 +1468,7 @@
 				784BBF1B2BE6CADE008435FA /* DraftsProductCell.swift in Sources */,
 				784BBF5C2BE95D8F008435FA /* AddImageCell.swift in Sources */,
 				78B05AD52BB6F35B00D74385 /* HomeCoreDataManager.swift in Sources */,
+				78F91A182BF51F1100AF2AC6 /* SelfProductInformationCell.swift in Sources */,
 				78EA69572BD591E0004A961C /* ProfileViewModel.swift in Sources */,
 				784BBED52BE42E2E008435FA /* Notification+Extension.swift in Sources */,
 				784BBF162BE6C8C7008435FA /* AddMainBuilder.swift in Sources */,
@@ -1409,6 +1477,7 @@
 				78EA69432BD442DA004A961C /* CategoryViewModel.swift in Sources */,
 				784BBF0C2BE6C6D3008435FA /* AddArhiveViewModel.swift in Sources */,
 				784BBED92BE53AD8008435FA /* SavedViewModel.swift in Sources */,
+				78DD39CE2BF291700025BB36 /* SelfProductViewController.swift in Sources */,
 				78B05A892BB367C300D74385 /* HomeViewModel.swift in Sources */,
 				784BBF622BE97F0E008435FA /* ProductRequest.swift in Sources */,
 				78DB41832BD000B000EADD3E /* StatefulNetworkService.swift in Sources */,
@@ -1428,9 +1497,11 @@
 				7802BFE52BCDB030008C95B2 /* TokenEntity.swift in Sources */,
 				784BBEFE2BE6C5BB008435FA /* AddDraftsState.swift in Sources */,
 				78C1CB5A2BADC04800748F3D /* AuthorizationModulBuilder.swift in Sources */,
+				78DD39D72BF294600025BB36 /* SelfProductImageGropeFooter.swift in Sources */,
 				784BBF102BE6C6F4008435FA /* AddArhiveModuleIO.swift in Sources */,
 				78C1CB542BADC04800748F3D /* AuthModuleIO.swift in Sources */,
 				78EA693C2BD149E4004A961C /* UserRemoteDataSource.swift in Sources */,
+				78DD39D92BF29BF90025BB36 /* SelfProductSection.swift in Sources */,
 				78B05A802BB2EC8B00D74385 /* AppColor.swift in Sources */,
 				784BBF4A2BE8BB7E008435FA /* FillingDataMapper.swift in Sources */,
 				78EA696A2BD63447004A961C /* ProfileSelfConfiguringCell.swift in Sources */,
@@ -1441,6 +1512,7 @@
 				78EA69712BD910F7004A961C /* ProfileMainBuilder.swift in Sources */,
 				78B05B3D2BBDA43800D74385 /* SearchViewState.swift in Sources */,
 				784BBEE22BE53B2F008435FA /* SavedState.swift in Sources */,
+				78DD39D52BF291CF0025BB36 /* SelfProductIntent.swift in Sources */,
 				78E4EFA32BDCFD2A00982CA5 /* OrdersViewModel.swift in Sources */,
 				78C1CB482BADC04800748F3D /* Builder.swift in Sources */,
 				784BBF142BE6C89E008435FA /* AddDraftsBuilder.swift in Sources */,
@@ -1448,6 +1520,7 @@
 				784BBF522BE8CCCF008435FA /* AddImageIntent.swift in Sources */,
 				78B05B072BBA881500D74385 /* ProductRepository.swift in Sources */,
 				784BBF022BE6C5FC008435FA /* AddDraftsModuleIO.swift in Sources */,
+				78DD39DF2BF2CA470025BB36 /* SelfProductBuilder.swift in Sources */,
 				78EA69682BD623E9004A961C /* ProfileMainBodyCell.swift in Sources */,
 				78B05AB62BB5E19500D74385 /* SingleCollectionViewCell.swift in Sources */,
 				78E4EFCD2BDE9E5C00982CA5 /* FetchOrderProtocols.swift in Sources */,
@@ -1455,6 +1528,7 @@
 				78B05AA82BB4692C00D74385 /* HomeCell.swift in Sources */,
 				78EA696D2BD6672F004A961C /* ProductSearchRequest.swift in Sources */,
 				78C1CB562BADC04800748F3D /* AuthorizationViewState.swift in Sources */,
+				78DD39DD2BF2C7780025BB36 /* SelfProductModuleIO.swift in Sources */,
 				784BBF542BE955C2008435FA /* AddImageViewModel.swift in Sources */,
 				78C1CB622BADC04800748F3D /* AppDelegate.swift in Sources */,
 				78B05B3A2BBD8C9000D74385 /* SearchModuleIO.swift in Sources */,
@@ -1477,6 +1551,7 @@
 				78B05B382BBD8C7500D74385 /* SearchViewModel.swift in Sources */,
 				784BBF582BE955F4008435FA /* AddImageModuleIO.swift in Sources */,
 				78C1CB4D2BADC04800748F3D /* CoordinatorFactory.swift in Sources */,
+				78DD39CC2BF28EEA0025BB36 /* SelfProductImageCell.swift in Sources */,
 				78E4EFDD2BDEC8A200982CA5 /* OrdersPageDataMapper.swift in Sources */,
 				78EA69382BD143EF004A961C /* UserRepository.swift in Sources */,
 				78E4EFDB2BDEC4A100982CA5 /* OrdersViewCellType.swift in Sources */,
@@ -1500,6 +1575,7 @@
 				784BBEF12BE6C2EE008435FA /* AddMainState.swift in Sources */,
 				78EA694F2BD44672004A961C /* CreateProductInput.swift in Sources */,
 				784BBF3F2BE7CFB8008435FA /* FillingViewModel.swift in Sources */,
+				78DD39DB2BF2BAF80025BB36 /* SelfProductDataMapper.swift in Sources */,
 				78B05A8F2BB465C900D74385 /* HomeModuleIO.swift in Sources */,
 				78E4EFBC2BDE8BCF00982CA5 /* OrdersPageIntent.swift in Sources */,
 				784BBF322BE7B577008435FA /* AddCoordinator.swift in Sources */,

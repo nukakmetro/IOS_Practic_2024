@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
+final class HomeViewController<ViewModel: HomeViewModeling>: UIViewController, UICollectionViewDelegate {
 
     // MARK: Private properties
 
@@ -34,6 +34,7 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
             HomeCell.self,
             forCellWithReuseIdentifier: HomeCell.reuseIdentifier
         )
+        collectionView.delegate = self
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
@@ -222,6 +223,16 @@ class HomeViewController<ViewModel: HomeViewModeling>: UIViewController {
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
+        }
+    }
+
+    // MARK: - UICollectionViewDelegate
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? HomeCell {
+            if let id = cell.id {
+                viewModel.trigger(.proccesedTappedCell(id: id))
+            }
         }
     }
 }
