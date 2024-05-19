@@ -100,7 +100,18 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
 
             case .bodyICell(let data):
                 var cell = configure(CartCell.self, for: indexPath)
-                cell.delegate = self
+                cell.proccesedTappedButtonSave = { id in
+                    self.viewModel.trigger(.proccesedTappedButtonSave(id: id))
+                }
+                cell.proccesedTappedButtonReduce = { id in
+                    self.viewModel.trigger(.proccesedTappedButtonReduce(id: id))
+                }
+                cell.proccesedTappedButtonIncrease = { id in
+                    self.viewModel.trigger(.proccesedTappedButtonIncrease(id: id))
+                }
+                cell.proccesedTappedButtonTrash = { id in
+                    self.viewModel.trigger(.proccesedTappedButtonTrash(id: id))
+                }
                 cell.configure(with: data)
                 return cell
             }
@@ -169,30 +180,10 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
     // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? HomeCell {
+        if let cell = collectionView.cellForItem(at: indexPath) as? CartCell {
             if let id = cell.id {
                 viewModel.trigger(.proccesedTappedButtonCell(id: id))
             }
         }
-    }
-}
-
-// MARK: - CartCellDelegate
-
-extension CartViewController: CartCellDelegate {
-    func proccesedTappedButtonSave(id: Int) {
-        viewModel.trigger(.proccesedTappedButtonSave(id: id))
-    }
-
-    func proccesedTappedButtonReduce(id: Int) {
-        viewModel.trigger(.proccesedTappedButtonReduce(id: id))
-    }
-
-    func proccesedTappedButtonIncrease(id: Int) {
-        viewModel.trigger(.proccesedTappedButtonIncrease(id: id))
-    }
-
-    func proccesedTappedButtonTrash(id: Int) {
-        viewModel.trigger(.proccesedTappedButtonTrash(id: id))
     }
 }

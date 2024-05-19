@@ -32,18 +32,17 @@ final class CartCoordinator: Coordinator {
 
     private func showCartView() {
         let controller = CartViewBuilder(output: self).build()
-        navigationController?.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: true)
     }
-    
+
     private func showSelfProductView() {
         let controller = SelfProductBuilder(output: self).build()
-        navigationController?.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     private func popView() {
         navigationController?.popViewController(animated: false)
     }
-    
 }
 
 // MARK: - CartModuleOutput

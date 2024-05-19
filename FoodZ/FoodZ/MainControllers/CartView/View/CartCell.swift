@@ -8,13 +8,6 @@
 import UIKit
 import SnapKit
 
-protocol CartCellDelegate: AnyObject {
-    func proccesedTappedButtonReduce(id: Int)
-    func proccesedTappedButtonIncrease(id: Int)
-    func proccesedTappedButtonTrash(id: Int)
-    func proccesedTappedButtonSave(id: Int)
-}
-
 final class CartCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
@@ -24,7 +17,10 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
     // MARK: Internal properties
 
     var id: Int?
-    weak var delegate: CartCellDelegate?
+    var proccesedTappedButtonReduce: ((_ id: Int) -> Void)?
+    var proccesedTappedButtonIncrease: ((_ id: Int) -> Void)?
+    var proccesedTappedButtonTrash: ((_ id: Int) -> Void)?
+    var proccesedTappedButtonSave: ((_ id: Int) -> Void)?
 
     // MARK: Private properties
 
@@ -115,10 +111,6 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
         setupPriceLabel()
     }
 
-    private func changeLike(like: Bool) {
-        
-    }
-
     private func setupPriceLabel() {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.font = .systemFont(ofSize: 17)
@@ -150,10 +142,10 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
         let action = UIAction { [weak self] _ in
             guard
                 let self = self,
-                let id = id
+                let id = id,
+                let proccesedTappedButtonTrash = proccesedTappedButtonTrash
             else { return }
-
-            delegate?.proccesedTappedButtonTrash(id: id)
+            proccesedTappedButtonTrash(id)
         }
         trashButton.addAction(action, for: .touchUpInside)
         trashButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
@@ -166,10 +158,10 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
         let action = UIAction { [weak self] _ in
             guard
                 let self = self,
-                let id = id
+                let id = id,
+                let proccesedTappedButtonReduce = proccesedTappedButtonReduce
             else { return }
-
-            delegate?.proccesedTappedButtonReduce(id: id)
+            proccesedTappedButtonReduce(id)
         }
         reduceButton.addAction(action, for: .touchUpInside)
         reduceButton.setImage(UIImage(systemName: "minus"), for: .normal)
@@ -183,10 +175,10 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
         let action = UIAction { [weak self] _ in
             guard
                 let self = self,
-                let id = id
+                let id = id,
+                let proccesedTappedButtonIncrease = proccesedTappedButtonIncrease
             else { return }
-
-            delegate?.proccesedTappedButtonIncrease(id: id)
+            proccesedTappedButtonIncrease(id)
         }
         increaseButton.addAction(action, for: .touchUpInside)
         increaseButton.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -200,10 +192,10 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
         let action = UIAction { [weak self] _ in
             guard
                 let self = self,
-                let id = id
+                let id = id,
+                let proccesedTappedButtonSave = proccesedTappedButtonSave
             else { return }
-
-            delegate?.proccesedTappedButtonSave(id: id)
+            proccesedTappedButtonSave(id)
         }
         saveButton.addAction(action, for: .touchUpInside)
         saveButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)

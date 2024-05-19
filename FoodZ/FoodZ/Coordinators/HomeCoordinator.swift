@@ -36,16 +36,16 @@ final class HomeCoordinator: Coordinator {
     }
     private func showSearcView() {
         let controller = SearchViewBuilder(output: self).build()
-        navigationController?.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     private func showSelfProductView() {
         let controller = SelfProductBuilder(output: self).build()
-        navigationController?.pushViewController(controller, animated: false)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     private func closePushView() {
-        navigationController?.popViewController(animated: false)
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -55,7 +55,7 @@ extension HomeCoordinator: HomeModuleOutput {
     func proccesedTappedButtonSearch() {
         showSearcView()
     }
-    
+
     func proccesedTappedProductCell(id: Int) {
         showSelfProductView()
         productInput?.proccesedSendId(id: id)

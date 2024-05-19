@@ -56,7 +56,7 @@ final class ProfileViewModel: ProfileMainModeling {
         }
     }
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(output: ProfileMainModuleOutput, repository: ProfileUserProtocol & UserExitProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
@@ -75,6 +75,7 @@ final class ProfileViewModel: ProfileMainModeling {
         self.displayDataMapper = DisplayDataMapper()
 
     }
+
     // MARK: Internal methods
 
     func trigger(_ intent: ProfileMainIntent) {

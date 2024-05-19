@@ -8,17 +8,12 @@
 import Foundation
 import Combine
 
-protocol CartViewModelDelegate: AnyObject {
-    func proccesedRemoveCartItem(id: Int)
-}
-
-protocol CartViewModeling: UIKitViewModel where State == CartViewState, Intent == CartViewIntent {
-    var delegate: CartViewModelDelegate? { get set }
-}
+protocol CartViewModeling: UIKitViewModel where State == CartViewState, Intent == CartViewIntent {}
 
 final class CartViewModel: CartViewModeling {
 
     // MARK: Private properties
+
     private var output: CartModuleOutput?
     private let repository: CartProtocol
     private(set) var stateDidChange: ObservableObjectPublisher
@@ -27,15 +22,13 @@ final class CartViewModel: CartViewModeling {
 
     // MARK: Internal properties
 
-    weak var delegate: CartViewModelDelegate?
-
     @Published var state: CartViewState {
         didSet {
             stateDidChange.send()
         }
     }
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(output: CartModuleOutput, remoteRepository: CartProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
@@ -65,7 +58,7 @@ final class CartViewModel: CartViewModeling {
         case .proccesedTappedButtonTrash(let id):
             removeCartItem(cartItemId: id)
         case .proccesedTappedButtonCell(let id):
-            output?.proccesedTappedProductCell(id: id)
+            tappedCell(cartItemId: id)
         case .proccesedTappedButtonSave(let id):
             saveProductItem(cartItemId: id)
         }
@@ -85,13 +78,26 @@ final class CartViewModel: CartViewModeling {
         }
     }
 
+    private func tappedCell(cartItemId: Int) {
+        for sectionIndex in sections.indices {
+            let section = sections[sectionIndex]
+            if case .bodySection(let id, var items) = section {
+                for itemIndex in items.indices {
+                    if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                        output?.proccesedTappedProductCell(id: product.productId)
+                    }
+                }
+            }
+        }
+    }
+
     private func increaseCartItem(cartItemId: Int) {
         repository.increaseCart(cartId: cartItemId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let data):
                 for sectionIndex in sections.indices {
-                    var section = sections[sectionIndex]
+                    let section = sections[sectionIndex]
                     if case .bodySection(let id, var items) = section {
                         for itemIndex in items.indices {
                             if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
@@ -114,10 +120,11 @@ final class CartViewModel: CartViewModeling {
 
     private func saveProductItem(cartItemId: Int) {
         for sectionIndex in sections.indices {
-            var section = sections[sectionIndex]
+            let section = sections[sectionIndex]
             if case .bodySection(let id, var items) = section {
                 for itemIndex in items.indices {
                     if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+
                         repository.proccesedTappedLikeButton(productId: product.productId) { [weak self] result in
                             guard let self = self else { return }
                             switch result {
@@ -144,7 +151,7 @@ final class CartViewModel: CartViewModeling {
             switch result {
             case .success(let data):
                 for sectionIndex in sections.indices {
-                    var section = sections[sectionIndex]
+                    let section = sections[sectionIndex]
                     if case .bodySection(let id, var items) = section {
                         for itemIndex in items.indices {
                             if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
@@ -171,7 +178,7 @@ final class CartViewModel: CartViewModeling {
             switch result {
             case .success:
                 for sectionIndex in sections.indices {
-                    var section = sections[sectionIndex]
+                    let section = sections[sectionIndex]
                     if case .bodySection(let id, var items) = section {
                         for itemIndex in items.indices {
                             if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {

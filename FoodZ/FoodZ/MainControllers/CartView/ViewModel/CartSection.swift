@@ -17,7 +17,7 @@ enum CartSectionType: Hashable {
         }
     }
 
-    static func ==(lhs: CartSectionType, rhs: CartSectionType) -> Bool {
+    static func == (lhs: CartSectionType, rhs: CartSectionType) -> Bool {
         switch (lhs, rhs) {
         case (.bodySection(let lhsId, _), .bodySection(let rhsId, _)):
             return lhsId == rhsId
