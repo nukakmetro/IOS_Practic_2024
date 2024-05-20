@@ -17,4 +17,5 @@ enum CartViewIntent {
     case proccesedTappedButtonTrash(id: Int)
     case proccesedTappedButtonCell(id: Int)
     case proccesedTappedButtonSave(id: Int)
+    case proccesedTappedButtonPay
 }

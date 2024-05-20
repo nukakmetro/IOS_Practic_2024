@@ -43,6 +43,10 @@ enum CartCellType: Hashable {
     }
 }
 
+struct CartViewData {
+    var totalPrice: Int
+}
+
 struct CartProduct: Hashable {
     var id: UUID
     var productId: Int

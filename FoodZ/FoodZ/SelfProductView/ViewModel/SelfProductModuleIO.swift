@@ -13,5 +13,6 @@ protocol SelfProductModuleInput: AnyObject {
 
 protocol SelfProductModuleOutput: AnyObject {
     func selfProductModuleDidLoad(input: SelfProductModuleInput)
+    func proccesedTappedButtonCart()
 
 }

@@ -8,6 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		7802BFE52BCDB030008C95B2 /* TokenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7802BFE42BCDB030008C95B2 /* TokenEntity.swift */; };
+		781C6E5D2BFA65660097C140 /* CartTotalPriceResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E5C2BFA65660097C140 /* CartTotalPriceResponce.swift */; };
+		781C6E642BFA80C40097C140 /* CartPayIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E632BFA80C40097C140 /* CartPayIntent.swift */; };
+		781C6E662BFA80CF0097C140 /* CartPayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E652BFA80CF0097C140 /* CartPayState.swift */; };
+		781C6E692BFA81110097C140 /* CartPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E682BFA81110097C140 /* CartPayViewModel.swift */; };
+		781C6E6B2BFA81720097C140 /* CartPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E6A2BFA81720097C140 /* CartPayViewController.swift */; };
+		781C6E6D2BFA81A30097C140 /* CartPayModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E6C2BFA81A30097C140 /* CartPayModuleIO.swift */; };
+		781C6E722BFA94540097C140 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E712BFA94540097C140 /* MapViewController.swift */; };
+		781C6E742BFB11440097C140 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E732BFB11440097C140 /* MapViewModel.swift */; };
+		781C6E762BFB11770097C140 /* MapViewModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E752BFB11770097C140 /* MapViewModuleIO.swift */; };
+		781C6E792BFB11DA0097C140 /* MapViewIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E782BFB11DA0097C140 /* MapViewIntent.swift */; };
+		781C6E7B2BFB11E90097C140 /* MapViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E7A2BFB11E90097C140 /* MapViewState.swift */; };
+		781C6E7D2BFB12BF0097C140 /* PickUpPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E7C2BFB12BF0097C140 /* PickUpPointAnnotation.swift */; };
+		781C6E7F2BFB144F0097C140 /* MapViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E7E2BFB144F0097C140 /* MapViewDataMapper.swift */; };
+		781C6E812BFB176A0097C140 /* MapViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E802BFB176A0097C140 /* MapViewBuilder.swift */; };
+		781C6E842BFBA0820097C140 /* PickUpRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E832BFBA0820097C140 /* PickUpRepository.swift */; };
+		781C6E862BFBA0920097C140 /* PickUpDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E852BFBA0920097C140 /* PickUpDataSource.swift */; };
 		784BBED32BE36BAB008435FA /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 784BBED22BE36BAB008435FA /* KeychainSwift */; };
 		784BBED52BE42E2E008435FA /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784BBED42BE42E2E008435FA /* Notification+Extension.swift */; };
 		784BBED72BE536F6008435FA /* SavedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784BBED62BE536F6008435FA /* SavedCoordinator.swift */; };
@@ -209,6 +225,22 @@
 
 /* Begin PBXFileReference section */
 		7802BFE42BCDB030008C95B2 /* TokenEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenEntity.swift; sourceTree = "<group>"; };
+		781C6E5C2BFA65660097C140 /* CartTotalPriceResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTotalPriceResponce.swift; sourceTree = "<group>"; };
+		781C6E632BFA80C40097C140 /* CartPayIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayIntent.swift; sourceTree = "<group>"; };
+		781C6E652BFA80CF0097C140 /* CartPayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayState.swift; sourceTree = "<group>"; };
+		781C6E682BFA81110097C140 /* CartPayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayViewModel.swift; sourceTree = "<group>"; };
+		781C6E6A2BFA81720097C140 /* CartPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayViewController.swift; sourceTree = "<group>"; };
+		781C6E6C2BFA81A30097C140 /* CartPayModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayModuleIO.swift; sourceTree = "<group>"; };
+		781C6E712BFA94540097C140 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		781C6E732BFB11440097C140 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		781C6E752BFB11770097C140 /* MapViewModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModuleIO.swift; sourceTree = "<group>"; };
+		781C6E782BFB11DA0097C140 /* MapViewIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewIntent.swift; sourceTree = "<group>"; };
+		781C6E7A2BFB11E90097C140 /* MapViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewState.swift; sourceTree = "<group>"; };
+		781C6E7C2BFB12BF0097C140 /* PickUpPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpPointAnnotation.swift; sourceTree = "<group>"; };
+		781C6E7E2BFB144F0097C140 /* MapViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDataMapper.swift; sourceTree = "<group>"; };
+		781C6E802BFB176A0097C140 /* MapViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewBuilder.swift; sourceTree = "<group>"; };
+		781C6E832BFBA0820097C140 /* PickUpRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpRepository.swift; sourceTree = "<group>"; };
+		781C6E852BFBA0920097C140 /* PickUpDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpDataSource.swift; sourceTree = "<group>"; };
 		784BBED42BE42E2E008435FA /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		784BBED62BE536F6008435FA /* SavedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedCoordinator.swift; sourceTree = "<group>"; };
 		784BBED82BE53AD7008435FA /* SavedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedViewModel.swift; sourceTree = "<group>"; };
@@ -421,6 +453,101 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		781C6E5E2BFA80610097C140 /* CartMainView */ = {
+			isa = PBXGroup;
+			children = (
+				78F91A1B2BF76C4B00AF2AC6 /* Bindings */,
+				78F91A1A2BF76C4700AF2AC6 /* ViewModel */,
+				78F91A192BF76C4200AF2AC6 /* View */,
+				78F91A352BF7F74B00AF2AC6 /* CartViewBuilder.swift */,
+			);
+			path = CartMainView;
+			sourceTree = "<group>";
+		};
+		781C6E5F2BFA808F0097C140 /* CartPayView */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E622BFA80AA0097C140 /* Bindings */,
+				781C6E612BFA80A20097C140 /* ViewModel */,
+				781C6E602BFA809C0097C140 /* View */,
+			);
+			path = CartPayView;
+			sourceTree = "<group>";
+		};
+		781C6E602BFA809C0097C140 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E6A2BFA81720097C140 /* CartPayViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		781C6E612BFA80A20097C140 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E682BFA81110097C140 /* CartPayViewModel.swift */,
+				781C6E6C2BFA81A30097C140 /* CartPayModuleIO.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		781C6E622BFA80AA0097C140 /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E632BFA80C40097C140 /* CartPayIntent.swift */,
+				781C6E652BFA80CF0097C140 /* CartPayState.swift */,
+			);
+			path = Bindings;
+			sourceTree = "<group>";
+		};
+		781C6E6E2BFA942F0097C140 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E772BFB119C0097C140 /* Bindings */,
+				781C6E702BFA943D0097C140 /* ViewModel */,
+				781C6E6F2BFA94370097C140 /* View */,
+				781C6E802BFB176A0097C140 /* MapViewBuilder.swift */,
+			);
+			path = MapView;
+			sourceTree = "<group>";
+		};
+		781C6E6F2BFA94370097C140 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E712BFA94540097C140 /* MapViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		781C6E702BFA943D0097C140 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E732BFB11440097C140 /* MapViewModel.swift */,
+				781C6E752BFB11770097C140 /* MapViewModuleIO.swift */,
+				781C6E7C2BFB12BF0097C140 /* PickUpPointAnnotation.swift */,
+				781C6E7E2BFB144F0097C140 /* MapViewDataMapper.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		781C6E772BFB119C0097C140 /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E782BFB11DA0097C140 /* MapViewIntent.swift */,
+				781C6E7A2BFB11E90097C140 /* MapViewState.swift */,
+			);
+			path = Bindings;
+			sourceTree = "<group>";
+		};
+		781C6E822BFBA05B0097C140 /* PickUpPointDetails */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E832BFBA0820097C140 /* PickUpRepository.swift */,
+				781C6E852BFBA0920097C140 /* PickUpDataSource.swift */,
+			);
+			path = PickUpPointDetails;
+			sourceTree = "<group>";
+		};
 		784BBEDA2BE53ADB008435FA /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -719,10 +846,8 @@
 		78B05A812BB3675A00D74385 /* CartView */ = {
 			isa = PBXGroup;
 			children = (
-				78F91A1B2BF76C4B00AF2AC6 /* Bindings */,
-				78F91A1A2BF76C4700AF2AC6 /* ViewModel */,
-				78F91A192BF76C4200AF2AC6 /* View */,
-				78F91A352BF7F74B00AF2AC6 /* CartViewBuilder.swift */,
+				781C6E5F2BFA808F0097C140 /* CartPayView */,
+				781C6E5E2BFA80610097C140 /* CartMainView */,
 			);
 			path = CartView;
 			sourceTree = "<group>";
@@ -831,6 +956,7 @@
 		78C1CAFE2BADC02700748F3D /* FoodZ */ = {
 			isa = PBXGroup;
 			children = (
+				781C6E6E2BFA942F0097C140 /* MapView */,
 				78DD39C82BF27B290025BB36 /* SelfProductView */,
 				784BBF1C2BE6DFA0008435FA /* ProductCoreData.xcdatamodeld */,
 				784BBF2A2BE6E357008435FA /* CoreData */,
@@ -1000,6 +1126,7 @@
 		78C1CB422BADC04800748F3D /* WebService */ = {
 			isa = PBXGroup;
 			children = (
+				781C6E822BFBA05B0097C140 /* PickUpPointDetails */,
 				78F91A262BF7ABD600AF2AC6 /* CartDetails */,
 				78E4EFC12BDE8C8C00982CA5 /* OrderDetails */,
 				78EA69792BD97C92004A961C /* TokenDetails */,
@@ -1370,6 +1497,7 @@
 				78F91A2B2BF7AC9C00AF2AC6 /* CartResponce.swift */,
 				78F91A2D2BF7ADBE00AF2AC6 /* CartRecountResponce.swift */,
 				78F91A312BF7BA2F00AF2AC6 /* CartProductResponce.swift */,
+				781C6E5C2BFA65660097C140 /* CartTotalPriceResponce.swift */,
 			);
 			path = CartDetails;
 			sourceTree = "<group>";
@@ -1499,6 +1627,7 @@
 				78B05ADB2BB8BA9500D74385 /* Section.swift in Sources */,
 				78E4EFCB2BDE9B2500982CA5 /* FullOrderResponce.swift in Sources */,
 				78B05B412BC0721D00D74385 /* DisplayDataProtocol.swift in Sources */,
+				781C6E5D2BFA65660097C140 /* CartTotalPriceResponce.swift in Sources */,
 				78EA69532BD44AF3004A961C /* ProductModel.swift in Sources */,
 				786A61B92BEA7CB6009CFA8E /* ImageFileManager.swift in Sources */,
 				784BBF2E2BE6F0CD008435FA /* DraftsProduct.swift in Sources */,
@@ -1506,6 +1635,7 @@
 				78F91A1F2BF76C6C00AF2AC6 /* CartViewIntent.swift in Sources */,
 				78C1CB512BADC04800748F3D /* SavedViewController.swift in Sources */,
 				78EA694A2BD4439C004A961C /* CreateProductState.swift in Sources */,
+				781C6E6B2BFA81720097C140 /* CartPayViewController.swift in Sources */,
 				784BBF3B2BE7CBAE008435FA /* FilingIntent.swift in Sources */,
 				784BBF662BE99802008435FA /* AddImageBuilder.swift in Sources */,
 				78E4EFC02BDE8C4D00982CA5 /* OrdersPageViewModeling.swift in Sources */,
@@ -1529,6 +1659,8 @@
 				784BBF0E2BE6C6DF008435FA /* AddArhiveViewController.swift in Sources */,
 				78F91A2A2BF7AC0500AF2AC6 /* CartRepository.swift in Sources */,
 				78E4EFC52BDE8CFC00982CA5 /* OrderEntity.swift in Sources */,
+				781C6E7D2BFB12BF0097C140 /* PickUpPointAnnotation.swift in Sources */,
+				781C6E6D2BFA81A30097C140 /* CartPayModuleIO.swift in Sources */,
 				78DD39D02BF291A70025BB36 /* SelfProductViewModel.swift in Sources */,
 				78F91A252BF7AA8300AF2AC6 /* CartSection.swift in Sources */,
 				784BBF602BE97788008435FA /* ProductResponce.swift in Sources */,
@@ -1552,15 +1684,18 @@
 				78F91A182BF51F1100AF2AC6 /* SelfProductInformationCell.swift in Sources */,
 				78EA69572BD591E0004A961C /* ProfileViewModel.swift in Sources */,
 				784BBED52BE42E2E008435FA /* Notification+Extension.swift in Sources */,
+				781C6E642BFA80C40097C140 /* CartPayIntent.swift in Sources */,
 				784BBF162BE6C8C7008435FA /* AddMainBuilder.swift in Sources */,
 				78EA69662BD59562004A961C /* ProfileMainState.swift in Sources */,
 				78E4EFA12BDCFCDF00982CA5 /* OrdersIntent.swift in Sources */,
 				78EA69432BD442DA004A961C /* CategoryViewModel.swift in Sources */,
 				784BBF0C2BE6C6D3008435FA /* AddArhiveViewModel.swift in Sources */,
+				781C6E792BFB11DA0097C140 /* MapViewIntent.swift in Sources */,
 				784BBED92BE53AD8008435FA /* SavedViewModel.swift in Sources */,
 				78DD39CE2BF291700025BB36 /* SelfProductViewController.swift in Sources */,
 				78B05A892BB367C300D74385 /* HomeViewModel.swift in Sources */,
 				784BBF622BE97F0E008435FA /* ProductRequest.swift in Sources */,
+				781C6E722BFA94540097C140 /* MapViewController.swift in Sources */,
 				78DB41832BD000B000EADD3E /* StatefulNetworkService.swift in Sources */,
 				784BBF182BE6C8F7008435FA /* AddMainModuleIO.swift in Sources */,
 				78C1CB5B2BADC04800748F3D /* RegModuleIO.swift in Sources */,
@@ -1568,6 +1703,7 @@
 				78B05AA42BB4673800D74385 /* HomeViewIntent.swift in Sources */,
 				78D41B582BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift in Sources */,
 				78E4EF9F2BDCFCBB00982CA5 /* OrdersState.swift in Sources */,
+				781C6E692BFA81110097C140 /* CartPayViewModel.swift in Sources */,
 				78C1CB5E2BADC04800748F3D /* RegistrationViewIntent.swift in Sources */,
 				78C1CB552BADC04800748F3D /* AuthorizationViewIntent.swift in Sources */,
 				78E4EFA92BDD094F00982CA5 /* OrdersViewBuilder.swift in Sources */,
@@ -1578,6 +1714,8 @@
 				7802BFE52BCDB030008C95B2 /* TokenEntity.swift in Sources */,
 				784BBEFE2BE6C5BB008435FA /* AddDraftsState.swift in Sources */,
 				78C1CB5A2BADC04800748F3D /* AuthorizationModulBuilder.swift in Sources */,
+				781C6E7B2BFB11E90097C140 /* MapViewState.swift in Sources */,
+				781C6E662BFA80CF0097C140 /* CartPayState.swift in Sources */,
 				78DD39D72BF294600025BB36 /* SelfProductImageGropeFooter.swift in Sources */,
 				784BBF102BE6C6F4008435FA /* AddArhiveModuleIO.swift in Sources */,
 				78C1CB542BADC04800748F3D /* AuthModuleIO.swift in Sources */,
@@ -1599,6 +1737,7 @@
 				78C1CB482BADC04800748F3D /* Builder.swift in Sources */,
 				784BBF142BE6C89E008435FA /* AddDraftsBuilder.swift in Sources */,
 				78C1CB532BADC04800748F3D /* MainTabBarController.swift in Sources */,
+				781C6E742BFB11440097C140 /* MapViewModel.swift in Sources */,
 				784BBF522BE8CCCF008435FA /* AddImageIntent.swift in Sources */,
 				78B05B072BBA881500D74385 /* ProductRepository.swift in Sources */,
 				784BBF022BE6C5FC008435FA /* AddDraftsModuleIO.swift in Sources */,
@@ -1637,9 +1776,11 @@
 				78B05B382BBD8C7500D74385 /* SearchViewModel.swift in Sources */,
 				784BBF582BE955F4008435FA /* AddImageModuleIO.swift in Sources */,
 				78C1CB4D2BADC04800748F3D /* CoordinatorFactory.swift in Sources */,
+				781C6E862BFBA0920097C140 /* PickUpDataSource.swift in Sources */,
 				78DD39CC2BF28EEA0025BB36 /* SelfProductImageCell.swift in Sources */,
 				78E4EFDD2BDEC8A200982CA5 /* OrdersPageDataMapper.swift in Sources */,
 				78F91A342BF7BD2E00AF2AC6 /* CartModuleIO.swift in Sources */,
+				781C6E842BFBA0820097C140 /* PickUpRepository.swift in Sources */,
 				78EA69382BD143EF004A961C /* UserRepository.swift in Sources */,
 				78E4EFDB2BDEC4A100982CA5 /* OrdersViewCellType.swift in Sources */,
 				78C1CB6A2BADC04800748F3D /* TokenManager.swift in Sources */,
@@ -1655,6 +1796,7 @@
 				78EA696F2BD82878004A961C /* ProfileMainHeaderCell.swift in Sources */,
 				78B05B362BBD8C4D00D74385 /* SearchViewController.swift in Sources */,
 				78DB41852BD0077B00EADD3E /* Target.swift in Sources */,
+				781C6E7F2BFB144F0097C140 /* MapViewDataMapper.swift in Sources */,
 				784BBED72BE536F6008435FA /* SavedCoordinator.swift in Sources */,
 				78B05AD92BB8B1E300D74385 /* SectionHeaderCell.swift in Sources */,
 				78E4EFD32BDE9FDF00982CA5 /* OrdersPageViewController.swift in Sources */,
@@ -1665,12 +1807,14 @@
 				784BBF3F2BE7CFB8008435FA /* FillingViewModel.swift in Sources */,
 				78DD39DB2BF2BAF80025BB36 /* SelfProductDataMapper.swift in Sources */,
 				78B05A8F2BB465C900D74385 /* HomeModuleIO.swift in Sources */,
+				781C6E762BFB11770097C140 /* MapViewModuleIO.swift in Sources */,
 				78E4EFBC2BDE8BCF00982CA5 /* OrdersPageIntent.swift in Sources */,
 				784BBF322BE7B577008435FA /* AddCoordinator.swift in Sources */,
 				78EA69762BD979BE004A961C /* UserInfoModel.swift in Sources */,
 				784BBF302BE6F2B3008435FA /* DraftsDispayDataMapper.swift in Sources */,
 				78C1CB602BADC04800748F3D /* RegistrationViewController.swift in Sources */,
 				78D41B5C2BEFD74F004CB7AD /* HomeDataMapper.swift in Sources */,
+				781C6E812BFB176A0097C140 /* MapViewBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -61,6 +61,8 @@ final class SelfProductViewModel: SelfProductViewModeling {
         case .proccesedTappedButtonAddToCart:
 
             proccesedTappedButtonAddToCart()
+        case .proccesedTappedButtonCart:
+            output?.proccesedTappedButtonCart()
         }
     }
 

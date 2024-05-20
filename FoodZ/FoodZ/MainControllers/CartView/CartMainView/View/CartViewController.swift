@@ -16,6 +16,10 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
     private var dataSource: UICollectionViewDiffableDataSource<CartSectionType, CartCellType>?
     private var sections: [CartSectionType]
     private var cancellables: Set<AnyCancellable> = []
+
+    private lazy var totalPriceLabel = UILabel()
+    private lazy var payButton = UIButton()
+
     private lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         collectionView.backgroundColor = AppColor.secondary.color
@@ -77,7 +81,8 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
         switch viewModel.state {
         case .loading:
             break
-        case .content(let dispayData):
+        case .content(let dispayData, let viewData):
+            setupDisplayData(viewData: viewData)
             sections = dispayData
             reloadData()
         case .error:
@@ -99,7 +104,7 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
             switch item {
 
             case .bodyICell(let data):
-                var cell = configure(CartCell.self, for: indexPath)
+                let cell = configure(CartCell.self, for: indexPath)
                 cell.proccesedTappedButtonSave = { id in
                     self.viewModel.trigger(.proccesedTappedButtonSave(id: id))
                 }
@@ -166,14 +171,52 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
 
     private func makeConstraints() {
         view.backgroundColor = AppColor.primary.color
-        view.addSubview(collectionView)
+
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        totalPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        payButton.translatesAutoresizingMaskIntoConstraints = false
+
+        let stackView = UIStackView(arrangedSubviews: [totalPriceLabel, payButton])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.backgroundColor = AppColor.background.color
+
+        view.addSubview(collectionView)
+        view.addSubview(stackView)
 
         collectionView.snp.makeConstraints { make in
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
+        }
+
+        stackView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
+        }
+    }
+
+    private func setupDisplayData(viewData: CartViewData) {
+
+        totalPriceLabel.text = String(viewData.totalPrice)
+
+        let action = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            payButton.isEnabled = false
+            viewModel.trigger(.proccesedTappedButtonPay)
+        }
+        payButton.isEnabled = true
+        payButton.removeTarget(self, action: nil, for: .allEvents)
+
+        if viewData.totalPrice == 0 {
+            payButton.isEnabled = false
+            payButton.setTitle("Корзина пустая", for: .normal)
+            payButton.backgroundColor = .red
+        } else {
+            payButton.addAction(action, for: .touchUpInside)
+            payButton.backgroundColor = .blue
+            payButton.setTitle("Перейти к оформлению", for: .normal)
         }
     }
 

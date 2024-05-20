@@ -120,4 +120,14 @@ final class CoreDataManager {
             saveContext()
         }
     }
+
+    func clear() {
+        let productFetch = ProductEntity.fetchRequest()
+        let result = try? viewContext.fetch(productFetch)
+        guard let result = result else { return }
+        for res in result {
+            viewContext.delete(res)
+        }
+        saveContext()
+    }
 }

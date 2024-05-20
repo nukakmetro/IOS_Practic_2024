@@ -37,6 +37,11 @@ final class ProfileCoordinator: Coordinator {
         navigationController?.pushViewController(controller, animated: false)
     }
 
+    private func showMapView() {
+        let controller = MapViewBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: false)
+    }
+
     private func showOrdersView() {
         let controller = OrdersViewBuilder(output: self).build()
         navigationController?.pushViewController(controller, animated: false)
@@ -48,7 +53,7 @@ final class ProfileCoordinator: Coordinator {
     }
 }
 
-// MARK: ProfileMainModuleOutput protocol
+// MARK: ProfileMainModuleOutput
 
 extension ProfileCoordinator: ProfileMainModuleOutput {
 
@@ -57,7 +62,7 @@ extension ProfileCoordinator: ProfileMainModuleOutput {
     }
 
     func processedAddressBookItemTapped() {
-
+        showMapView()
     }
 
     func processedPaymentItemTapped() {
@@ -81,8 +86,14 @@ extension ProfileCoordinator: ProfileMainModuleOutput {
     }
 }
 
-// MARK: OrdersModuleOutput protocol
+// MARK: OrdersModuleOutput
 
 extension ProfileCoordinator: OrdersModuleOutput {
 
+}
+
+// MARK: MapModuleOutput
+
+extension ProfileCoordinator: MapModuleOutput {
+    
 }

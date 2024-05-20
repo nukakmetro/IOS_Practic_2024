@@ -23,6 +23,7 @@ class MainTabBarController: UITabBarController {
         addCoordinator = coordinatorFactory.createAddCoordinator(navigationController: UINavigationController())
         cartCoordinator = coordinatorFactory.createCartCoordinator(navigationController: UINavigationController())
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSelectCartTab), name: .selectCartTab, object: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -60,4 +61,7 @@ class MainTabBarController: UITabBarController {
         ]
     }
 
+    @objc private func handleSelectCartTab() {
+        selectedIndex = 3
+    }
 }

@@ -9,6 +9,6 @@ import Foundation
 
 enum CartViewState {
     case loading
-    case content(displayData: [CartSectionType])
+    case content(displayData: [CartSectionType], _ viewData: CartViewData)
     case error
 }

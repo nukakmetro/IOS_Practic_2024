@@ -50,4 +50,9 @@ final class CartDataSource {
         let target = Target(path: "/user/product/like", method: .post, setParametresFromEncodable: productId, role: .user)
         networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
     }
+
+    func getTotalPrice(completion: @escaping (Result<CartTotalPriceResponce, Error>) -> Void) {
+        let target = Target(path: "/user/cart/totalPrice", method: .get, setParametresFromEncodable: nil, role: .user)
+        networkService.sendRequest(target: target, responseType: CartTotalPriceResponce.self, completion: completion)
+    }
 }

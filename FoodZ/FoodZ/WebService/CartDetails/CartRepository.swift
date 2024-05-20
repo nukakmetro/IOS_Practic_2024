@@ -14,6 +14,7 @@ protocol CartProtocol {
     func removeCart(cartId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
     func insertCart(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
     func proccesedTappedLikeButton(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
+    func getTotalPrice(completion: @escaping (Result<CartTotalPriceResponce, Error>) -> Void)
 }
 
 final class CartRepository {
@@ -55,5 +56,9 @@ extension CartRepository: CartProtocol {
 
     func insertCart(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
         dataSource.insertCart(productId: productId, completion: completion)
+    }
+    
+    func getTotalPrice(completion: @escaping (Result<CartTotalPriceResponce, Error>) -> Void) {
+        dataSource.getTotalPrice(completion: completion)
     }
 }

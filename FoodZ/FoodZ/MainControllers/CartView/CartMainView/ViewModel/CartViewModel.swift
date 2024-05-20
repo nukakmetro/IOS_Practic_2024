@@ -19,6 +19,7 @@ final class CartViewModel: CartViewModeling {
     private(set) var stateDidChange: ObservableObjectPublisher
     private var sections: [CartSectionType]
     private let dataMapper: CartDataMapper
+    private var viewData: CartViewData
 
     // MARK: Internal properties
 
@@ -37,6 +38,8 @@ final class CartViewModel: CartViewModeling {
         self.repository = remoteRepository
         self.sections = []
         self.dataMapper = CartDataMapper()
+        self.viewData = CartViewData(totalPrice: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSelectCartTab), name: .selectCartTab, object: nil)
     }
 
     // MARK: Internal methods
@@ -61,6 +64,8 @@ final class CartViewModel: CartViewModeling {
             tappedCell(cartItemId: id)
         case .proccesedTappedButtonSave(let id):
             saveProductItem(cartItemId: id)
+        case .proccesedTappedButtonPay:
+            break
         }
     }
 
@@ -71,7 +76,8 @@ final class CartViewModel: CartViewModeling {
             switch result {
             case .success(let data):
                 sections = dataMapper.displayData(data: data)
-                state = .content(displayData: sections)
+                viewData.totalPrice = data.totalPrice
+                state = .content(displayData: sections, viewData)
             case .failure:
                 break
             }
@@ -107,7 +113,8 @@ final class CartViewModel: CartViewModeling {
                                 newProduct.productPrice = String(data.totalPrice)
                                 items[itemIndex] = .bodyICell(newProduct)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
-                                state = .content(displayData: sections)
+                                viewData.totalPrice = data.totalPrice
+                                state = .content(displayData: sections, viewData)
                             }
                         }
                     }
@@ -134,7 +141,7 @@ final class CartViewModel: CartViewModeling {
                                 newProduct.productSavedStatus = data
                                 items[itemIndex] = .bodyICell(newProduct)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
-                                state = .content(displayData: sections)
+                                state = .content(displayData: sections, viewData)
                             case .failure:
                                 break
                             }
@@ -161,7 +168,8 @@ final class CartViewModel: CartViewModeling {
                                 newProduct.productPrice = String(data.totalPrice)
                                 items[itemIndex] = .bodyICell(newProduct)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
-                                state = .content(displayData: sections)
+                                viewData.totalPrice = data.totalPrice
+                                state = .content(displayData: sections, viewData)
                             }
                         }
                     }
@@ -184,16 +192,34 @@ final class CartViewModel: CartViewModeling {
                             if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
                                 items.remove(at: itemIndex)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
-                                state = .content(displayData: sections)
+                                state = .content(displayData: sections, viewData)
+                                getTotalPrice()
+                                break
                             }
                         }
                     }
                 }
-                state = .content(displayData: sections)
             case .failure:
                 break
             }
         }
+    }
+
+    private func getTotalPrice() {
+        repository.getTotalPrice { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                viewData.totalPrice = data.totalPrice
+                state = .content(displayData: sections, viewData)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    @objc private func handleSelectCartTab() {
+        trigger(.onReload)
     }
 }
 
