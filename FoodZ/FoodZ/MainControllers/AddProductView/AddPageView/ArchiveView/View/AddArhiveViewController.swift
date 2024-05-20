@@ -51,7 +51,7 @@ final class AddArhiveViewController<ViewModel: AddArhiveViewModeling>: UIViewCon
         configureIO()
         viewModel.trigger(.onDidLoad)
         view.backgroundColor = .red
-        navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: Private methods

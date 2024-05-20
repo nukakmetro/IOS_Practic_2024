@@ -134,7 +134,7 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
                 return nil
             }
 
-            if case .imagesSection(let images) = sections[indexPath.section] {
+            if case .imagesSection = sections[indexPath.section] {
                 sectionFooter.configure(indexPath: indexPath)
             }
             sectionFooter.delegate = self

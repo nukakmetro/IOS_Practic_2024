@@ -13,4 +13,5 @@ enum MapViewIntent {
     case onLoad
     case onReload
     case proccesedTappedAnnotation(pickUpPointId: Int)
+    case proccesedTappedButtonBack
 }

@@ -52,6 +52,8 @@ final class MapViewModel: MapViewModeling {
             break
         case .proccesedTappedAnnotation(let pickUpPointId):
             output?.proccesedTappedAnnotation(pickUpPointId: pickUpPointId)
+        case .proccesedTappedButtonBack:
+            output?.proccesedTappedButtonBack()
         }
     }
 

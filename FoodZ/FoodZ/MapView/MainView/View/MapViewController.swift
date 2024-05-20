@@ -24,6 +24,7 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
     private var locationManager: CLLocationManager?
     private let viewModel: ViewModel
     private var cancellables: Set<AnyCancellable> = []
+    private lazy var backButton = UIButton()
 
     // MARK: Initialization
 
@@ -40,9 +41,12 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLocationManager()
+        setupDisplay()
         makeContstraint()
         configureIO()
         viewModel.trigger(.onDidLoad)
+        navigationController?.isNavigationBarHidden = true
+
     }
 
     // MARK: Private methods
@@ -50,6 +54,12 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
     private func makeContstraint() {
         view.addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backButton)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            make.leading.equalToSuperview().inset(30)
+        }
         mapView.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
@@ -113,6 +123,23 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
         present(alert, animated: false)
     }
 
+    private func setupDisplay() {
+        let backButtonAction = UIAction { [weak self] _ in
+            self?.viewModel.trigger(.proccesedTappedButtonBack)
+        }
+        backButton.configuration = UIButton.Configuration.plain()
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        backButton.addAction(backButtonAction, for: .touchUpInside)
+        backButton.backgroundColor = AppColor.background.color
+        backButton.setTitleColor(AppColor.title.color, for: .normal)
+        backButton.clipsToBounds = true
+        let width = view.frame.width / 10
+        backButton.frame = CGRect(origin: .zero, size: CGSize(width: width, height: width))
+        backButton.layer.cornerRadius = width / 2
+
+    }
+
     private func setupLocationManager() {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
@@ -134,6 +161,8 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
+
+    // MARK: - MKMapViewDelegate
 
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
         guard let pickUpPointAnnotation = annotation as? PickUpPointAnnotation else { return }

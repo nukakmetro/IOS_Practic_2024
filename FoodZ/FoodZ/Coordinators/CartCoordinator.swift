@@ -58,9 +58,9 @@ extension CartCoordinator: CartModuleOutput {
 
 extension CartCoordinator: SelfProductModuleOutput {
     func proccesedTappedButtonCart() {
-        
+
     }
-    
+
     func selfProductModuleDidLoad(input: SelfProductModuleInput) {
         productInput = input
     }

@@ -137,6 +137,11 @@ extension ProfileCoordinator: OrdersModuleOutput {
 // MARK: - MapModuleOutput
 
 extension ProfileCoordinator: MapModuleOutput {
+
+    func proccesedTappedButtonBack() {
+        popView()
+    }
+
     func proccesedTappedAnnotation(pickUpPointId: Int) {
         showDetailPickUpPoint()
         detailPickUpPointInput?.proccesDidLoad(id: pickUpPointId)

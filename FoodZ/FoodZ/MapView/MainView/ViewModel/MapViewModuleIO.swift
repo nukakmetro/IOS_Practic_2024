@@ -11,4 +11,5 @@ protocol MapModuleInput: AnyObject {}
 
 protocol MapModuleOutput: AnyObject {
     func proccesedTappedAnnotation(pickUpPointId: Int)
+    func proccesedTappedButtonBack()
 }

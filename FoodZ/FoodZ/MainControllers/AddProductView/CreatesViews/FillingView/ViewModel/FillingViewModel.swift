@@ -90,7 +90,7 @@ final class FillingViewModel: FillingViewModeling {
                     value: newFillingData[index].value,
                     error: true
                 )
-            } 
+            }
         }
         if isError {
             state = .error(dataMapper.displayData(from: newFillingData))

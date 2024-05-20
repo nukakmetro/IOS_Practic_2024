@@ -26,6 +26,7 @@ final class MapViewBuilder: Builder {
         let remoteRepository = PickUpPointRepository()
         let viewModel = MapViewModel(output: output, repository: remoteRepository)
         let controller = MapViewController(viewModel: viewModel)
+        controller.hidesBottomBarWhenPushed = true
         return controller
     }
 }

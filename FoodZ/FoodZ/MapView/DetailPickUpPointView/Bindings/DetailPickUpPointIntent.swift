@@ -14,4 +14,5 @@ enum DetailPickUpPointIntent {
     case onReload
     case proccesedTappedButtonSelect
     case proccesedCloseMapModuleClose
+
 }

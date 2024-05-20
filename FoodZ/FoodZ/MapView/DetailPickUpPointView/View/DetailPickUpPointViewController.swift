@@ -18,7 +18,6 @@ final class DetailPickUpPointViewController<ViewModel: DetailPickUpPointViewMode
     private lazy var nameLabel = UILabel()
     private lazy var addressLabel = UILabel()
     private lazy var zipCodeLabel = UILabel()
-
     private lazy var button = UIButton()
 
     // MARK: Initialization
