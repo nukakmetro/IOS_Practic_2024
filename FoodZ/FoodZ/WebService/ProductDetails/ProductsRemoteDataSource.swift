@@ -76,4 +76,10 @@ final class ProductsRemoteDataSource {
         let target = Target(path: "/user/product", method: .get, setParametresFromEncodable: IdRequest(id: id), role: .user, encoder: URLEncodedFormParameterEncoder.default)
         networkService.sendRequest(target: target, responseType: ProductSelf.self, completion: completion)
     }
+
+    func insertCart(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let target = Target(path: "/user/cart/insert", method: .post, setParametresFromEncodable: productId, role: .user)
+        networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
+    }
+
 }

@@ -14,4 +14,5 @@ enum SelfProductIntent {
     case onClose
     case onReload
     case proccesedTappedButtonLike
+    case proccesedTappedButtonAddToCart
 }

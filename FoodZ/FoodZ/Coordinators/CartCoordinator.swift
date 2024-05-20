@@ -1,14 +1,14 @@
 //
-//  HomeCoordinator.swift
+//  CartCoordinator.swift
 //  FoodZ
 //
-//  Created by surexnx on 27.03.2024.
+//  Created by surexnx on 17.05.2024.
 //
 
 import Foundation
 import UIKit
 
-final class HomeCoordinator: Coordinator {
+final class CartCoordinator: Coordinator {
 
     // MARK: Internal properties
 
@@ -25,17 +25,13 @@ final class HomeCoordinator: Coordinator {
     // MARK: Internal methods
 
     func start() {
-        showHomeView()
+        showCartView()
     }
 
     // MARK: Private methods
 
-    private func showHomeView() {
-        let controller = HomeViewBuilder(output: self).build()
-        navigationController?.pushViewController(controller, animated: false)
-    }
-    private func showSearcView() {
-        let controller = SearchViewBuilder(output: self).build()
+    private func showCartView() {
+        let controller = CartViewBuilder(output: self).build()
         navigationController?.pushViewController(controller, animated: true)
     }
 
@@ -44,37 +40,25 @@ final class HomeCoordinator: Coordinator {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    private func closePushView() {
-        navigationController?.popViewController(animated: true)
+    private func popView() {
+        navigationController?.popViewController(animated: false)
     }
 }
 
-// MARK: - HomeViewOutput
+// MARK: - CartModuleOutput
 
-extension HomeCoordinator: HomeModuleOutput {
-    func proccesedTappedButtonSearch() {
-        showSearcView()
-    }
-
+extension CartCoordinator: CartModuleOutput {
     func proccesedTappedProductCell(id: Int) {
         showSelfProductView()
         productInput?.proccesedSendId(id: id)
     }
 }
 
-// MARK: - SearchModuleOutput
-
-extension HomeCoordinator: SearchModuleOutput {
-    func moduleWantsToClose() {
-        closePushView()
-    }
-}
-
 // MARK: - SelfProductModuleOutput
 
-extension HomeCoordinator: SelfProductModuleOutput {
+extension CartCoordinator: SelfProductModuleOutput {
     func proccesedTappedButtonCart() {
-        NotificationCenter.default.post(name: .selectCartTab, object: nil)
+        
     }
     
     func selfProductModuleDidLoad(input: SelfProductModuleInput) {

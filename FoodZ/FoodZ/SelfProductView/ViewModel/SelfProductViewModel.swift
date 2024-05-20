@@ -19,7 +19,7 @@ final class SelfProductViewModel: SelfProductViewModeling {
     private var repository: ProductSelfProtocol & ProductToggleLikeProtocol
     private let dataMapper: SelfProductDataMapper
     private var sections: [SelfProductSectionType]
-    private var contentData: SelfProductContentData?
+    private var contentData: SelfProductContentData
     private var id: Int?
 
     // MARK: Internal properties
@@ -39,6 +39,7 @@ final class SelfProductViewModel: SelfProductViewModeling {
         self.state = .loading
         self.dataMapper = SelfProductDataMapper()
         self.sections = []
+        self.contentData = SelfProductContentData(cartButton: 1, likeButton: false)
     }
 
     // MARK: Internal methods
@@ -54,10 +55,14 @@ final class SelfProductViewModel: SelfProductViewModeling {
             break
         case .onReload:
             break
-            
         case .proccesedTappedButtonLike:
             guard let id = id else { return }
             productTappedLike(productId: id)
+        case .proccesedTappedButtonAddToCart:
+
+            proccesedTappedButtonAddToCart()
+        case .proccesedTappedButtonCart:
+            output?.proccesedTappedButtonCart()
         }
     }
 
@@ -72,7 +77,22 @@ final class SelfProductViewModel: SelfProductViewModeling {
             case .success(let data):
                 contentData = SelfProductContentData(cartButton: data.productBuyStatus, likeButton: data.productSavedStatus)
                 sections = dataMapper.displayData(from: data)
-                guard let contentData = contentData else { return }
+                state = .content(sections, viewData: contentData)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    private func proccesedTappedButtonAddToCart() {
+
+        guard let id = self.id else { return }
+        repository.insertCart(productId: id) { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success:
+                contentData.cartButton = 2
                 state = .content(sections, viewData: contentData)
             case .failure:
                 break
@@ -88,8 +108,7 @@ final class SelfProductViewModel: SelfProductViewModeling {
 
             switch result {
             case .success(let like):
-                contentData?.likeButton = like
-                guard let contentData = contentData else { return }
+                contentData.likeButton = like
                 state = .content(sections, viewData: contentData)
             case .failure:
                 break

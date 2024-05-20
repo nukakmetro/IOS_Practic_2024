@@ -14,6 +14,7 @@ public enum AppColor {
     case accent
     case background
     case title
+    case cartBackground
 
     var lightColor: UIColor {
         switch self {
@@ -27,6 +28,8 @@ public enum AppColor {
             UIColor.white
         case .title:
             UIColor.black
+        case .cartBackground:
+            UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0)
         }
 
     }
@@ -43,6 +46,8 @@ public enum AppColor {
             UIColor.black
         case .title:
             UIColor.white
+        case .cartBackground:
+            UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0)
         }
     }
 

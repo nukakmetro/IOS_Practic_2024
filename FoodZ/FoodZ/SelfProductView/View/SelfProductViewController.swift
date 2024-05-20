@@ -217,6 +217,7 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
         view.addSubview(collectionView)
         view.addSubview(addCartButton)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        addCartButton.translatesAutoresizingMaskIntoConstraints = false
 
         collectionView.snp.makeConstraints { make in
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
@@ -232,21 +233,32 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
     }
 
     private func setupDisplayView(viewData: SelfProductContentData) {
-        if !viewData.cartButton {
-
-            let action = UIAction { [weak self] _ in
-                guard let self = self else { return }
-                // viewModel.trigger()
-            }
-            addCartButton.addAction(action, for: .touchUpInside)
-            addCartButton.backgroundColor = .blue
-            addCartButton.setTitle("В корзину", for: .normal)
-
-        } else {
+        let actionMyProduct = UIAction { [weak self] _ in
+            guard let self = self else { return }
+            addCartButton.isEnabled = false
+            viewModel.trigger(.proccesedTappedButtonAddToCart)
+        }
+        let actionInCart = UIAction { [weak self] _ in
+            guard let self = self else { return }
+        }
+        addCartButton.isEnabled = true
+        switch viewData.cartButton {
+        case 0:
             addCartButton.backgroundColor = .lightGray
             addCartButton.setTitle("Ваш продукт", for: .normal)
+            addCartButton.isEnabled = false
+        case 1:
+            addCartButton.addAction(actionMyProduct, for: .touchUpInside)
+            addCartButton.backgroundColor = .blue
+            addCartButton.setTitle("Добавить в корзину", for: .normal)
+        case 2:
+            addCartButton.removeAction(actionMyProduct, for: .touchUpInside)
+            addCartButton.addAction(actionInCart, for: .touchUpInside)
+            addCartButton.backgroundColor = .blue
+            addCartButton.setTitle("В корзинe", for: .normal)
+        default:
+            break
         }
-        addCartButton.translatesAutoresizingMaskIntoConstraints = false
 
         if viewData.likeButton {
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "suit.heart.fill")

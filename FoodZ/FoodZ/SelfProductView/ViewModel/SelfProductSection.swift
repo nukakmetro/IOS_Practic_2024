@@ -18,7 +18,7 @@ enum SelfProductCellType: Hashable {
 }
 
 struct SelfProductContentData {
-    var cartButton: Bool
+    var cartButton: Int
     var likeButton: Bool
 }
 
@@ -40,6 +40,6 @@ struct ProductSelf: Decodable {
     var productCompound: String
     var productImagesId: [Int]
     var productSavedStatus: Bool
-    var productBuyStatus: Bool
+    var productBuyStatus: Int
     var productUsername: String
 }

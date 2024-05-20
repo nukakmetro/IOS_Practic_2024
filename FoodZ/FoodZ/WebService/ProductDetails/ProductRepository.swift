@@ -30,6 +30,7 @@ protocol ProductToggleLikeProtocol {
 
 protocol ProductSelfProtocol {
     func getProduct(productId: Int, completion: @escaping (Result<ProductSelf, Error>) -> Void)
+    func insertCart(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
 final class ProductRepository {
@@ -57,7 +58,6 @@ extension ProductRepository: ProductFavorietesProtocol {
 // MARK: - ProductSearchProtocol
 
 extension ProductRepository: ProductSearchProtocol {
-
     func getSearchProducts(productRequest: ProductSearchRequest, completion: @escaping ((Result<[Product], Error>) -> Void)) {
         remoteDataSource.getSearchProducts(productSearchRequest: productRequest, completion: completion)
     }
@@ -96,6 +96,10 @@ extension ProductRepository: ProductSavedProtocol {
 // MARK: - ProductSelfProtocol
 
 extension ProductRepository: ProductSelfProtocol {
+    func insertCart(productId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        remoteDataSource.insertCart(productId: productId, completion: completion)
+    }
+
     func getProduct(productId: Int, completion: @escaping (Result<ProductSelf, Error>) -> Void) {
         remoteDataSource.productSelf(id: productId, completion: completion)
     }

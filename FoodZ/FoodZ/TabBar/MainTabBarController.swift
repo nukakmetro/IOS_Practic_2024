@@ -13,7 +13,7 @@ class MainTabBarController: UITabBarController {
     private let homeCoordinator: Coordinator
     private let savedCoordinator: Coordinator
     private let addCoordinator: Coordinator
-//    private let cartViewContoller: CartViewController
+    private let cartCoordinator: Coordinator
 
     init(authUser: UserExitProcessorDelegate) {
         let coordinatorFactory = CoordinatorFactory()
@@ -21,7 +21,9 @@ class MainTabBarController: UITabBarController {
         profileCoordinator = coordinatorFactory.createProfileCoordinator(authUser: authUser, navigationController: UINavigationController())
         savedCoordinator = coordinatorFactory.createSavedCoordinator(navigationController: UINavigationController())
         addCoordinator = coordinatorFactory.createAddCoordinator(navigationController: UINavigationController())
+        cartCoordinator = coordinatorFactory.createCartCoordinator(navigationController: UINavigationController())
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSelectCartTab), name: .selectCartTab, object: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -34,13 +36,14 @@ class MainTabBarController: UITabBarController {
         let profileNavigationController = profileCoordinator.navigationController
         let savedNavigationController = savedCoordinator.navigationController
         let addNavigationController = addCoordinator.navigationController
-        let cartNavigationController = UINavigationController(rootViewController: CartViewController())
+        let cartNavigationController = cartCoordinator.navigationController
 
         guard 
             let homeNavigationController = homeNavigationController,
             let profileNavigationController = profileNavigationController,
             let savedNavigationController = savedNavigationController,
-            let addNavigationController = addNavigationController
+            let addNavigationController = addNavigationController,
+            let cartNavigationController = cartNavigationController
         else { return }
 
         homeNavigationController.tabBarItem.image = UIImage(systemName: "house")
@@ -58,4 +61,7 @@ class MainTabBarController: UITabBarController {
         ]
     }
 
+    @objc private func handleSelectCartTab() {
+        selectedIndex = 3
+    }
 }
