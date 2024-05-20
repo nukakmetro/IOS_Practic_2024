@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserInfoModel: Decodable {
-    var userId: Int?
+    var userId: Int
     var username: String
     var imageId: Int?
     var number: String?

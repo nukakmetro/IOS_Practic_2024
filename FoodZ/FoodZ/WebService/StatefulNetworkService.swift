@@ -85,6 +85,8 @@ final class StatefulNetworkService: NetworkServiceProtocol {
                 }
                 return
             }
+                print(result.request?.url)
+                print(result.result)
             switch result.result {
             case .success(let responce):
                 completion(.success(responce))

@@ -69,7 +69,10 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     func configure(with cell: ProfileMainHeader) {
         usernameLabel.text = cell.username
         userNumberLabel.text = cell.number
-        userImage.loadImage(withId: cell.id, path: .userImage)
+        if let imageId = cell.imageId {
+            userImage.loadImage(withId: imageId, path: .userImage)
+        }
+        userImage.image = UIImage(named: "Cat")
     }
 }
 

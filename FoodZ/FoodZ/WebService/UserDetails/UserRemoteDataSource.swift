@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 final class UserRemoteDataSource {
 
@@ -63,6 +64,17 @@ final class UserRemoteDataSource {
         )
         networkService.sendRequest(target: target, responseType: UserInfoModel.self, completion: completion)
     }
+
+    func getInfoPickUpPoint(id: Int, completion: @escaping (Result<InfoPickUpPointResponce, Error>) -> Void) {
+        let target = Target(path: "/pickUpPoint/get", method: .get, setParametresFromEncodable: IdRequest(id: id), role: .user, encoder: URLEncodedFormParameterEncoder.default)
+        networkService.sendRequest(target: target, responseType: InfoPickUpPointResponce.self, completion: completion)
+    }
+
+    func selectPickUpPoint(id: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let target = Target(path: "/user/pickUpPoint/select", method: .post, setParametresFromEncodable: IdRequest(id: id), role: .user)
+        networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
+    }
+
     func userExit() -> Bool {
         var isExit = true
         let target = Target(path: "/user/secured/exit", method: .post, setParametresFromEncodable: tokenManager.getRefreshToken(), role: .user)

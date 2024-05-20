@@ -12,15 +12,18 @@ protocol UserExitProcessorDelegate: AnyObject {
     func processesUserExit()
 }
 
-final class ProfileCoordinator: Coordinator {
+final class ProfileCoordinator: NSObject, Coordinator {
 
     // MARK: Internal properties
+
     weak var authUser: UserExitProcessorDelegate?
     weak var navigationController: UINavigationController?
+    weak var detailPickUpPointInput: DetailPickUpPointModuleInput?
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(navigationController: UINavigationController) {
+        super.init()
         self.navigationController = navigationController
         start()
     }
@@ -48,12 +51,51 @@ final class ProfileCoordinator: Coordinator {
 
     }
 
+    private func showDetailPickUpPoint() {
+        let controller = DetailPickUpPointViewBuilder(output: self).build()
+        controller.modalPresentationStyle = .custom
+        controller.transitioningDelegate = self
+        navigationController?.present(controller, animated: true)
+    }
+
     private func popView() {
         navigationController?.popViewController(animated: false)
     }
+
+    private func popToRootView() {
+        if (navigationController?.viewControllers.first) != nil {
+            navigationController?.popToRootViewController(animated: true)
+        }
+    }
+    private func dismissPresentedController() {
+        navigationController?.presentedViewController?.dismiss(animated: true, completion: nil)
+    }
 }
 
-// MARK: ProfileMainModuleOutput
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension ProfileCoordinator: UIViewControllerTransitioningDelegate {
+
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return HalfSizePresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+// MARK: - DetailPickUpPointModuleOutput
+
+extension ProfileCoordinator: DetailPickUpPointModuleOutput {
+
+    func detailPickUpPointModuleDidLoad(input: DetailPickUpPointModuleInput) {
+        detailPickUpPointInput = input
+    }
+
+    func proccesedCloseMapModuleClose() {
+        dismissPresentedController()
+        popToRootView()
+    }
+}
+
+// MARK: - ProfileMainModuleOutput
 
 extension ProfileCoordinator: ProfileMainModuleOutput {
 
@@ -86,14 +128,17 @@ extension ProfileCoordinator: ProfileMainModuleOutput {
     }
 }
 
-// MARK: OrdersModuleOutput
+// MARK: - OrdersModuleOutput
 
 extension ProfileCoordinator: OrdersModuleOutput {
 
 }
 
-// MARK: MapModuleOutput
+// MARK: - MapModuleOutput
 
 extension ProfileCoordinator: MapModuleOutput {
-    
+    func proccesedTappedAnnotation(pickUpPointId: Int) {
+        showDetailPickUpPoint()
+        detailPickUpPointInput?.proccesDidLoad(id: pickUpPointId)
+    }
 }

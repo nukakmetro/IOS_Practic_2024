@@ -15,4 +15,5 @@ enum SelfProductIntent {
     case onReload
     case proccesedTappedButtonLike
     case proccesedTappedButtonAddToCart
+    case proccesedTappedButtonCart
 }

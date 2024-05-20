@@ -122,5 +122,6 @@ final class SelfProductViewModel: SelfProductViewModeling {
 extension SelfProductViewModel: SelfProductModuleInput {
     func proccesedSendId(id: Int) {
         self.id = id
+        trigger(.onLoad)
     }
 }

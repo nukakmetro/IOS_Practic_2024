@@ -21,14 +21,14 @@ enum CellType: Hashable {
 struct ProfileMainHeader: Hashable, Decodable {
     var id: Int
     var username: String
-    var image: String?
+    var imageId: Int?
     var number: String?
 
-    init(username: String, nubmer: String, id: Int, image: String) {
+    init(username: String, nubmer: String, id: Int, imageId: Int?) {
         self.username = username
         self.number = nubmer
         self.id = id
-        self.image = image
+        self.imageId = imageId
     }
 }
 struct ProfileMainBody: Hashable {
@@ -63,7 +63,7 @@ final class ProfileViewModel: ProfileMainModeling {
         self.output = output
         self.state = .loading
         self.headerItem = [
-            .header(ProfileMainHeader(username: "User", nubmer: "+7 000 00000000", id: 0, image: "person")),
+            .header(ProfileMainHeader(username: "User", nubmer: "+7 000 00000000", id: 0, imageId: nil)),
             .body(ProfileMainBody(cellName: "Профиль", cellImageName: "person.fill")),
             .body(ProfileMainBody(cellName: "Адрессная книга", cellImageName: "mappin.and.ellipse")),
             .body(ProfileMainBody(cellName: "Методы оплаты", cellImageName: "creditcard.fill")),
