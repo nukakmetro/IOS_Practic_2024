@@ -18,7 +18,6 @@ final class ProfileCoordinator: Coordinator {
 
     weak private var detailPickUpPointInput: DetailPickUpPointModuleInput?
     weak private var profileMainInput: ProfileMainModuleInput?
-    weak private var transitionDelegate: UIViewControllerTransitioningDelegate?
 
     // MARK: Internal properties
 
@@ -51,7 +50,6 @@ final class ProfileCoordinator: Coordinator {
 
     private func showMapView() {
         let controller = MapViewBuilder(output: self).build()
-        transitionDelegate = controller.transitioningDelegate
         navigationController?.pushViewController(controller, animated: false)
     }
 
