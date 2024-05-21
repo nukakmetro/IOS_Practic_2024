@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class AddCoordinator: NSObject, Coordinator {
+final class AddCoordinator: Coordinator {
 
     // MARK: Private properties
 
@@ -24,7 +24,6 @@ final class AddCoordinator: NSObject, Coordinator {
     // MARK: Initialization
 
     init(navigationController: UINavigationController) {
-        super.init()
         self.navigationController = navigationController
         start()
     }
@@ -68,8 +67,6 @@ final class AddCoordinator: NSObject, Coordinator {
 
     private func showDetailPickUpPoint() {
         let controller = DetailPickUpPointViewBuilder(output: self).build()
-        controller.modalPresentationStyle = .custom
-        controller.transitioningDelegate = self
         navigationController?.present(controller, animated: true)
     }
 
@@ -180,14 +177,5 @@ extension AddCoordinator: MapModuleOutput {
     func proccesedTappedAnnotation(pickUpPointId: Int) {
         showDetailPickUpPoint()
         detailPickUpPointInput?.proccesDidLoad(id: pickUpPointId)
-    }
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension AddCoordinator: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return HalfSizePresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

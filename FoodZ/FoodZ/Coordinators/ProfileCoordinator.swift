@@ -12,12 +12,13 @@ protocol UserExitProcessorDelegate: AnyObject {
     func processesUserExit()
 }
 
-final class ProfileCoordinator: NSObject, Coordinator {
+final class ProfileCoordinator: Coordinator {
 
     // MARK: Private properties
 
     weak private var detailPickUpPointInput: DetailPickUpPointModuleInput?
     weak private var profileMainInput: ProfileMainModuleInput?
+    weak private var transitionDelegate: UIViewControllerTransitioningDelegate?
 
     // MARK: Internal properties
 
@@ -27,7 +28,6 @@ final class ProfileCoordinator: NSObject, Coordinator {
     // MARK: Initialization
 
     init(navigationController: UINavigationController) {
-        super.init()
         self.navigationController = navigationController
         start()
     }
@@ -51,13 +51,12 @@ final class ProfileCoordinator: NSObject, Coordinator {
 
     private func showMapView() {
         let controller = MapViewBuilder(output: self).build()
+        transitionDelegate = controller.transitioningDelegate
         navigationController?.pushViewController(controller, animated: false)
     }
 
     private func showDetailPickUpPoint() {
         let controller = DetailPickUpPointViewBuilder(output: self).build()
-        controller.modalPresentationStyle = .custom
-        controller.transitioningDelegate = self
         navigationController?.present(controller, animated: true)
     }
 
@@ -73,15 +72,6 @@ final class ProfileCoordinator: NSObject, Coordinator {
         if (navigationController?.viewControllers.first) != nil {
             navigationController?.popToRootViewController(animated: true)
         }
-    }
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension ProfileCoordinator: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return HalfSizePresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
 

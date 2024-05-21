@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class DetailPickUpPointViewController<ViewModel: DetailPickUpPointViewModeling>: UIViewController {
+final class DetailPickUpPointViewController<ViewModel: DetailPickUpPointViewModeling>: UIViewController, UIViewControllerTransitioningDelegate {
 
     // MARK: Private properties
 
@@ -108,4 +108,17 @@ final class DetailPickUpPointViewController<ViewModel: DetailPickUpPointViewMode
         zipCodeLabel.text = displayData.zipCode
     }
 
+    // MARK: Internal methods
+
+    func setupForCustomPresentation() {
+          self.modalPresentationStyle = .custom
+          self.transitioningDelegate = self
+    }
+    
+    // MARK: - UIViewControllerTransitioningDelegate
+
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return HalfSizePresentationController(presentedViewController: presented, presenting: presenting)
+    }
 }
+
