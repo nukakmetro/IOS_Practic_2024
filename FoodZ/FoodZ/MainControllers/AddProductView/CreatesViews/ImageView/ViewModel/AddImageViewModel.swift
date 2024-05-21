@@ -59,28 +59,25 @@ final class AddImageViewModel: AddImageViewModeling {
         switch intent {
         case .onDidLoad:
             output?.addImageModuleDidLoad(input: self)
-
         case .onClose:
             guard let product = selfProduct else { return }
             output?.proccesedCloseView(product: product)
-
         case .onReload:
             break
-
         case .proccesedTappedSendProduct:
-            sendProduct()
-
+            proccesedTappedSendProduct()
         case .proccesedAddImage(let image):
             addImage(image: image)
-
         case .proccesedTappedSaveButton:
             saveProduct()
-
         case .proccesedTappedDeleteImage(let id):
             deleteImage(id: id)
-
         case .onLoad:
             state = .content(items)
+        case .proccesedNotSelectPickUpPoint:
+            output?.proccesedNotSelectPickUpPoint()
+        case .proccesedSendProduct:
+            sendProduct()
         }
     }
 
@@ -90,6 +87,22 @@ final class AddImageViewModel: AddImageViewModeling {
         let id = UUID()
         items.insert(.image(ImageCelltype(id: id, image: image)), at: 0)
         state = .content(items)
+    }
+
+    private func proccesedTappedSendProduct() {
+        repository.fetchIsExistsPickUpPoint { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                if data {
+                    trigger(.proccesedSendProduct)
+                } else {
+                    trigger(.proccesedNotSelectPickUpPoint)
+                }
+            case .failure:
+                break
+            }
+        }
     }
 
     private func saveProduct() {

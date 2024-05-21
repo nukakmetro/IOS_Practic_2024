@@ -16,4 +16,5 @@ protocol AddImageModuleOutput: AnyObject {
     func imageProccesedTappedSaveButton(product: ProductCreator)
     func proccesedCloseView(product: ProductCreator)
     func proccesedTappedAddProduct()
+    func proccesedNotSelectPickUpPoint()
 }

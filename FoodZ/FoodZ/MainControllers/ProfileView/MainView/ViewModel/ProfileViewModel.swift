@@ -21,14 +21,16 @@ enum CellType: Hashable {
 struct ProfileMainHeader: Hashable, Decodable {
     var id: Int
     var username: String
-    var image: String?
+    var imageId: Int?
     var number: String?
+    var address: String
 
-    init(username: String, nubmer: String, id: Int, image: String) {
+    init(username: String, nubmer: String, id: Int, imageId: Int?, address: String) {
         self.username = username
         self.number = nubmer
         self.id = id
-        self.image = image
+        self.imageId = imageId
+        self.address = address
     }
 }
 struct ProfileMainBody: Hashable {
@@ -47,6 +49,7 @@ final class ProfileViewModel: ProfileMainModeling {
     private var headerItem: [CellType]
     private var repository: ProfileUserProtocol & UserExitProtocol
     private let displayDataMapper: DisplayDataMapper
+    private var displayData: ProfileMainHeader?
 
     // MARK: Internal properties
 
@@ -63,7 +66,7 @@ final class ProfileViewModel: ProfileMainModeling {
         self.output = output
         self.state = .loading
         self.headerItem = [
-            .header(ProfileMainHeader(username: "User", nubmer: "+7 000 00000000", id: 0, image: "person")),
+            .header(ProfileMainHeader(username: "User", nubmer: "+7 000 00000000", id: 0, imageId: nil, address: "Адрес готовки")),
             .body(ProfileMainBody(cellName: "Профиль", cellImageName: "person.fill")),
             .body(ProfileMainBody(cellName: "Адрессная книга", cellImageName: "mappin.and.ellipse")),
             .body(ProfileMainBody(cellName: "Методы оплаты", cellImageName: "creditcard.fill")),
@@ -81,19 +84,36 @@ final class ProfileViewModel: ProfileMainModeling {
     func trigger(_ intent: ProfileMainIntent) {
         switch intent {
         case .onDidLoad:
-            state = .loading
-            reloadHeader()
+            output?.profileMainModuleDidLoad(input: self)
         case .onClose:
             break
         case .onReload:
-            state = .loading
             reloadHeader()
         case .processedTapItem(let index):
             processingItemTaped(index: index)
+        case .proccesedUpdateAddress:
+            proccesedUpdateAddress()
+        case .onLoad:
+            reloadHeader()
         }
     }
 
     // MARK: Private methods
+
+    private func proccesedUpdateAddress() {
+        repository.getUserAddress { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.displayData?.address = data.address
+                guard let displayData = displayData else { return }
+                headerItem[0] = .header(displayData)
+                state = .content(headerItem)
+            case .failure:
+                break
+            }
+        }
+    }
 
     private func processingItemTaped(index: Int) {
         switch index {
@@ -117,11 +137,14 @@ final class ProfileViewModel: ProfileMainModeling {
     }
 
     private func reloadHeader() {
+        state = .loading
         repository.fetchUserInfo { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let data):
-                headerItem[0] = .header(displayDataMapper.dispayData(from: data))
+                displayData = displayDataMapper.dispayData(from: data)
+                guard let displayData = displayData else { return }
+                headerItem[0] = .header(displayData)
                 state = .content(headerItem)
             case .failure:
                 state = .error(headerItem)
@@ -132,5 +155,11 @@ final class ProfileViewModel: ProfileMainModeling {
     private func exitUser() {
         repository.fetchUserExit()
         output?.processedExitItemTapped()
+    }
+}
+
+extension ProfileViewModel: ProfileMainModuleInput {
+    func proccessedUpdateAddress() {
+        trigger(.proccesedUpdateAddress)
     }
 }

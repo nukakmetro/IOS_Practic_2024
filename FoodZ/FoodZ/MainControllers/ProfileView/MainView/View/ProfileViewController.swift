@@ -42,6 +42,7 @@ final class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewControl
     init( viewModel: ViewModel) {
         self.items = []
         self.viewModel = viewModel
+        self.viewModel.trigger(.onDidLoad)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -54,7 +55,7 @@ final class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewControl
         makeConstraints()
         createDataSource()
         configureIO()
-        viewModel.trigger(.onDidLoad)
+        viewModel.trigger(.onLoad)
         navigationController?.isNavigationBarHidden = true
     }
 

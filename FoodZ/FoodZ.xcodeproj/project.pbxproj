@@ -22,8 +22,19 @@
 		781C6E7D2BFB12BF0097C140 /* PickUpPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E7C2BFB12BF0097C140 /* PickUpPointAnnotation.swift */; };
 		781C6E7F2BFB144F0097C140 /* MapViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E7E2BFB144F0097C140 /* MapViewDataMapper.swift */; };
 		781C6E812BFB176A0097C140 /* MapViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E802BFB176A0097C140 /* MapViewBuilder.swift */; };
-		781C6E842BFBA0820097C140 /* PickUpRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E832BFBA0820097C140 /* PickUpRepository.swift */; };
-		781C6E862BFBA0920097C140 /* PickUpDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E852BFBA0920097C140 /* PickUpDataSource.swift */; };
+		781C6E842BFBA0820097C140 /* PickUpPointRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E832BFBA0820097C140 /* PickUpPointRepository.swift */; };
+		781C6E862BFBA0920097C140 /* PickUpPointDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E852BFBA0920097C140 /* PickUpPointDataSource.swift */; };
+		781C6E882BFBA2660097C140 /* PickUpPointResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E872BFBA2660097C140 /* PickUpPointResponce.swift */; };
+		781C6E8A2BFBA54E0097C140 /* InfoPickUpPointResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E892BFBA54E0097C140 /* InfoPickUpPointResponce.swift */; };
+		781C6E8C2BFBCAE30097C140 /* HalfSizePresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E8B2BFBCAE30097C140 /* HalfSizePresentationController.swift */; };
+		781C6E8E2BFBCB840097C140 /* DetailPickUpPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E8D2BFBCB840097C140 /* DetailPickUpPointViewController.swift */; };
+		781C6E932BFBCBE20097C140 /* DetailPickUpPointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E922BFBCBE20097C140 /* DetailPickUpPointViewModel.swift */; };
+		781C6E962BFBCC010097C140 /* DetailPickUpPointState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E952BFBCC010097C140 /* DetailPickUpPointState.swift */; };
+		781C6E982BFBCC0A0097C140 /* DetailPickUpPointIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E972BFBCC0A0097C140 /* DetailPickUpPointIntent.swift */; };
+		781C6E9A2BFBCC160097C140 /* DetailPickUpPointModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E992BFBCC160097C140 /* DetailPickUpPointModuleIO.swift */; };
+		781C6E9C2BFBCE3F0097C140 /* DetailPickUpPointDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E9B2BFBCE3F0097C140 /* DetailPickUpPointDataMapper.swift */; };
+		781C6E9E2BFBD2090097C140 /* DetailPickUpPointViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6E9D2BFBD2090097C140 /* DetailPickUpPointViewData.swift */; };
+		781C6EA12BFBD6DD0097C140 /* DetailPickUpPointViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C6EA02BFBD6DD0097C140 /* DetailPickUpPointViewBuilder.swift */; };
 		784BBED32BE36BAB008435FA /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 784BBED22BE36BAB008435FA /* KeychainSwift */; };
 		784BBED52BE42E2E008435FA /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784BBED42BE42E2E008435FA /* Notification+Extension.swift */; };
 		784BBED72BE536F6008435FA /* SavedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784BBED62BE536F6008435FA /* SavedCoordinator.swift */; };
@@ -135,6 +146,7 @@
 		78C1CB702BADC09300748F3D /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB6F2BADC09300748F3D /* SnapKit-Dynamic */; };
 		78C1CB732BADC0A700748F3D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB722BADC0A700748F3D /* Alamofire */; };
 		78C1CB752BADC0A700748F3D /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB742BADC0A700748F3D /* AlamofireDynamic */; };
+		78CCE55B2BFD0BFE009B7ACB /* UserAddressResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE55A2BFD0BFE009B7ACB /* UserAddressResponce.swift */; };
 		78D41B562BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B522BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift */; };
 		78D41B582BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B542BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift */; };
 		78D41B5A2BED0F26004CB7AD /* ProductCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B592BED0F26004CB7AD /* ProductCreator.swift */; };
@@ -239,8 +251,19 @@
 		781C6E7C2BFB12BF0097C140 /* PickUpPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpPointAnnotation.swift; sourceTree = "<group>"; };
 		781C6E7E2BFB144F0097C140 /* MapViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDataMapper.swift; sourceTree = "<group>"; };
 		781C6E802BFB176A0097C140 /* MapViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewBuilder.swift; sourceTree = "<group>"; };
-		781C6E832BFBA0820097C140 /* PickUpRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpRepository.swift; sourceTree = "<group>"; };
-		781C6E852BFBA0920097C140 /* PickUpDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpDataSource.swift; sourceTree = "<group>"; };
+		781C6E832BFBA0820097C140 /* PickUpPointRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpPointRepository.swift; sourceTree = "<group>"; };
+		781C6E852BFBA0920097C140 /* PickUpPointDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpPointDataSource.swift; sourceTree = "<group>"; };
+		781C6E872BFBA2660097C140 /* PickUpPointResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickUpPointResponce.swift; sourceTree = "<group>"; };
+		781C6E892BFBA54E0097C140 /* InfoPickUpPointResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPickUpPointResponce.swift; sourceTree = "<group>"; };
+		781C6E8B2BFBCAE30097C140 /* HalfSizePresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfSizePresentationController.swift; sourceTree = "<group>"; };
+		781C6E8D2BFBCB840097C140 /* DetailPickUpPointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointViewController.swift; sourceTree = "<group>"; };
+		781C6E922BFBCBE20097C140 /* DetailPickUpPointViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointViewModel.swift; sourceTree = "<group>"; };
+		781C6E952BFBCC010097C140 /* DetailPickUpPointState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointState.swift; sourceTree = "<group>"; };
+		781C6E972BFBCC0A0097C140 /* DetailPickUpPointIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointIntent.swift; sourceTree = "<group>"; };
+		781C6E992BFBCC160097C140 /* DetailPickUpPointModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointModuleIO.swift; sourceTree = "<group>"; };
+		781C6E9B2BFBCE3F0097C140 /* DetailPickUpPointDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointDataMapper.swift; sourceTree = "<group>"; };
+		781C6E9D2BFBD2090097C140 /* DetailPickUpPointViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointViewData.swift; sourceTree = "<group>"; };
+		781C6EA02BFBD6DD0097C140 /* DetailPickUpPointViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPickUpPointViewBuilder.swift; sourceTree = "<group>"; };
 		784BBED42BE42E2E008435FA /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		784BBED62BE536F6008435FA /* SavedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedCoordinator.swift; sourceTree = "<group>"; };
 		784BBED82BE53AD7008435FA /* SavedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedViewModel.swift; sourceTree = "<group>"; };
@@ -349,6 +372,7 @@
 		78C1CB402BADC04800748F3D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		78C1CB412BADC04800748F3D /* AuthorizationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationCoordinator.swift; sourceTree = "<group>"; };
 		78C1CB472BADC04800748F3D /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		78CCE55A2BFD0BFE009B7ACB /* UserAddressResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAddressResponce.swift; sourceTree = "<group>"; };
 		78D41B522BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductImage+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		78D41B542BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		78D41B592BED0F26004CB7AD /* ProductCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCreator.swift; sourceTree = "<group>"; };
@@ -503,10 +527,9 @@
 		781C6E6E2BFA942F0097C140 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
-				781C6E772BFB119C0097C140 /* Bindings */,
-				781C6E702BFA943D0097C140 /* ViewModel */,
-				781C6E6F2BFA94370097C140 /* View */,
-				781C6E802BFB176A0097C140 /* MapViewBuilder.swift */,
+				781C6E8B2BFBCAE30097C140 /* HalfSizePresentationController.swift */,
+				781C6E9F2BFBD6920097C140 /* MainView */,
+				781C6E8F2BFBCBAD0097C140 /* DetailPickUpPointView */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -542,10 +565,62 @@
 		781C6E822BFBA05B0097C140 /* PickUpPointDetails */ = {
 			isa = PBXGroup;
 			children = (
-				781C6E832BFBA0820097C140 /* PickUpRepository.swift */,
-				781C6E852BFBA0920097C140 /* PickUpDataSource.swift */,
+				781C6E832BFBA0820097C140 /* PickUpPointRepository.swift */,
+				781C6E852BFBA0920097C140 /* PickUpPointDataSource.swift */,
+				781C6E872BFBA2660097C140 /* PickUpPointResponce.swift */,
+				781C6E892BFBA54E0097C140 /* InfoPickUpPointResponce.swift */,
 			);
 			path = PickUpPointDetails;
+			sourceTree = "<group>";
+		};
+		781C6E8F2BFBCBAD0097C140 /* DetailPickUpPointView */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E942BFBCBE80097C140 /* Bindings */,
+				781C6E912BFBCBCE0097C140 /* ViewModel */,
+				781C6E902BFBCBCA0097C140 /* View */,
+				781C6EA02BFBD6DD0097C140 /* DetailPickUpPointViewBuilder.swift */,
+			);
+			path = DetailPickUpPointView;
+			sourceTree = "<group>";
+		};
+		781C6E902BFBCBCA0097C140 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E8D2BFBCB840097C140 /* DetailPickUpPointViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		781C6E912BFBCBCE0097C140 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E922BFBCBE20097C140 /* DetailPickUpPointViewModel.swift */,
+				781C6E992BFBCC160097C140 /* DetailPickUpPointModuleIO.swift */,
+				781C6E9B2BFBCE3F0097C140 /* DetailPickUpPointDataMapper.swift */,
+				781C6E9D2BFBD2090097C140 /* DetailPickUpPointViewData.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		781C6E942BFBCBE80097C140 /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E952BFBCC010097C140 /* DetailPickUpPointState.swift */,
+				781C6E972BFBCC0A0097C140 /* DetailPickUpPointIntent.swift */,
+			);
+			path = Bindings;
+			sourceTree = "<group>";
+		};
+		781C6E9F2BFBD6920097C140 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				781C6E772BFB119C0097C140 /* Bindings */,
+				781C6E702BFA943D0097C140 /* ViewModel */,
+				781C6E6F2BFA94370097C140 /* View */,
+				781C6E802BFB176A0097C140 /* MapViewBuilder.swift */,
+			);
+			path = MainView;
 			sourceTree = "<group>";
 		};
 		784BBEDA2BE53ADB008435FA /* View */ = {
@@ -1434,6 +1509,7 @@
 				78EA69372BD143EF004A961C /* UserRepository.swift */,
 				78EA693B2BD149E4004A961C /* UserRemoteDataSource.swift */,
 				78EA69392BD145BB004A961C /* UserRequest.swift */,
+				78CCE55A2BFD0BFE009B7ACB /* UserAddressResponce.swift */,
 			);
 			path = UserDetails;
 			sourceTree = "<group>";
@@ -1616,6 +1692,7 @@
 				784BBF122BE6C7D8008435FA /* AddArhiveBuilder.swift in Sources */,
 				78C1CB642BADC04800748F3D /* AppCoordinator.swift in Sources */,
 				78DD39D32BF291C30025BB36 /* SelfProductState.swift in Sources */,
+				781C6E9C2BFBCE3F0097C140 /* DetailPickUpPointDataMapper.swift in Sources */,
 				78EA69482BD44387004A961C /* CreateProductViewModelingProtocol.swift in Sources */,
 				78C1CB612BADC04800748F3D /* RegistrationModulBuilder.swift in Sources */,
 				78F91A212BF76C7600AF2AC6 /* CartViewState.swift in Sources */,
@@ -1668,6 +1745,7 @@
 				78EA69592BD5920E004A961C /* ProfilMainModuleIO.swift in Sources */,
 				784BBEE42BE53B43008435FA /* SavedIntent.swift in Sources */,
 				784BBEF32BE6C314008435FA /* AddMainIntent.swift in Sources */,
+				781C6E8E2BFBCB840097C140 /* DetailPickUpPointViewController.swift in Sources */,
 				78EA69512BD446F9004A961C /* CreateProductBuilder.swift in Sources */,
 				78DB41872BD0213B00EADD3E /* ProductsRemoteDataSource.swift in Sources */,
 				784BBF0A2BE6C6B7008435FA /* AddArhiveIntent.swift in Sources */,
@@ -1701,6 +1779,7 @@
 				78C1CB5B2BADC04800748F3D /* RegModuleIO.swift in Sources */,
 				78B05AFF2BB98B8300D74385 /* Bundle-Decodable.swift in Sources */,
 				78B05AA42BB4673800D74385 /* HomeViewIntent.swift in Sources */,
+				781C6E962BFBCC010097C140 /* DetailPickUpPointState.swift in Sources */,
 				78D41B582BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift in Sources */,
 				78E4EF9F2BDCFCBB00982CA5 /* OrdersState.swift in Sources */,
 				781C6E692BFA81110097C140 /* CartPayViewModel.swift in Sources */,
@@ -1711,6 +1790,7 @@
 				784BBF082BE6C6AC008435FA /* AddArhiveState.swift in Sources */,
 				78B05AAA2BB4694E00D74385 /* SelfConfiguringCell.swift in Sources */,
 				784BBF3D2BE7CBD3008435FA /* FillingViewController.swift in Sources */,
+				781C6EA12BFBD6DD0097C140 /* DetailPickUpPointViewBuilder.swift in Sources */,
 				7802BFE52BCDB030008C95B2 /* TokenEntity.swift in Sources */,
 				784BBEFE2BE6C5BB008435FA /* AddDraftsState.swift in Sources */,
 				78C1CB5A2BADC04800748F3D /* AuthorizationModulBuilder.swift in Sources */,
@@ -1719,13 +1799,16 @@
 				78DD39D72BF294600025BB36 /* SelfProductImageGropeFooter.swift in Sources */,
 				784BBF102BE6C6F4008435FA /* AddArhiveModuleIO.swift in Sources */,
 				78C1CB542BADC04800748F3D /* AuthModuleIO.swift in Sources */,
+				781C6E882BFBA2660097C140 /* PickUpPointResponce.swift in Sources */,
 				78EA693C2BD149E4004A961C /* UserRemoteDataSource.swift in Sources */,
 				78DD39D92BF29BF90025BB36 /* SelfProductSection.swift in Sources */,
 				78B05A802BB2EC8B00D74385 /* AppColor.swift in Sources */,
 				784BBF4A2BE8BB7E008435FA /* FillingDataMapper.swift in Sources */,
 				78EA696A2BD63447004A961C /* ProfileSelfConfiguringCell.swift in Sources */,
 				78C1CB492BADC04800748F3D /* NetworkManagerProtocol.swift in Sources */,
+				781C6E9A2BFBCC160097C140 /* DetailPickUpPointModuleIO.swift in Sources */,
 				78E4EF992BDCFC3D00982CA5 /* OrdersViewController.swift in Sources */,
+				781C6E8C2BFBCAE30097C140 /* HalfSizePresentationController.swift in Sources */,
 				784BBF452BE82BAA008435FA /* FillingBuilder.swift in Sources */,
 				78C1CB4E2BADC04800748F3D /* CartViewController.swift in Sources */,
 				78EA69712BD910F7004A961C /* ProfileMainBuilder.swift in Sources */,
@@ -1745,12 +1828,14 @@
 				78EA69682BD623E9004A961C /* ProfileMainBodyCell.swift in Sources */,
 				78B05AB62BB5E19500D74385 /* SingleCollectionViewCell.swift in Sources */,
 				78E4EFCD2BDE9E5C00982CA5 /* FetchOrderProtocols.swift in Sources */,
+				781C6E8A2BFBA54E0097C140 /* InfoPickUpPointResponce.swift in Sources */,
 				787C716B2BC2971600D2F36B /* SearchViewBuilder.swift in Sources */,
 				78F91A232BF76D5B00AF2AC6 /* CartCell.swift in Sources */,
 				78B05AA82BB4692C00D74385 /* HomeCell.swift in Sources */,
 				78EA696D2BD6672F004A961C /* ProductSearchRequest.swift in Sources */,
 				78F91A302BF7B0B300AF2AC6 /* CartDataMapper.swift in Sources */,
 				78C1CB562BADC04800748F3D /* AuthorizationViewState.swift in Sources */,
+				78CCE55B2BFD0BFE009B7ACB /* UserAddressResponce.swift in Sources */,
 				78DD39DD2BF2C7780025BB36 /* SelfProductModuleIO.swift in Sources */,
 				784BBF542BE955C2008435FA /* AddImageViewModel.swift in Sources */,
 				78C1CB622BADC04800748F3D /* AppDelegate.swift in Sources */,
@@ -1772,19 +1857,21 @@
 				78C1CB502BADC04800748F3D /* ProfileViewController.swift in Sources */,
 				78D41B562BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift in Sources */,
 				78E4EFC72BDE951F00982CA5 /* OrderRemoteDataSource.swift in Sources */,
+				781C6E982BFBCC0A0097C140 /* DetailPickUpPointIntent.swift in Sources */,
 				78F91A282BF7ABFB00AF2AC6 /* CartDataSource.swift in Sources */,
 				78B05B382BBD8C7500D74385 /* SearchViewModel.swift in Sources */,
 				784BBF582BE955F4008435FA /* AddImageModuleIO.swift in Sources */,
 				78C1CB4D2BADC04800748F3D /* CoordinatorFactory.swift in Sources */,
-				781C6E862BFBA0920097C140 /* PickUpDataSource.swift in Sources */,
+				781C6E862BFBA0920097C140 /* PickUpPointDataSource.swift in Sources */,
 				78DD39CC2BF28EEA0025BB36 /* SelfProductImageCell.swift in Sources */,
 				78E4EFDD2BDEC8A200982CA5 /* OrdersPageDataMapper.swift in Sources */,
 				78F91A342BF7BD2E00AF2AC6 /* CartModuleIO.swift in Sources */,
-				781C6E842BFBA0820097C140 /* PickUpRepository.swift in Sources */,
+				781C6E842BFBA0820097C140 /* PickUpPointRepository.swift in Sources */,
 				78EA69382BD143EF004A961C /* UserRepository.swift in Sources */,
 				78E4EFDB2BDEC4A100982CA5 /* OrdersViewCellType.swift in Sources */,
 				78C1CB6A2BADC04800748F3D /* TokenManager.swift in Sources */,
 				78E4EFE42BDED7F200982CA5 /* PastOrdersBuilder.swift in Sources */,
+				781C6E9E2BFBD2090097C140 /* DetailPickUpPointViewData.swift in Sources */,
 				78C1CB5D2BADC04800748F3D /* RegistrationViewState.swift in Sources */,
 				78B05B3F2BBDA44F00D74385 /* SearchViewIntent.swift in Sources */,
 				787C716D2BC2C7BA00D2F36B /* SearchHeaderCell.swift in Sources */,
@@ -1800,6 +1887,7 @@
 				784BBED72BE536F6008435FA /* SavedCoordinator.swift in Sources */,
 				78B05AD92BB8B1E300D74385 /* SectionHeaderCell.swift in Sources */,
 				78E4EFD32BDE9FDF00982CA5 /* OrdersPageViewController.swift in Sources */,
+				781C6E932BFBCBE20097C140 /* DetailPickUpPointViewModel.swift in Sources */,
 				78D41B5A2BED0F26004CB7AD /* ProductCreator.swift in Sources */,
 				78F91A1D2BF76C6200AF2AC6 /* CartViewModel.swift in Sources */,
 				784BBEF12BE6C2EE008435FA /* AddMainState.swift in Sources */,
@@ -1965,6 +2053,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1992,6 +2081,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

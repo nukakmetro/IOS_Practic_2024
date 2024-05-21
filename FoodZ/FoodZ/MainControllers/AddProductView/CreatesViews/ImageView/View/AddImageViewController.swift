@@ -58,7 +58,7 @@ final class AddImageViewController<ViewModel: AddImageViewModel>: UIViewControll
         createDataSource()
         configureIO()
         viewModel.trigger(.onLoad)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", image: nil, target: self, action: #selector(saveButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveButton))
         navigationController?.isNavigationBarHidden = false
     }
 

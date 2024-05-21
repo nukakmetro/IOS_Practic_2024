@@ -69,7 +69,7 @@ final class SavedViewModel: SavedViewModeling {
                 var sections: [SavedSectionType] = []
                 sections.append(.bodySection(dataMapper.displayData(products: products)))
                 state = .content(displaydata: sections)
-            case .failure(_):
+            case .failure:
                 break
             }
         }

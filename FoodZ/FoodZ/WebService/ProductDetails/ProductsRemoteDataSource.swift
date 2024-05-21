@@ -82,4 +82,8 @@ final class ProductsRemoteDataSource {
         networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
     }
 
+    func fetchIsExistsPickUpPoint(completion: @escaping (Result<Bool, Error>) -> Void) {
+        let target = Target(path: "/user/pickUpPoint/exist", method: .get, setParametresFromEncodable: nil, role: .user)
+        networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
+    }
 }

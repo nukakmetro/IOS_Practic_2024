@@ -27,6 +27,7 @@ struct InformationCellData: Hashable {
     var productName: String
     var productPrice: String
     var productCategory: String
+    var address: String
 }
 
 struct ProductSelf: Decodable {
@@ -42,4 +43,5 @@ struct ProductSelf: Decodable {
     var productSavedStatus: Bool
     var productBuyStatus: Int
     var productUsername: String
+    var address: String
 }

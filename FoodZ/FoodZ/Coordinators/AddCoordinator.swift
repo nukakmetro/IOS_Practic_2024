@@ -8,21 +8,23 @@
 import Foundation
 import UIKit
 
-final class AddCoordinator: Coordinator {
+final class AddCoordinator: NSObject, Coordinator {
 
     // MARK: Private properties
 
     weak private var fillingInput: FillingModuleInput?
     weak private var addDraftsInput: AddDraftsModuleInput?
     weak private var addImageInput: AddImageModuleInput?
+    weak private var detailPickUpPointInput: DetailPickUpPointModuleInput?
 
     // MARK: Internal properties
 
     weak var navigationController: UINavigationController?
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(navigationController: UINavigationController) {
+        super.init()
         self.navigationController = navigationController
         start()
     }
@@ -57,6 +59,22 @@ final class AddCoordinator: Coordinator {
         if (navigationController?.viewControllers.first) != nil {
             navigationController?.popToRootViewController(animated: true)
         }
+    }
+
+    private func showMapView() {
+        let controller = MapViewBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: false)
+    }
+
+    private func showDetailPickUpPoint() {
+        let controller = DetailPickUpPointViewBuilder(output: self).build()
+        controller.modalPresentationStyle = .custom
+        controller.transitioningDelegate = self
+        navigationController?.present(controller, animated: true)
+    }
+
+    private func dismissPresentedController() {
+        navigationController?.presentedViewController?.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -116,6 +134,9 @@ extension AddCoordinator: AddMainModuleOutput {
 // MARK: - AddImageModuleOutput
 
 extension AddCoordinator: AddImageModuleOutput {
+    func proccesedNotSelectPickUpPoint() {
+        showMapView()
+    }
 
     func addImageModuleDidLoad(input: AddImageModuleInput) {
         addImageInput = input
@@ -133,5 +154,40 @@ extension AddCoordinator: AddImageModuleOutput {
 
     func proccesedTappedAddProduct() {
 
+    }
+}
+
+// MARK: - DetailPickUpPointModuleOutput
+
+extension AddCoordinator: DetailPickUpPointModuleOutput {
+    func detailPickUpPointModuleDidLoad(input: DetailPickUpPointModuleInput) {
+        detailPickUpPointInput = input
+    }
+
+    func proccesedCloseMapModuleClose() {
+        dismissPresentedController()
+        popView()
+    }
+}
+
+// MARK: - MapModuleOutput
+
+extension AddCoordinator: MapModuleOutput {
+    func proccesedTappedButtonBack() {
+        popView()
+    }
+
+    func proccesedTappedAnnotation(pickUpPointId: Int) {
+        showDetailPickUpPoint()
+        detailPickUpPointInput?.proccesDidLoad(id: pickUpPointId)
+    }
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension AddCoordinator: UIViewControllerTransitioningDelegate {
+
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return HalfSizePresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

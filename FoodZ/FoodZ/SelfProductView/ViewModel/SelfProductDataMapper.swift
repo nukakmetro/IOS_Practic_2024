@@ -14,7 +14,13 @@ final class SelfProductDataMapper {
         for imageId in product.productImagesId {
             images.append(.imagesCell(imageId: imageId))
         }
-        let informationCell = InformationCellData(productUsername: product.productUsername, productName: product.productName, productPrice: String(product.productPrice), productCategory: product.productCategory)
+        let informationCell = InformationCellData(
+            productUsername: product.productUsername,
+            productName: product.productName,
+            productPrice: String(product.productPrice),
+            productCategory: product.productCategory,
+            address: product.address
+        )
 
         items.append(.imagesSection(images))
         items.append(.informationSection(.informationCell(informationCell)))

@@ -12,15 +12,22 @@ protocol UserExitProcessorDelegate: AnyObject {
     func processesUserExit()
 }
 
-final class ProfileCoordinator: Coordinator {
+final class ProfileCoordinator: NSObject, Coordinator {
+
+    // MARK: Private properties
+
+    weak private var detailPickUpPointInput: DetailPickUpPointModuleInput?
+    weak private var profileMainInput: ProfileMainModuleInput?
 
     // MARK: Internal properties
+
     weak var authUser: UserExitProcessorDelegate?
     weak var navigationController: UINavigationController?
 
-    // MARK: Initializator
+    // MARK: Initialization
 
     init(navigationController: UINavigationController) {
+        super.init()
         self.navigationController = navigationController
         start()
     }
@@ -37,25 +44,68 @@ final class ProfileCoordinator: Coordinator {
         navigationController?.pushViewController(controller, animated: false)
     }
 
+    private func showOrdersView() {
+        let controller = OrdersViewBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: false)
+    }
+
     private func showMapView() {
         let controller = MapViewBuilder(output: self).build()
         navigationController?.pushViewController(controller, animated: false)
     }
 
-    private func showOrdersView() {
-        let controller = OrdersViewBuilder(output: self).build()
-        navigationController?.pushViewController(controller, animated: false)
+    private func showDetailPickUpPoint() {
+        let controller = DetailPickUpPointViewBuilder(output: self).build()
+        controller.modalPresentationStyle = .custom
+        controller.transitioningDelegate = self
+        navigationController?.present(controller, animated: true)
+    }
 
+    private func dismissPresentedController() {
+        navigationController?.presentedViewController?.dismiss(animated: true, completion: nil)
     }
 
     private func popView() {
         navigationController?.popViewController(animated: false)
     }
+
+    private func popToRootView() {
+        if (navigationController?.viewControllers.first) != nil {
+            navigationController?.popToRootViewController(animated: true)
+        }
+    }
 }
 
-// MARK: ProfileMainModuleOutput
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension ProfileCoordinator: UIViewControllerTransitioningDelegate {
+
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return HalfSizePresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+// MARK: - DetailPickUpPointModuleOutput
+
+extension ProfileCoordinator: DetailPickUpPointModuleOutput {
+
+    func detailPickUpPointModuleDidLoad(input: DetailPickUpPointModuleInput) {
+        detailPickUpPointInput = input
+    }
+
+    func proccesedCloseMapModuleClose() {
+        dismissPresentedController()
+        profileMainInput?.proccessedUpdateAddress()
+        popToRootView()
+    }
+}
+
+// MARK: - ProfileMainModuleOutput
 
 extension ProfileCoordinator: ProfileMainModuleOutput {
+    func profileMainModuleDidLoad(input: ProfileMainModuleInput) {
+        profileMainInput = input
+    }
 
     func processedProfileItemTapped() {
 
@@ -86,14 +136,22 @@ extension ProfileCoordinator: ProfileMainModuleOutput {
     }
 }
 
-// MARK: OrdersModuleOutput
+// MARK: - OrdersModuleOutput
 
 extension ProfileCoordinator: OrdersModuleOutput {
 
 }
 
-// MARK: MapModuleOutput
+// MARK: - MapModuleOutput
 
 extension ProfileCoordinator: MapModuleOutput {
-    
+
+    func proccesedTappedButtonBack() {
+        popView()
+    }
+
+    func proccesedTappedAnnotation(pickUpPointId: Int) {
+        showDetailPickUpPoint()
+        detailPickUpPointInput?.proccesDidLoad(id: pickUpPointId)
+    }
 }

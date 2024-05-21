@@ -16,6 +16,8 @@ class MainTabBarBuilder: Builder {
     }
 
     func build() -> MainTabBarController {
-        MainTabBarController(authUser: authUser)
+        let tabBar = MainTabBarController(authUser: authUser)
+        tabBar.tabBar.backgroundColor = AppColor.background.color
+        return tabBar
     }
 }

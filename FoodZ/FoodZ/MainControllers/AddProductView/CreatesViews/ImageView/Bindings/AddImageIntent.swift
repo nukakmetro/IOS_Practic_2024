@@ -17,4 +17,6 @@ enum AddImageIntent {
     case proccesedAddImage(_ image: UIImage)
     case proccesedTappedSaveButton
     case proccesedTappedDeleteImage(id: UUID)
+    case proccesedSendProduct
+    case proccesedNotSelectPickUpPoint
 }

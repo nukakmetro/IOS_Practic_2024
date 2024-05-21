@@ -64,7 +64,6 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
         createDataSource()
         configureIO()
         reloadData()
-        viewModel.trigger(.onLoad)
         navigationController?.isNavigationBarHidden = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart"), style: .plain, target: self, action: #selector(proccesedTappedLikeBarItemButton))
         navigationController?.navigationBar.barTintColor = AppColor.secondary.color
@@ -135,7 +134,7 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
                 return nil
             }
 
-            if case .imagesSection(let images) = sections[indexPath.section] {
+            if case .imagesSection = sections[indexPath.section] {
                 sectionFooter.configure(indexPath: indexPath)
             }
             sectionFooter.delegate = self
@@ -197,7 +196,7 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
         layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.15))
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2))
         let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
@@ -240,7 +239,10 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
         }
         let actionInCart = UIAction { [weak self] _ in
             guard let self = self else { return }
+            viewModel.trigger(.proccesedTappedButtonCart)
         }
+
+        addCartButton.removeTarget(nil, action: nil, for: .allEvents)
         addCartButton.isEnabled = true
         switch viewData.cartButton {
         case 0:
@@ -252,7 +254,6 @@ final class SelfProductViewController<ViewModel: SelfProductViewModeling>: UIVie
             addCartButton.backgroundColor = .blue
             addCartButton.setTitle("Добавить в корзину", for: .normal)
         case 2:
-            addCartButton.removeAction(actionMyProduct, for: .touchUpInside)
             addCartButton.addAction(actionInCart, for: .touchUpInside)
             addCartButton.backgroundColor = .blue
             addCartButton.setTitle("В корзинe", for: .normal)

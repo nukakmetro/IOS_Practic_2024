@@ -76,7 +76,7 @@ extension HomeCoordinator: SelfProductModuleOutput {
     func proccesedTappedButtonCart() {
         NotificationCenter.default.post(name: .selectCartTab, object: nil)
     }
-    
+
     func selfProductModuleDidLoad(input: SelfProductModuleInput) {
         productInput = input
     }

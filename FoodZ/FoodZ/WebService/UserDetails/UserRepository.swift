@@ -17,12 +17,18 @@ protocol UserAuthorizationProtocol {
 
 protocol ProfileUserProtocol {
     func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void)
+    func getUserAddress(completion: @escaping (Result<UserAddressResponce, Error>) -> Void)
 }
 
 protocol UserExitProtocol {
     func fetchUserExit() -> Bool
 }
 
+protocol UserPickUpPointProtocol {
+    func selectPickUpPoint(id: Int, completion: @escaping (Result<Bool, Error>) -> Void)
+    func getInfoPickUpPoint(id: Int, completion: @escaping (Result<InfoPickUpPointResponce, Error>) -> Void)
+
+}
 final class UserRepository {
 
     // MARK: Private properties
@@ -55,6 +61,10 @@ extension UserRepository: UserAuthorizationProtocol {
 // MARK: ProfileUserProtocol
 
 extension UserRepository: ProfileUserProtocol {
+    func getUserAddress(completion: @escaping (Result<UserAddressResponce, Error>) -> Void) {
+        remoteDataSource.getUserAddress(completion: completion)
+    }
+    
     func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void) {
         remoteDataSource.getUserInfo(completion: completion)
     }
@@ -65,5 +75,15 @@ extension UserRepository: ProfileUserProtocol {
 extension UserRepository: UserExitProtocol {
     func fetchUserExit() -> Bool {
         return remoteDataSource.userExit()
+    }
+}
+
+extension UserRepository: UserPickUpPointProtocol {
+    func selectPickUpPoint(id: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        remoteDataSource.selectPickUpPoint(id: id, completion: completion)
+    }
+
+    func getInfoPickUpPoint(id: Int, completion: @escaping (Result<InfoPickUpPointResponce, Error>) -> Void) {
+        remoteDataSource.getInfoPickUpPoint(id: id, completion: completion)
     }
 }
