@@ -12,4 +12,5 @@ struct UserInfoModel: Decodable {
     var username: String
     var imageId: Int?
     var number: String?
+    var address: String?
 }

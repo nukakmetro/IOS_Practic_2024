@@ -9,12 +9,13 @@ import Foundation
 
 final class DisplayDataMapper {
     func dispayData(from dataModel: UserInfoModel) -> ProfileMainHeader {
-
+        
         return ProfileMainHeader(
             username: dataModel.username,
             nubmer: dataModel.number ?? "Номер телефона",
             id: dataModel.userId,
-            imageId: dataModel.imageId
+            imageId: dataModel.imageId, 
+            address: dataModel.address ?? "Вы не выбрали адрес"
         )
     }
 }

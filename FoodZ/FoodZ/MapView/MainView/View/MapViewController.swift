@@ -127,7 +127,6 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
         let backButtonAction = UIAction { [weak self] _ in
             self?.viewModel.trigger(.proccesedTappedButtonBack)
         }
-        backButton.configuration = UIButton.Configuration.plain()
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backButton.addAction(backButtonAction, for: .touchUpInside)

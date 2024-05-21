@@ -14,6 +14,7 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     private lazy var usernameLabel = UILabel()
     private lazy var userImage = CustomImageView()
     private lazy var userNumberLabel = UILabel()
+    private lazy var addressLabel = UILabel()
 
     // MARK: Initialization
 
@@ -34,6 +35,7 @@ class ProfileMainHeaderCell: UICollectionViewCell {
         contentView.addSubview(userImage)
         contentView.addSubview(usernameLabel)
         contentView.addSubview(userNumberLabel)
+        contentView.addSubview(addressLabel)
 
         userImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -43,11 +45,15 @@ class ProfileMainHeaderCell: UICollectionViewCell {
         }
         usernameLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(userImage.snp.bottom).offset(20)
+            make.top.equalTo(userImage.snp.bottom).offset(10)
         }
         userNumberLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(usernameLabel.snp.bottom).offset(20)
+            make.top.equalTo(usernameLabel.snp.bottom).offset(10)
+        }
+        addressLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(userNumberLabel.snp.bottom).offset(10)
         }
     }
 
@@ -58,8 +64,10 @@ class ProfileMainHeaderCell: UICollectionViewCell {
 
     private func setupImage() {
         userImage.contentMode = .scaleAspectFit
+        userImage.clipsToBounds = true
         userImage.layer.cornerRadius = userImage.layer.frame.width / 2
     }
+
     private func setupLabel() {
 
     }
@@ -69,6 +77,7 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     func configure(with cell: ProfileMainHeader) {
         usernameLabel.text = cell.username
         userNumberLabel.text = cell.number
+        addressLabel.text = cell.address
         if let imageId = cell.imageId {
             userImage.loadImage(withId: imageId, path: .userImage)
         }

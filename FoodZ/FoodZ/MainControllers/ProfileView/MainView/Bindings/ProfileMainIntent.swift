@@ -9,7 +9,9 @@ import Foundation
 
 enum ProfileMainIntent {
     case onDidLoad
+    case onLoad
     case onClose
     case onReload
     case processedTapItem(item: Int)
+    case proccesedUpdateAddress
 }

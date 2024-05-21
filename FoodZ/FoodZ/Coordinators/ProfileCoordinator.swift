@@ -14,11 +14,15 @@ protocol UserExitProcessorDelegate: AnyObject {
 
 final class ProfileCoordinator: NSObject, Coordinator {
 
+    // MARK: Private properties
+
+    weak private var detailPickUpPointInput: DetailPickUpPointModuleInput?
+    weak private var profileMainInput: ProfileMainModuleInput?
+
     // MARK: Internal properties
 
     weak var authUser: UserExitProcessorDelegate?
     weak var navigationController: UINavigationController?
-    weak var detailPickUpPointInput: DetailPickUpPointModuleInput?
 
     // MARK: Initialization
 
@@ -40,15 +44,14 @@ final class ProfileCoordinator: NSObject, Coordinator {
         navigationController?.pushViewController(controller, animated: false)
     }
 
-    private func showMapView() {
-        let controller = MapViewBuilder(output: self).build()
-        navigationController?.pushViewController(controller, animated: false)
-    }
-
     private func showOrdersView() {
         let controller = OrdersViewBuilder(output: self).build()
         navigationController?.pushViewController(controller, animated: false)
+    }
 
+    private func showMapView() {
+        let controller = MapViewBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: false)
     }
 
     private func showDetailPickUpPoint() {
@@ -56,6 +59,10 @@ final class ProfileCoordinator: NSObject, Coordinator {
         controller.modalPresentationStyle = .custom
         controller.transitioningDelegate = self
         navigationController?.present(controller, animated: true)
+    }
+
+    private func dismissPresentedController() {
+        navigationController?.presentedViewController?.dismiss(animated: true, completion: nil)
     }
 
     private func popView() {
@@ -66,9 +73,6 @@ final class ProfileCoordinator: NSObject, Coordinator {
         if (navigationController?.viewControllers.first) != nil {
             navigationController?.popToRootViewController(animated: true)
         }
-    }
-    private func dismissPresentedController() {
-        navigationController?.presentedViewController?.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -91,6 +95,7 @@ extension ProfileCoordinator: DetailPickUpPointModuleOutput {
 
     func proccesedCloseMapModuleClose() {
         dismissPresentedController()
+        profileMainInput?.proccessedUpdateAddress()
         popToRootView()
     }
 }
@@ -98,6 +103,9 @@ extension ProfileCoordinator: DetailPickUpPointModuleOutput {
 // MARK: - ProfileMainModuleOutput
 
 extension ProfileCoordinator: ProfileMainModuleOutput {
+    func profileMainModuleDidLoad(input: ProfileMainModuleInput) {
+        profileMainInput = input
+    }
 
     func processedProfileItemTapped() {
 

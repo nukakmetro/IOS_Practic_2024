@@ -40,6 +40,7 @@ final class ProfileMainBodyCell: UICollectionViewCell, ProfileSelfConfiguringCel
         cellImage.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(20)
+            make.centerX.equalTo(contentView.snp.leading).inset(30)
         }
 
         cellName.snp.makeConstraints { make in

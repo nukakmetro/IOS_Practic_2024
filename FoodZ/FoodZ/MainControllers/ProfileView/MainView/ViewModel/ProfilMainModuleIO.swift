@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol ProfileMainModuleInput: AnyObject {}
+protocol ProfileMainModuleInput: AnyObject {
+    func proccessedUpdateAddress()
+}
 
 protocol ProfileMainModuleOutput: AnyObject {
     func processedProfileItemTapped()
@@ -17,4 +19,5 @@ protocol ProfileMainModuleOutput: AnyObject {
     func processedSettingItemTapped()
     func processedHelpItemTapped()
     func processedExitItemTapped()
+    func profileMainModuleDidLoad(input: ProfileMainModuleInput)
 }

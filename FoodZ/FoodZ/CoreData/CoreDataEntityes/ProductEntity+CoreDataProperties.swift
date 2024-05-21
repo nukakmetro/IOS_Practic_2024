@@ -25,7 +25,6 @@ extension ProductEntity {
     @NSManaged public var productPrice: String?
     @NSManaged public var productWaitingTime: String?
     @NSManaged public var images: Set<ProductImage>
-
 }
 
 // MARK: Generated accessors for images

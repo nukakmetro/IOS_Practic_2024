@@ -21,6 +21,7 @@ final class SelfProductInformationCell: UICollectionViewCell, SelfConfiguringCel
     private lazy var productPriceLabel = UILabel()
     private lazy var productUsernameLabel = UILabel()
     private lazy var productCategoryLabel = UILabel()
+    private lazy var addressLabel = UILabel()
 
     // MARK: Initialization
 
@@ -45,6 +46,7 @@ final class SelfProductInformationCell: UICollectionViewCell, SelfConfiguringCel
         contentView.addSubview(miniStackView)
         contentView.addSubview(productNameLabel)
         contentView.addSubview(productPriceLabel)
+        contentView.addSubview(addressLabel)
 
         content.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -65,6 +67,11 @@ final class SelfProductInformationCell: UICollectionViewCell, SelfConfiguringCel
             make.top.equalTo(productNameLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(30)
         }
+
+        addressLabel.snp.makeConstraints { make in
+            make.top.equalTo(productPriceLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview().inset(30)
+        }
     }
 
     private func setupContent() {
@@ -73,6 +80,7 @@ final class SelfProductInformationCell: UICollectionViewCell, SelfConfiguringCel
         productUsernameLabel.font = .systemFont(ofSize: 14)
         productCategoryLabel.font = .systemFont(ofSize: 14)
         productNameLabel.font = .systemFont(ofSize: 19)
+        addressLabel.font = .systemFont(ofSize: 14)
     }
 
     // MARK: Internal methods
@@ -82,5 +90,6 @@ final class SelfProductInformationCell: UICollectionViewCell, SelfConfiguringCel
         productCategoryLabel.text = cell.productCategory
         productUsernameLabel.text = cell.productUsername
         productPriceLabel.text = cell.productPrice
+        addressLabel.text = cell.address
     }
 }

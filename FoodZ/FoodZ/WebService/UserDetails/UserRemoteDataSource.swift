@@ -75,6 +75,11 @@ final class UserRemoteDataSource {
         networkService.sendRequest(target: target, responseType: Bool.self, completion: completion)
     }
 
+    func getUserAddress(completion: @escaping (Result<UserAddressResponce, Error>) -> Void) {
+        let target = Target(path: "/user/pickUpPoint/address", method: .get, setParametresFromEncodable: nil, role: .user)
+        networkService.sendRequest(target: target, responseType: UserAddressResponce.self, completion: completion)
+    }
+
     func userExit() -> Bool {
         var isExit = true
         let target = Target(path: "/user/secured/exit", method: .post, setParametresFromEncodable: tokenManager.getRefreshToken(), role: .user)

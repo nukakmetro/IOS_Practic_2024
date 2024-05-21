@@ -17,6 +17,7 @@ protocol UserAuthorizationProtocol {
 
 protocol ProfileUserProtocol {
     func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void)
+    func getUserAddress(completion: @escaping (Result<UserAddressResponce, Error>) -> Void)
 }
 
 protocol UserExitProtocol {
@@ -60,6 +61,10 @@ extension UserRepository: UserAuthorizationProtocol {
 // MARK: ProfileUserProtocol
 
 extension UserRepository: ProfileUserProtocol {
+    func getUserAddress(completion: @escaping (Result<UserAddressResponce, Error>) -> Void) {
+        remoteDataSource.getUserAddress(completion: completion)
+    }
+    
     func fetchUserInfo(completion: @escaping (Result<UserInfoModel, Error>) -> Void) {
         remoteDataSource.getUserInfo(completion: completion)
     }

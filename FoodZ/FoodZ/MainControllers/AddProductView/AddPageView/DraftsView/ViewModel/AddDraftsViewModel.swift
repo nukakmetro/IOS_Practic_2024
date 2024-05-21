@@ -82,6 +82,7 @@ extension AddDraftsViewModel: AddDraftsModuleInput {
     }
 
     func proccesedSaveDeleteProduct(product: ProductCreator) {
-
+        coreDataManager.deleteByid(id: product.productId)
+        trigger(.onReload)
     }
 }

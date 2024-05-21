@@ -92,10 +92,10 @@ final class DetailPickUpPointViewController<ViewModel: DetailPickUpPointViewMode
         let action = UIAction { [weak self] _ in
             self?.viewModel.trigger(.proccesedTappedButtonSelect)
         }
-        button.configuration = UIButton.Configuration.filled()
         button.layer.cornerRadius = 10
-        button.setTitle("Заберу отсюда", for: .normal)
+        button.setTitle("Доставлю сюда", for: .normal)
         button.addAction(action, for: .touchUpInside)
+        button.backgroundColor = .blue
 
         nameLabel.font = .systemFont(ofSize: 16)
         addressLabel.font = .systemFont(ofSize: 18)

@@ -17,6 +17,7 @@ protocol ProductFavorietesProtocol {
 
 protocol AddProductProtocol {
     func sendProduct(product: ProductRequest, images: [Data], completion: @escaping (Result<Bool, Error>) -> Void)
+    func fetchIsExistsPickUpPoint(completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
 protocol ProductSearchProtocol {
@@ -72,6 +73,10 @@ import UIKit
 // MARK: - AddProductProtocol
 
 extension ProductRepository: AddProductProtocol {
+    func fetchIsExistsPickUpPoint(completion: @escaping (Result<Bool, Error>) -> Void) {
+        remoteDataSource.fetchIsExistsPickUpPoint(completion: completion)
+    }
+    
     func sendProduct(product: ProductRequest, images: [Data], completion: @escaping (Result<Bool, Error>) -> Void) {
         remoteDataSource.sendProduct(product: product, images: images, completion: completion)
     }
