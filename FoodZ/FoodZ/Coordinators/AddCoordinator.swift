@@ -15,7 +15,6 @@ final class AddCoordinator: Coordinator {
     weak private var fillingInput: FillingModuleInput?
     weak private var addDraftsInput: AddDraftsModuleInput?
     weak private var addImageInput: AddImageModuleInput?
-    weak private var detailPickUpPointInput: DetailPickUpPointModuleInput?
 
     // MARK: Internal properties
 
