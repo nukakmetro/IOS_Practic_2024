@@ -27,6 +27,7 @@ final class DetailPickUpPointViewBuilder: Builder {
         let viewModel = DetailPickUpPointViewModel(output: output, repository: remoteRepository)
         let controller = DetailPickUpPointViewController(viewModel: viewModel)
         controller.hidesBottomBarWhenPushed = true
+        controller.setupForCustomPresentation()
         return controller
     }
 }

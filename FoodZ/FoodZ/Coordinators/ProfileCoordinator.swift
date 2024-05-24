@@ -12,7 +12,7 @@ protocol UserExitProcessorDelegate: AnyObject {
     func processesUserExit()
 }
 
-final class ProfileCoordinator: NSObject, Coordinator {
+final class ProfileCoordinator: Coordinator {
 
     // MARK: Private properties
 
@@ -27,7 +27,6 @@ final class ProfileCoordinator: NSObject, Coordinator {
     // MARK: Initialization
 
     init(navigationController: UINavigationController) {
-        super.init()
         self.navigationController = navigationController
         start()
     }
@@ -56,8 +55,6 @@ final class ProfileCoordinator: NSObject, Coordinator {
 
     private func showDetailPickUpPoint() {
         let controller = DetailPickUpPointViewBuilder(output: self).build()
-        controller.modalPresentationStyle = .custom
-        controller.transitioningDelegate = self
         navigationController?.present(controller, animated: true)
     }
 
@@ -73,15 +70,6 @@ final class ProfileCoordinator: NSObject, Coordinator {
         if (navigationController?.viewControllers.first) != nil {
             navigationController?.popToRootViewController(animated: true)
         }
-    }
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension ProfileCoordinator: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return HalfSizePresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
 
