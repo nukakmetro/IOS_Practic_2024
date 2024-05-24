@@ -65,7 +65,7 @@ final class CartViewModel: CartViewModeling {
         case .proccesedTappedButtonSave(let id):
             saveProductItem(cartItemId: id)
         case .proccesedTappedButtonPay:
-            break
+            output?.proccesedTappedButtonPay()
         }
     }
 

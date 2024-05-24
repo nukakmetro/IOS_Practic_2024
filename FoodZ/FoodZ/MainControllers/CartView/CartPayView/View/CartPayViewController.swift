@@ -13,24 +13,33 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
     // MARK: Private properties
 
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<CartSectionType, CartCellType>?
-    private var sections: [CartSectionType]
+    private var dataSource: UICollectionViewDiffableDataSource<CartPaySectionType, CartPayCellType>?
+    private var sections: [CartPaySectionType]
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var totalPriceLabel = UILabel()
     private lazy var payButton = UIButton()
-
+    private lazy var stackView = UIStackView(arrangedSubviews: [totalPriceLabel, payButton])
+    private lazy var titlebar = TitleBarView()
     private lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         collectionView.backgroundColor = AppColor.secondary.color
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
         collectionView.register(
-            CartCell.self,
-            forCellWithReuseIdentifier: CartCell.reuseIdentifier
+            CartPayBodyHeaderCell.self,
+            forCellWithReuseIdentifier: CartPayBodyHeaderCell.reuseIdentifier
         )
-        collectionView.backgroundColor = AppColor.cartBackground.color
+        collectionView.register(
+            CartPayBodyCell.self,
+            forCellWithReuseIdentifier: CartPayBodyCell.reuseIdentifier
+        )
+        collectionView.register(
+            CartPayFooterCell.self,
+            forCellWithReuseIdentifier: CartPayFooterCell.reuseIdentifier
+        )
         collectionView.delegate = self
+        collectionView.backgroundColor = AppColor.cartBackground.color
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
@@ -51,10 +60,10 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         makeConstraints()
-        //createDataSource()
+        createDataSource()
         configureIO()
+        setupDisplay()
         viewModel.trigger(.onDidLoad)
-        navigationController?.isNavigationBarHidden = true
     }
 
     // MARK: Private methods
@@ -81,10 +90,11 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
         switch viewModel.state {
         case .loading:
             break
-        case .content(let dispayData, let viewData):
-            setupDisplayData(viewData: viewData)
+        case .content(let dispayData, let displayData):
+            setupDisplayData(totalPrice: displayData)
             sections = dispayData
             reloadData()
+            isLastCellVisible()
         case .error:
             break
         }
@@ -97,22 +107,42 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
         return cell
     }
 
-//    private func createDataSource() {
-//        dataSource = UICollectionViewDiffableDataSource<CartSectionType, CartCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
-//            guard let self = self else { return UICollectionViewCell() }
-//
-//
-//        }
-//    }
+    private func createDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<CartPaySectionType, CartPayCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+            guard let self = self else { return UICollectionViewCell() }
+            switch item {
+            case .bodyCell(let data):
+                var cell = configure(CartPayBodyCell.self, for: indexPath)
+                cell.configure(with: data)
+                return cell
+            case .bodyHeaderCell(let data):
+                var cell = configure(CartPayBodyHeaderCell.self, for: indexPath)
+                cell.configure(with: data)
+                return cell
+            case .footerCell(let data):
+                var cell = configure(CartPayFooterCell.self, for: indexPath)
+                cell.configure(with: data)
+                cell.proccesedTappedButtonPay = {
+                    self.viewModel.trigger(.proccesedTappedButtonPay)
+                }
+
+                return cell
+            }
+        }
+    }
 
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<CartSectionType, CartCellType>()
+        var snapshot = NSDiffableDataSourceSnapshot<CartPaySectionType, CartPayCellType>()
         snapshot.appendSections(sections)
 
         for section in sections {
             switch section {
             case .bodySection(_, let data):
                 snapshot.appendItems(data, toSection: section)
+            case .bodyHeaderSection(_, let data):
+                snapshot.appendItems([data], toSection: section)
+            case .footerSection(_, let data):
+                snapshot.appendItems([data], toSection: section)
             }
         }
 
@@ -121,13 +151,17 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            guard let self = self else { return self?.createBodyTableSection() }
+            guard let self = self else { return self?.createHeaderTableSection() }
             let section = sections[sectionIndex]
 
             switch section {
 
             case .bodySection:
                 return createBodyTableSection()
+            case .bodyHeaderSection:
+                return createHeaderTableSection()
+            case .footerSection:
+                return createFooterTableSection()
             }
         }
 
@@ -141,8 +175,37 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
         layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.05))
+        let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.25))
+        let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
+        layoutSection.orthogonalScrollingBehavior = .none
+
+        return layoutSection
+    }
+
+    private func createHeaderTableSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+
+        let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.1))
+        let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
+
+        let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
+        layoutSection.orthogonalScrollingBehavior = .none
+
+        return layoutSection
+    }
+
+    private func createFooterTableSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+
+        let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.1))
         let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
@@ -158,18 +221,25 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
         totalPriceLabel.translatesAutoresizingMaskIntoConstraints = false
         payButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let stackView = UIStackView(arrangedSubviews: [totalPriceLabel, payButton])
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.backgroundColor = AppColor.background.color
 
         view.addSubview(collectionView)
         view.addSubview(stackView)
+        view.addSubview(titlebar)
+
+        titlebar.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
 
         collectionView.snp.makeConstraints { make in
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(titlebar.snp.bottom)
             make.bottom.equalToSuperview()
         }
 
@@ -179,36 +249,50 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
         }
     }
 
-    private func setupDisplayData(viewData: CartViewData) {
+    private func setupTitleBar() {
+        titlebar.configure(title: "Оформление заказа", color: nil)
+        titlebar.closeView = {
+            self.viewModel.trigger(.onClose)
+        }
+    }
 
-        totalPriceLabel.text = String(viewData.totalPrice)
+    private func setupDisplay() {
 
         let action = UIAction { [weak self] _ in
             guard let self = self else { return }
-            payButton.isEnabled = false
-           // viewModel.trigger(.proccesedTappedButtonPay)
+            viewModel.trigger(.proccesedTappedButtonPay)
         }
-        payButton.isEnabled = true
-        payButton.removeTarget(self, action: nil, for: .allEvents)
+        payButton.addAction(action, for: .touchUpInside)
+        payButton.setTitle("Оплатить", for: .normal)
+        payButton.backgroundColor = .blue
+        payButton.layer.cornerRadius = 10
 
-        if viewData.totalPrice == 0 {
-            payButton.isEnabled = false
-            payButton.setTitle("Корзина пустая", for: .normal)
-            payButton.backgroundColor = .red
-        } else {
-            payButton.addAction(action, for: .touchUpInside)
-            payButton.backgroundColor = .blue
-            payButton.setTitle("Перейти к оформлению", for: .normal)
-        }
+        setupTitleBar()
+    }
+
+    private func setupDisplayData(totalPrice: String) {
+        totalPriceLabel.text = totalPrice
     }
 
     // MARK: - UICollectionViewDelegate
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? CartCell {
-            if let id = cell.id {
-                //viewModel.trigger(.proccesedTappedButtonCell(id: id))
-            }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        isLastCellVisible()
+    }
+
+    private func isLastCellVisible() {
+        let lastSectionIndex = sections.endIndex - 1
+        let lastIndexPath = IndexPath(item: 0, section: lastSectionIndex)
+        let isLastCellVisible = collectionView.indexPathsForVisibleItems.contains(lastIndexPath)
+
+        if isLastCellVisible {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.stackView.frame.origin.y = self.view.frame.height + self.stackView.frame.height
+            })
+        } else {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.stackView.frame.origin.y = self.view.frame.height - self.stackView.frame.height - 10
+            })
         }
     }
 }

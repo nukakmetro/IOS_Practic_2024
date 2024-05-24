@@ -10,5 +10,5 @@ import Foundation
 protocol CartPayModuleInput: AnyObject {}
 
 protocol CartPayModuleOutput: AnyObject {
-
+    func proccesedTappedButtonClose()
 }

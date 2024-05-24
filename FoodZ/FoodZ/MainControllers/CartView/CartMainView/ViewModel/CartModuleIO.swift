@@ -11,4 +11,5 @@ protocol CartModuleInput: AnyObject {}
 
 protocol CartModuleOutput: AnyObject {
     func proccesedTappedProductCell(id: Int)
+    func proccesedTappedButtonPay()
 }

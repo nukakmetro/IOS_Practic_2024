@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 enum ImageLoadPath: String {
-    case userImage = "/user/image"
+    case userImage = "/user/image/get"
     case productImage = "/image"
 }
 

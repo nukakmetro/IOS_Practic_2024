@@ -17,6 +17,10 @@ protocol CartProtocol {
     func getTotalPrice(completion: @escaping (Result<CartTotalPriceResponce, Error>) -> Void)
 }
 
+protocol CartPayProtocol {
+    func getCartPay(completion: @escaping (Result<CartCreateOrderResponce, Error>) -> Void)
+}
+
 final class CartRepository {
 
     // MARK: Private properties
@@ -60,5 +64,13 @@ extension CartRepository: CartProtocol {
     
     func getTotalPrice(completion: @escaping (Result<CartTotalPriceResponce, Error>) -> Void) {
         dataSource.getTotalPrice(completion: completion)
+    }
+}
+
+// MARK: - CartProtocol
+
+extension CartRepository: CartPayProtocol {
+    func getCartPay(completion: @escaping (Result<CartCreateOrderResponce, Error>) -> Void) {
+        dataSource.getCartPay(completion: completion)
     }
 }
