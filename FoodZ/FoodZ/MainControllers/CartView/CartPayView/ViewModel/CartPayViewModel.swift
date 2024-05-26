@@ -15,7 +15,7 @@ final class CartPayViewModel: CartPayViewModeling {
     // MARK: Private properties
 
     private var output: CartPayModuleOutput?
-    private let repository: CartPayProtocol
+    private let repository: CartPayProtocol & CreateOrderProtocol
     private(set) var stateDidChange: ObservableObjectPublisher
     private var sections: [CartSectionType]
     private let dataMapper: CartPayDataMapper
@@ -31,7 +31,7 @@ final class CartPayViewModel: CartPayViewModeling {
 
     // MARK: Initialization
 
-    init(output: CartPayModuleOutput, remoteRepository: CartPayProtocol) {
+    init(output: CartPayModuleOutput, remoteRepository: CartPayProtocol & CreateOrderProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
         self.state = .loading
         self.output = output
@@ -55,7 +55,7 @@ final class CartPayViewModel: CartPayViewModeling {
         case .onReload:
             break
         case .proccesedTappedButtonPay:
-            break
+            proccesTappedPay()
         }
     }
 
@@ -66,6 +66,18 @@ final class CartPayViewModel: CartPayViewModeling {
             switch result {
             case .success(let data):
                 state = .content(displayData: dataMapper.displayData(data: data), totalPrice: String(data.totalPrice))
+            case .failure:
+                break
+            }
+        }
+    }
+
+    private func proccesTappedPay() {
+        repository.createOrder { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                trigger(.onClose)
             case .failure:
                 break
             }

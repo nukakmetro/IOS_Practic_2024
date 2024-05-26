@@ -36,7 +36,7 @@ final class HomeViewModel: HomeViewModeling {
         self.output = output
         self.repository = remoteRepository
         self.sections = []
-        self.sections.append(.headerSection(.headerCell))
+        self.sections.append(.headerSection(id: UUID(), .headerCell))
         self.dataMapper = HomeDataMapper()
     }
 
@@ -59,8 +59,8 @@ final class HomeViewModel: HomeViewModeling {
         case .onLoad:
             updateSections()
 
-        case .proccesedTappedLikeButton(let id, let input):
-            productTappedLike(productId: id, cellInput: input)
+        case .proccesedTappedLikeButton(let id):
+            productTappedLike(productId: id)
 
         case .proccesedTappedCell(let id):
             output?.proccesedTappedProductCell(id: id)
@@ -69,7 +69,7 @@ final class HomeViewModel: HomeViewModeling {
 
     private func didLoadSections() {
         state = .loading
-        state = .content(dispayData: sections)
+        state = .content(displayData: sections)
     }
 
     private func updateSections() {
@@ -81,7 +81,7 @@ final class HomeViewModel: HomeViewModeling {
             switch result {
             case .success(let dispayData):
                 sections.insert(contentsOf: dataMapper.displayData(sections: dispayData), at: 1)
-                state = .content(dispayData: sections)
+                state = .content(displayData: sections)
 
             case .failure:
                 state = .error(displayData: sections)
@@ -89,7 +89,7 @@ final class HomeViewModel: HomeViewModeling {
         })
     }
 
-    private func productTappedLike(productId: Int, cellInput: HomeCellInput) {
+    private func productTappedLike(productId: Int) {
         state = .loading
 
         repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
@@ -97,14 +97,24 @@ final class HomeViewModel: HomeViewModeling {
 
             switch result {
             case .success(let like):
-            changeProductLike(like: like, id: productId, cellInput: cellInput)
+                for sectionIndex in sections.indices {
+                    let section = sections[sectionIndex]
+                    if case .bodySection(let id, var items) = section {
+                        for itemIndex in items.indices {
+                            if case .bodyCell(let product) = items[itemIndex], product.productId == productId {
+                                var newProduct = product
+                                newProduct.id = UUID()
+                                newProduct.productSavedStatus = like
+                                items[itemIndex] = .bodyCell(newProduct)
+                                sections[sectionIndex] = .bodySection(id: id, items)
+                                state = .content(displayData: sections)
+                            }
+                        }
+                    }
+                }
             case .failure:
-                cellInput.proccesedChangeLikeError()
+                break
             }
         }
-    }
-
-    private func changeProductLike(like: Bool, id: Int, cellInput: HomeCellInput) {
-        cellInput.proccesedChangeLike(like: like)
     }
 }

@@ -8,15 +8,6 @@
 import UIKit
 import SnapKit
 
-protocol HomeCellDelegate: AnyObject {
-    func proccesedTappedLike(id: Int, input: HomeCellInput)
-}
-
-protocol HomeCellInput: AnyObject {
-    func proccesedChangeLike(like: Bool)
-    func proccesedChangeLikeError()
-}
-
 final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
@@ -25,8 +16,8 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal properties
 
+    var proccesedChangeLike: (() -> Void)?
     var id: Int?
-    weak var delegate: HomeCellDelegate?
 
     // MARK: Private properties
 
@@ -45,8 +36,6 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.45))
         containerView.addSubview(productImage)
         containerView.backgroundColor = UIColor.clear
-        containerView.addSubview(productSavedButton)
-        containerView.bringSubviewToFront(productSavedButton)
         return containerView
     }()
 
@@ -87,6 +76,7 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         lowerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(lowerStackView)
         contentView.addSubview(containerView)
+        contentView.addSubview(productSavedButton)
 
         containerView.snp.makeConstraints { make in
             make.height.equalToSuperview().multipliedBy(0.4)
@@ -97,24 +87,29 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
             make.leading.trailing.equalToSuperview().inset(10)
             make.bottom.equalToSuperview()
         }
+
+        productSavedButton.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview().inset(5)
+            make.height.equalToSuperview().multipliedBy(0.15)
+            make.width.equalTo(productSavedButton.snp.height)
+        }
+
     }
 
     private func setupDisplay() {
         productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
         let action = UIAction { [weak self] _ in
-            self?.like?.toggle()
+
             guard
                 let self = self,
-                let like = like,
-                let id = id
+                let proccesedChangeLike = proccesedChangeLike
             else { return }
 
-            changeLike(like: like)
-            delegate?.proccesedTappedLike(id: id, input: self)
+            proccesedChangeLike()
         }
         productSavedButton.addAction(action, for: .touchUpInside)
-        productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX - 30), y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
-        // productImage.contentMode = .scaleToFill
+        productSavedButton.clipsToBounds = true
+        productSavedButton.layer.cornerRadius = contentView.frame.height / (2 / 0.15)
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
         productWaltingTimerImage.tintColor = AppColor.title.color
@@ -129,7 +124,6 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         layer.shadowOffset = CGSize(width: 0, height: 5)
         productSavedButton.backgroundColor = AppColor.background.color
         productSavedButton.tintColor = AppColor.title.color
-        productSavedButton.layer.cornerRadius = productSavedButton.frame.width / 2
     }
 
     private func changeLike(like: Bool) {
@@ -155,19 +149,5 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         productRatingImage.image = UIImage(systemName: "star.fill")
         like = cell.productSavedStatus
         id = cell.productId
-    }
-}
-// MARK: - HomeCellInput
-
-extension HomeCell: HomeCellInput {
-    func proccesedChangeLikeError() {
-        like?.toggle()
-        guard let like = like else { return }
-        changeLike(like: like)
-    }
-
-    func proccesedChangeLike(like: Bool) {
-        changeLike(like: like)
-        self.like = like
     }
 }

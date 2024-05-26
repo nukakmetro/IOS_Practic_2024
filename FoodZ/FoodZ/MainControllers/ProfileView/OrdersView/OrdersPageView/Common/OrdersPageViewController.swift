@@ -14,8 +14,8 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
     // MARK: Private properties
 
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<Int, OrdersViewCellType>?
-    private var items: [OrdersViewCellType]
+    private var dataSource: UICollectionViewDiffableDataSource<OrderSectionType, OrderCellType>?
+    private var sections: [OrderSectionType]
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var collectionView: UICollectionView = {
@@ -24,8 +24,12 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
         collectionView.register(
-            OrderCell.self,
-            forCellWithReuseIdentifier: OrderCell.reuseIdentifier
+            OrderBodyCell.self,
+            forCellWithReuseIdentifier: OrderBodyCell.reuseIdentifier
+        )
+        collectionView.register(
+            OrderBodyHeaderCell.self,
+            forCellWithReuseIdentifier: OrderBodyHeaderCell.reuseIdentifier
         )
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -36,7 +40,7 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
-        self.items = []
+        self.sections = []
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -79,15 +83,14 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
         case .loading:
             break
         case .content(let dispayData):
-            items = dispayData
+            sections = dispayData
             reloadData()
-        case .error(let dispayData):
-            items = dispayData
-            reloadData()
+        case .error:
+            break
         }
     }
 
-    private func configure<T: SelfConfiguringOrderCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
+    private func configure<T: SelfConfiguringCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Unable to dequeue \(cellType)")
         }
@@ -95,50 +98,80 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, OrdersViewCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<OrderSectionType, OrderCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+            guard let self = self else { return UICollectionViewCell() }
             switch item {
-            case .orderCell(let data):
-                let cell = self?.configure(OrderCell.self, for: indexPath)
-                cell?.configure(with: data)
+            case .bodyCell(let data):
+                var cell = configure(OrderBodyCell.self, for: indexPath)
+                cell.configure(with: data)
+                return cell
+            case .bodyHeaderCell(let data):
+                var cell = configure(OrderBodyHeaderCell.self, for: indexPath)
+                cell.configure(with: data)
                 return cell
             }
         }
     }
+
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, OrdersViewCellType>()
-        snapshot.appendSections([0])
-        snapshot.appendItems(Array(items), toSection: 0)
+        var snapshot = NSDiffableDataSourceSnapshot<OrderSectionType, OrderCellType>()
+        snapshot.appendSections(sections)
+        for section in sections {
+            switch section {
+            case .bodySection(_, let data):
+                snapshot.appendItems(data, toSection: section)
+            case .bodyHeaderSection(_, let data):
+                snapshot.appendItems([data], toSection: section)
+            }
+        }     
         dataSource?.apply(snapshot)
     }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            switch sectionIndex {
-            case 0:
-                return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
-            default:
-                return self?.createTableSection(fractionalHeight: 0.3, fractionalWidth: 0.9)
+            guard let self = self else { return self?.createHeaderTableSection() }
+            let section = sections[sectionIndex]
+
+            switch section {
+
+            case .bodySection:
+                return createBodyTableSection()
+            case .bodyHeaderSection:
+                return createHeaderTableSection()
             }
         }
+
         let config = UICollectionViewCompositionalLayoutConfiguration()
         layout.configuration = config
         return layout
     }
 
-    private func createTableSection(fractionalHeight: CGFloat, fractionalWidth: CGFloat) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2), heightDimension: .fractionalHeight(1))
+    private func createBodyTableSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
 
         let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
-
-        let layoutGroupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(fractionalWidth),
-            heightDimension: .fractionalHeight(fractionalHeight)
-        )
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.05))
         let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
 
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         layoutSection.orthogonalScrollingBehavior = .none
+
+        return layoutSection
+    }
+
+    private func createHeaderTableSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+
+        let layoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.1))
+        let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [layoutItem])
+
+        let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
+        layoutSection.orthogonalScrollingBehavior = .none
+
         return layoutSection
     }
 

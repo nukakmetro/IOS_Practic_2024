@@ -7,9 +7,12 @@
 
 import Foundation
 
-protocol CartModuleInput: AnyObject {}
+protocol CartModuleInput: AnyObject {
+    func proccesedReload()
+}
 
 protocol CartModuleOutput: AnyObject {
     func proccesedTappedProductCell(id: Int)
     func proccesedTappedButtonPay()
+    func cartModuleDidLoad(input: CartModuleInput)
 }

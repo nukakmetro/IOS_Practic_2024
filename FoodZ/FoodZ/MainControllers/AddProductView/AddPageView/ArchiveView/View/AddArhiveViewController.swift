@@ -14,23 +14,23 @@ final class AddArhiveViewController<ViewModel: AddArhiveViewModeling>: UIViewCon
     // MARK: Private properties
 
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<Int, OrdersViewCellType>?
-    private var items: [OrdersViewCellType]
+//    private var dataSource: UICollectionViewDiffableDataSource<Int, OrdersViewCellType>?
+    private var items: [OrderSectionType]
     private var cancellables: Set<AnyCancellable> = []
-
-    private lazy var collectionView: UICollectionView = {
-        var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
-        collectionView.backgroundColor = AppColor.secondary.color
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .white
-        collectionView.register(
-            OrderCell.self,
-            forCellWithReuseIdentifier: OrderCell.reuseIdentifier
-        )
-        collectionView.refreshControl = UIRefreshControl()
-        collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-        return collectionView
-    }()
+//
+//    private lazy var collectionView: UICollectionView = {
+//        var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+//        collectionView.backgroundColor = AppColor.secondary.color
+//        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        collectionView.backgroundColor = .white
+//        collectionView.register(
+//            OrderCell.self,
+//            forCellWithReuseIdentifier: OrderCell.reuseIdentifier
+//        )
+//        collectionView.refreshControl = UIRefreshControl()
+//        collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+//        return collectionView
+//    }()
 
     // MARK: Initialization
 
@@ -46,8 +46,8 @@ final class AddArhiveViewController<ViewModel: AddArhiveViewModeling>: UIViewCon
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeConstraints()
-        createDataSource()
+//        makeConstraints()
+//        createDataSource()
         configureIO()
         viewModel.trigger(.onDidLoad)
         view.backgroundColor = .red
@@ -60,7 +60,7 @@ final class AddArhiveViewController<ViewModel: AddArhiveViewModeling>: UIViewCon
         DispatchQueue.global().async {
             self.viewModel.trigger(.onReload)
             DispatchQueue.main.async {
-                self.collectionView.refreshControl?.endRefreshing()
+//                self.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -85,29 +85,29 @@ final class AddArhiveViewController<ViewModel: AddArhiveViewModeling>: UIViewCon
         }
     }
 
-    private func configure<T: SelfConfiguringOrderCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
-            fatalError("Unable to dequeue \(cellType)")
-        }
-        return cell
-    }
+//    private func configure<T: SelfConfiguringOrderCell>(_ cellType: T.Type, for indexPath: IndexPath) -> T {
+//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
+//            fatalError("Unable to dequeue \(cellType)")
+//        }
+//        return cell
+//    }
 
-    private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, OrdersViewCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
-            switch item {
-            case .orderCell(let data):
-                let cell = self?.configure(OrderCell.self, for: indexPath)
-                cell?.configure(with: data)
-                return cell
-            }
-        }
-    }
-    private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, OrdersViewCellType>()
-        snapshot.appendSections([0])
-        snapshot.appendItems(Array(items), toSection: 0)
-        dataSource?.apply(snapshot)
-    }
+//    private func createDataSource() {
+//        dataSource = UICollectionViewDiffableDataSource<Int, OrdersViewCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+//            switch item {
+//            case .orderCell(let data):
+//                let cell = self?.configure(OrderCell.self, for: indexPath)
+//                cell?.configure(with: data)
+//                return cell
+//            }
+//        }
+//    }
+//    private func reloadData() {
+//        var snapshot = NSDiffableDataSourceSnapshot<Int, OrdersViewCellType>()
+//        snapshot.appendSections([0])
+//        snapshot.appendItems(Array(items), toSection: 0)
+//        dataSource?.apply(snapshot)
+//    }
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
@@ -140,16 +140,16 @@ final class AddArhiveViewController<ViewModel: AddArhiveViewModeling>: UIViewCon
         return layoutSection
     }
 
-    private func makeConstraints() {
-        view.backgroundColor = AppColor.primary.color
-        view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-
-        collectionView.snp.makeConstraints { make in
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalToSuperview()
-        }
-    }
+//    private func makeConstraints() {
+//        view.backgroundColor = AppColor.primary.color
+//        view.addSubview(collectionView)
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        collectionView.snp.makeConstraints { make in
+//            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
+//            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+//            make.bottom.equalToSuperview()
+//        }
+//    }
 }

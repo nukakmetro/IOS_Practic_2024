@@ -125,7 +125,6 @@ final class CartPayViewController<ViewModel: CartPayViewModeling>: UIViewControl
                 cell.proccesedTappedButtonPay = {
                     self.viewModel.trigger(.proccesedTappedButtonPay)
                 }
-
                 return cell
             }
         }

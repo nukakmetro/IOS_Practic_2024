@@ -9,6 +9,6 @@ import Foundation
 
 enum OrdersPageState {
     case loading
-    case content(_ orders: [OrdersViewCellType])
-    case error(_ orders: [OrdersViewCellType])
+    case content(_ displayData: [OrderSectionType])
+    case error
 }

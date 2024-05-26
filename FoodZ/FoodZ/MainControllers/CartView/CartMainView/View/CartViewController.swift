@@ -53,9 +53,14 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
         setupDisplay()
         createDataSource()
         configureIO()
-        viewModel.trigger(.onDidLoad)
+        viewModel.trigger(.onLoad)
         navigationController?.isNavigationBarHidden = false
         navigationItem.title = "Корзина"
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.trigger(.onDidLoad)
     }
 
     // MARK: Private methods
