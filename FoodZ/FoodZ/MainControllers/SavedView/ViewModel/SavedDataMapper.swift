@@ -12,7 +12,7 @@ final class SavedDataMapper {
         var productCells: [SavedCellType] = []
         for product in products {
             productCells.append(.bodyCell(ProductCell(
-                cellId: UUID(),
+                id: UUID(),
                 productDescription: product.productDescription,
                 productId: product.productId,
                 productName: product.productName,

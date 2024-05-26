@@ -14,6 +14,7 @@ final class CartCoordinator: Coordinator {
 
     weak var navigationController: UINavigationController?
     weak var productInput: SelfProductModuleInput?
+    weak var cartInput: CartModuleInput?
 
     // MARK: Initialization
 
@@ -58,6 +59,10 @@ final class CartCoordinator: Coordinator {
 // MARK: - CartModuleOutput
 
 extension CartCoordinator: CartModuleOutput {
+    func cartModuleDidLoad(input: CartModuleInput) {
+        cartInput = input
+    }
+    
     func proccesedTappedButtonPay() {
         showCartPayView()
     }
@@ -84,6 +89,7 @@ extension CartCoordinator: SelfProductModuleOutput {
 
 extension CartCoordinator: CartPayModuleOutput {
     func proccesedTappedButtonClose() {
+        cartInput?.proccesedReload()
         dismissView()
     }
 }

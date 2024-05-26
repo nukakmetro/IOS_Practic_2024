@@ -13,6 +13,6 @@ enum HomeViewIntent {
     case onLoad
     case proccesedTappedButtonSearch
     case onReload
-    case proccesedTappedLikeButton(id: Int, cellinput: HomeCellInput)
+    case proccesedTappedLikeButton(id: Int)
     case proccesedTappedCell(id: Int)
 }

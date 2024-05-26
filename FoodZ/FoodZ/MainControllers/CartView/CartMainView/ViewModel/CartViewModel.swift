@@ -49,9 +49,9 @@ final class CartViewModel: CartViewModeling {
         case .onClose:
             break
         case .onDidLoad:
-            getCart()
+            output?.cartModuleDidLoad(input: self)
         case .onLoad:
-            break
+            getCart()
         case .onReload:
             getCart()
         case .proccesedTappedButtonReduce(let id):
@@ -223,3 +223,8 @@ final class CartViewModel: CartViewModeling {
     }
 }
 
+extension CartViewModel: CartModuleInput {
+    func proccesedReload() {
+        trigger(.onReload)
+    }
+}

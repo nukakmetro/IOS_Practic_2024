@@ -12,11 +12,11 @@ final class HomeDataMapper {
         var displaySection: [HomeSectionType] = []
 
         for section in sections {
-            displaySection.append(.bodyHeaderSection(.bodyHeaderCell(ProductHeader(id: UUID(), title: section.title))))
+            displaySection.append(.bodyHeaderSection(id: UUID(), .bodyHeaderCell(ProductHeader(id: UUID(), title: section.title))))
             var products: [HomeCellType] = []
             for product in section.products {
                 products.append(.bodyCell(ProductCell(
-                    cellId: UUID(),
+                    id: UUID(),
                     productDescription: product.productDescription,
                     productId: product.productId,
                     productName: product.productName,
@@ -30,7 +30,7 @@ final class HomeDataMapper {
                     productSavedStatus: product.productSavedStatus
                 )))
             }
-            displaySection.append(.bodySection(products))
+            displaySection.append(.bodySection(id: UUID(), products))
         }
         return displaySection
     }

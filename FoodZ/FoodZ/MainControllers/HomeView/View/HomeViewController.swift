@@ -61,6 +61,11 @@ final class HomeViewController<ViewModel: HomeViewModeling>: UIViewController, U
         navigationController?.isNavigationBarHidden = true
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+
     // MARK: Private methods
 
     @objc private func didPullToRefresh() {
@@ -115,7 +120,9 @@ final class HomeViewController<ViewModel: HomeViewModeling>: UIViewController, U
             case .bodyCell(let data):
                 let cell = configure(HomeCell.self, for: indexPath)
                 cell.configure(with: data)
-                cell.delegate = self
+                cell.proccesedChangeLike = {
+                    self.viewModel.trigger(.proccesedTappedLikeButton(id: data.productId))
+                }
                 return cell
 
             case .bodyHeaderCell(let header):
@@ -132,11 +139,11 @@ final class HomeViewController<ViewModel: HomeViewModeling>: UIViewController, U
 
         for section in sections {
             switch section {
-            case .headerSection(let item):
+            case .headerSection(_, let item):
                 snapshot.appendItems([item], toSection: section)
-            case .bodyHeaderSection(let item):
+            case .bodyHeaderSection(_, let item):
                 snapshot.appendItems([item], toSection: section)
-            case .bodySection(let items):
+            case .bodySection(_, let items):
                 snapshot.appendItems(items, toSection: section)
             }
         }
@@ -245,10 +252,3 @@ extension HomeViewController: HomeHeaderDelegate {
     }
 }
 
-// MARK: - HomeCellDelegate
-
-extension HomeViewController: HomeCellDelegate {
-    func proccesedTappedLike(id: Int, input: HomeCellInput) {
-        viewModel.trigger(.proccesedTappedLikeButton(id: id, cellinput: input))
-    }
-}

@@ -8,8 +8,9 @@
 import Foundation
 
 struct OrderResponce: Decodable {
-    var orderId: Int
-    var orderPrice: Int
-    var orderTime: String
-    var orderType: String
+    var id: Int
+    var totalPrice: Int
+    var status: Int
+    var whose: Bool
+    var orderItems: [OrderItemResponce]
 }

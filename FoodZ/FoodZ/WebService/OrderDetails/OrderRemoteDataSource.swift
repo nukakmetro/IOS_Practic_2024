@@ -20,12 +20,12 @@ final class OrderRemoteDataSource {
     }
 
     func fetchPastOrders(completion: @escaping (Result<[OrderResponce], Error>) -> Void) {
-        let targer = Target(path: "/user/order/pastOrder", method: .get, setParametresFromEncodable: nil, role: .user)
+        let targer = Target(path: "/user/order/past", method: .get, setParametresFromEncodable: nil, role: .user)
         networkService.sendRequest(target: targer, responseType: [OrderResponce].self, completion: completion)
     }
 
     func fetchCurrentOrders(completion: @escaping (Result<[OrderResponce], Error>) -> Void) {
-        let targer = Target(path: "/user/order/currentOrder", method: .get, setParametresFromEncodable: nil, role: .user)
+        let targer = Target(path: "/user/order/current", method: .get, setParametresFromEncodable: nil, role: .user)
         networkService.sendRequest(target: targer, responseType: [OrderResponce].self, completion: completion)
     }
     func fetchFullOrder(orderId: Int, completion: @escaping (Result<[FullOrderResponce], Error>) -> Void) {

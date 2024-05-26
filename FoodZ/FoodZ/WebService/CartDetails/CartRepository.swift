@@ -21,6 +21,10 @@ protocol CartPayProtocol {
     func getCartPay(completion: @escaping (Result<CartCreateOrderResponce, Error>) -> Void)
 }
 
+protocol CreateOrderProtocol {
+    func createOrder(completion: @escaping (Result<Bool, Error>) -> Void)
+}
+
 final class CartRepository {
 
     // MARK: Private properties
@@ -72,5 +76,13 @@ extension CartRepository: CartProtocol {
 extension CartRepository: CartPayProtocol {
     func getCartPay(completion: @escaping (Result<CartCreateOrderResponce, Error>) -> Void) {
         dataSource.getCartPay(completion: completion)
+    }
+}
+
+// MARK: - CreateOrderProtocol
+
+extension CartRepository: CreateOrderProtocol {
+    func createOrder(completion: @escaping (Result<Bool, Error>) -> Void) {
+        dataSource.createOrder(completion: completion)
     }
 }

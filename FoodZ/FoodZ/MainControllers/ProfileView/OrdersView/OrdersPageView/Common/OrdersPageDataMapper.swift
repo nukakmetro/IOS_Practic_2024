@@ -8,30 +8,31 @@
 import Foundation
 
 final class OrdersPageDataMapper {
-    func dispayData(from dataModel: [OrderResponce]) -> [OrdersViewCellType] {
-        return dataModel.map { orderResponce in
-            return mapTo(data: orderResponce)
-        }
-    }
-
-    private func mapTo(data: OrderResponce) -> OrdersViewCellType {
-        let orderEntity = OrderEntity(
-            orderId: String(data.orderId),
-            orderPrice: String(data.orderPrice),
-            orderTime: dateFormater(data.orderTime),
-            orderType: data.orderType
-        )
-        return OrdersViewCellType.orderCell(orderEntity)
-    }
-
-    private func dateFormater(_ date: String) -> String {
-        if let spaceIndex = date.firstIndex(of: " ") {
-            let dateSubstring = date.prefix(upTo: spaceIndex)
-            let array = dateSubstring.components(separatedBy: "-")
-            if array.count == 3 {
-                return array[2] + "." + array[1] + "." + array[0]
+    func dispayData(from dataModel: [OrderResponce]) -> [OrderSectionType] {
+        var sections: [OrderSectionType] = []
+        for data in dataModel {
+            let orderHeader = OrderBodyHeader(
+                id: UUID(),
+                orderId: "Заказ # " + String(data.id),
+                totalPrice: "Цена: " + String(data.totalPrice),
+                status: data.status,
+                whose: data.whose
+            )
+            sections.append(.bodyHeaderSection(UUID(), .bodyHeaderCell(orderHeader)))
+            var bodyCells: [OrderCellType] = []
+            for orderItem in data.orderItems {
+                let orderBody = OrderBody(
+                    id: UUID(),
+                    productId: orderItem.productId,
+                    price: String(orderItem.price),
+                    quantity: String(orderItem.quantity),
+                    productName: orderItem.productName,
+                    productCategory: orderItem.productCategory
+                )
+                bodyCells.append(.bodyCell(orderBody))
             }
+            sections.append(.bodySection(UUID(), bodyCells))
         }
-        return "01.01.2001 "
+        return sections
     }
 }
