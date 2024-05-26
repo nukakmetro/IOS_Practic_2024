@@ -18,12 +18,15 @@ class RegistrationViewController: UIViewController {
     // MARK: Private lazy properties
 
     private lazy var titleLabel = UILabel()
+    private lazy var nicknameLabel = UILabel()
+    private lazy var passwordLabel = UILabel()
+    private lazy var confirmPasswordLabel = UILabel()
+    private lazy var statusLabel = UILabel()
+
     private lazy var nicknameTextField = UITextField()
     private lazy var passwordTextField = UITextField()
     private lazy var confirmPassworTextField = UITextField()
-    private lazy var nicknameLabel = UILabel()
-    private lazy var passwordLabel = UILabel()
-    private lazy var statusLabel = UILabel()
+
     private lazy var registrationButton = UIButton()
     private lazy var authorizationButton = UIButton()
 
@@ -92,51 +95,71 @@ class RegistrationViewController: UIViewController {
             passwordLabel,
             authorizationButton,
             statusLabel,
-            registrationButton
+            registrationButton,
+            confirmPasswordLabel
         )
 
-        titleLabel.snp.makeConstraints { maker in
-            maker.top.equalToSuperview().inset(50)
-            maker.left.equalToSuperview().inset(50)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.left.equalToSuperview().inset(50)
         }
-        nicknameLabel.snp.makeConstraints { maker in
-            maker.top.equalTo(titleLabel).inset(50)
-            maker.centerX.equalToSuperview()
+        nicknameLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(50)
+            make.leading.equalToSuperview().inset(25)
         }
-        nicknameTextField.snp.makeConstraints { maker in
-            maker.top.equalTo(nicknameLabel).inset(50)
-            maker.centerX.equalToSuperview()
+        nicknameTextField.snp.makeConstraints { make in
+            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(15)
+            make.height.equalToSuperview().multipliedBy(0.05)
         }
-        passwordLabel.snp.makeConstraints { maker in
-            maker.top.equalTo(nicknameTextField).inset(50)
-            maker.centerX.equalToSuperview()
+        passwordLabel.snp.makeConstraints { make in
+            make.top.equalTo(nicknameTextField.snp.bottom).offset(20)
+            make.leading.equalToSuperview().inset(25)
         }
-        passwordTextField.snp.makeConstraints { maker in
-            maker.top.equalTo(passwordLabel).inset(50)
-            maker.centerX.equalToSuperview()
+        passwordTextField.snp.makeConstraints { make in
+            make.top.equalTo(passwordLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(15)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        confirmPasswordLabel.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
+            make.leading.equalToSuperview().inset(25)
         }
         confirmPassworTextField.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField).inset(50)
+            make.top.equalTo(confirmPasswordLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(15)
+            make.height.equalToSuperview().multipliedBy(0.05)
+        }
+        registrationButton.snp.makeConstraints { make in
+            make.height.equalToSuperview().multipliedBy(0.05)
+            make.top.equalTo(confirmPassworTextField.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(15)
+        }
+        statusLabel.snp.makeConstraints { make in
+            make.top.equalTo(registrationButton.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
-        registrationButton.snp.makeConstraints { maker in
-            maker.top.equalTo(confirmPassworTextField).inset(50)
-            maker.centerX.equalToSuperview()
-        }
-        statusLabel.snp.makeConstraints { maker in
-            maker.top.equalTo(registrationButton).inset(50)
-            maker.centerX.equalToSuperview()
-        }
-        authorizationButton.snp.makeConstraints { maker in
-            maker.top.equalTo(statusLabel).inset(50)
-            maker.centerX.equalToSuperview()
+        authorizationButton.snp.makeConstraints { make in
+            make.top.equalTo(statusLabel.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
         }
     }
 
     private func setupLabels() {
         titleLabel.text = "Регистрация"
-        nicknameLabel.text = "username"
-        passwordLabel.text = "password"
+        titleLabel.font = .boldSystemFont(ofSize: 24)
+
+        nicknameLabel.text = "Никнейм"
+        nicknameLabel.font = .systemFont(ofSize: 13)
+        nicknameLabel.textColor = .darkGray
+
+        passwordLabel.text = "Пароль"
+        passwordLabel.font = .systemFont(ofSize: 13)
+        passwordLabel.textColor = .darkGray
+
+        confirmPasswordLabel.text = "Подтверждение пароля"
+        confirmPasswordLabel.font = .systemFont(ofSize: 13)
+        confirmPasswordLabel.textColor = .darkGray
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -148,19 +171,29 @@ class RegistrationViewController: UIViewController {
         nicknameTextField.translatesAutoresizingMaskIntoConstraints = false
         nicknameTextField.returnKeyType = .next
         nicknameTextField.autocapitalizationType = .none
-        nicknameTextField.placeholder = "nickname"
+        nicknameTextField.placeholder = "Введите свой никнейм"
+        nicknameTextField.borderStyle = .roundedRect
+        nicknameTextField.layer.borderColor = UIColor.black.cgColor
+        nicknameTextField.layer.borderWidth = 1.0
+        nicknameTextField.layer.cornerRadius = view.layer.frame.height / (6 / 0.05)
 
         passwordTextField.isSecureTextEntry = true
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.returnKeyType = .next
-        passwordTextField.autocapitalizationType = .none
-        passwordTextField.placeholder = "password"
+        passwordTextField.placeholder = "Введите свой пароль"
+        passwordTextField.borderStyle = .roundedRect
+        passwordTextField.layer.borderColor = UIColor.black.cgColor
+        passwordTextField.layer.borderWidth = 1.0
+        passwordTextField.layer.cornerRadius = view.layer.frame.height / (6 / 0.05)
 
         confirmPassworTextField.isSecureTextEntry = true
         confirmPassworTextField.translatesAutoresizingMaskIntoConstraints = false
-        confirmPassworTextField.returnKeyType = .done
-        confirmPassworTextField.autocapitalizationType = .none
-        confirmPassworTextField.placeholder = "confirm password"
+        confirmPassworTextField.returnKeyType = .next
+        confirmPassworTextField.placeholder = "Подтвердите пароль"
+        confirmPassworTextField.borderStyle = .roundedRect
+        confirmPassworTextField.layer.borderColor = UIColor.black.cgColor
+        confirmPassworTextField.layer.borderWidth = 1.0
+        confirmPassworTextField.layer.cornerRadius = view.layer.frame.height / (6 / 0.05)
     }
 
     private func setupButtons() {
@@ -169,16 +202,20 @@ class RegistrationViewController: UIViewController {
             }
         registrationButton.addAction(registrationButtonAction, for: .touchUpInside)
         registrationButton.setTitle("Регистрация", for: .normal)
-        registrationButton.setTitleColor(AppColor.title.color, for: .normal)
+        registrationButton.setTitleColor(AppColor.secondary.color, for: .normal)
         registrationButton.translatesAutoresizingMaskIntoConstraints = false
+        registrationButton.backgroundColor = AppColor.primary.color
+        registrationButton.layer.cornerRadius = view.layer.frame.height / (2 / 0.05)
 
         let authorizationButtonAction = UIAction { [weak self] _ in
             self?.viewModel.trigger(.proccedButtonTapedGoToAuth)
             }
         authorizationButton.addAction(authorizationButtonAction, for: .touchUpInside)
-        authorizationButton.setTitle("Есть аккаунт", for: .normal)
+        authorizationButton.setTitle("Войти", for: .normal)
         authorizationButton.setTitleColor(AppColor.title.color, for: .normal)
         authorizationButton.translatesAutoresizingMaskIntoConstraints = false
+        authorizationButton.setTitleColor(AppColor.primary.color, for: .normal)
+
     }
 
     private func proccedTapRegistrationButton() {

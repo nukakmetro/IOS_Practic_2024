@@ -32,10 +32,14 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     // MARK: Private methods
 
     private func makeConstraints() {
+        let textStackView: UIStackView = UIStackView(arrangedSubviews: [usernameLabel, userNumberLabel, addressLabel])
+        textStackView.axis = .vertical
+        textStackView.alignment = .center
+        textStackView.distribution = .fillEqually
+        textStackView.translatesAutoresizingMaskIntoConstraints = false
+
         contentView.addSubview(userImage)
-        contentView.addSubview(usernameLabel)
-        contentView.addSubview(userNumberLabel)
-        contentView.addSubview(addressLabel)
+        contentView.addSubview(textStackView)
 
         userImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -43,17 +47,10 @@ class ProfileMainHeaderCell: UICollectionViewCell {
             make.width.equalTo(userImage.snp.height)
             make.top.equalToSuperview().inset(20)
         }
-        usernameLabel.snp.makeConstraints { make in
+        textStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(userImage.snp.bottom).offset(10)
-        }
-        userNumberLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(usernameLabel.snp.bottom).offset(10)
-        }
-        addressLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(userNumberLabel.snp.bottom).offset(10)
+            make.top.equalTo(userImage.snp.bottom).offset(5)
+            make.bottom.equalToSuperview()
         }
     }
 
