@@ -66,27 +66,26 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         ])
         lowerStackView.axis = .vertical
         lowerStackView.distribution = .fillEqually
-
         lowerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(lowerStackView)
         contentView.addSubview(productImage)
         contentView.addSubview(productSavedButton)
 
         productImage.snp.makeConstraints { make in
-            make.height.equalToSuperview().multipliedBy(0.4)
+            make.height.equalToSuperview().multipliedBy(0.5)
             make.leading.trailing.top.equalToSuperview()
         }
         lowerStackView.snp.makeConstraints { make in
+            make.top.equalTo(productImage.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalToSuperview().multipliedBy(0.5)
             make.bottom.equalToSuperview()
         }
-
         productSavedButton.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview().inset(5)
             make.height.equalToSuperview().multipliedBy(0.15)
             make.width.equalTo(productSavedButton.snp.height)
         }
+
     }
 
     private func setupDisplay() {
@@ -105,6 +104,7 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
         productImage.contentMode = .scaleAspectFill
+        productImage.clipsToBounds = true
 
         productWaltingTimerImage.tintColor = AppColor.title.color
         productRatingImage.tintColor = AppColor.title.color

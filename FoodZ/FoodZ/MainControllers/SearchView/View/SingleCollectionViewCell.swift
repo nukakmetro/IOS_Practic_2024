@@ -71,12 +71,12 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         contentView.addSubview(productSavedButton)
 
         productImage.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.3)
+            make.width.equalToSuperview().multipliedBy(0.4)
             make.leading.bottom.top.equalToSuperview()
         }
 
         lowerStackView.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
+            make.leading.equalTo(productImage.snp.trailing).offset(10)
             make.trailing.equalToSuperview()
             make.top.bottom.equalToSuperview()
         }
@@ -91,7 +91,7 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
     private func setupDisplay() {
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
-        productImage.contentMode = .scaleAspectFill
+        productImage.clipsToBounds = true
         productWaltingTimerImage.tintColor = AppColor.title.color
         productRatingImage.tintColor = AppColor.title.color
         productPriceLabel.textColor = AppColor.primary.color
