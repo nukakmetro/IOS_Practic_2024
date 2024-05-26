@@ -32,12 +32,6 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
     private lazy var productImage = CustomImageView()
     private lazy var productWaltingTimerImage = UIImageView()
     private lazy var productRatingImage = UIImageView()
-    private lazy var containerView: UIView = {
-        var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.45))
-        containerView.addSubview(productImage)
-        containerView.backgroundColor = UIColor.clear
-        return containerView
-    }()
 
     // MARK: Initialization
 
@@ -72,22 +66,20 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         ])
         lowerStackView.axis = .vertical
         lowerStackView.distribution = .fillEqually
-
         lowerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(lowerStackView)
-        contentView.addSubview(containerView)
+        contentView.addSubview(productImage)
         contentView.addSubview(productSavedButton)
 
-        containerView.snp.makeConstraints { make in
-            make.height.equalToSuperview().multipliedBy(0.4)
+        productImage.snp.makeConstraints { make in
+            make.height.equalToSuperview().multipliedBy(0.5)
             make.leading.trailing.top.equalToSuperview()
         }
         lowerStackView.snp.makeConstraints { make in
-            make.top.equalTo(containerView.snp.bottom).offset(20)
+            make.top.equalTo(productImage.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
             make.bottom.equalToSuperview()
         }
-
         productSavedButton.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview().inset(5)
             make.height.equalToSuperview().multipliedBy(0.15)
@@ -97,7 +89,6 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
     }
 
     private func setupDisplay() {
-        productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
         let action = UIAction { [weak self] _ in
 
             guard
@@ -112,6 +103,9 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         productSavedButton.layer.cornerRadius = contentView.frame.height / (2 / 0.15)
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
+        productImage.contentMode = .scaleAspectFill
+        productImage.clipsToBounds = true
+
         productWaltingTimerImage.tintColor = AppColor.title.color
         productRatingImage.tintColor = AppColor.title.color
         productPriceLabel.textColor = AppColor.primary.color
@@ -121,6 +115,7 @@ final class HomeCell: UICollectionViewCell, SelfConfiguringCell {
         clipsToBounds = false
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.10
+        layer.cornerRadius = contentView.layer.cornerRadius
         layer.shadowOffset = CGSize(width: 0, height: 5)
         productSavedButton.backgroundColor = AppColor.background.color
         productSavedButton.tintColor = AppColor.title.color
