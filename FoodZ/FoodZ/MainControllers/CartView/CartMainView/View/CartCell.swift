@@ -65,7 +65,7 @@ final class CartCell: UICollectionViewCell, SelfConfiguringCell {
         let textStackView: UIStackView = UIStackView(arrangedSubviews: [priceLabel, nameLabel, descriptionLabel])
         textStackView.axis = .vertical
         textStackView.alignment = .leading
-        textStackView.spacing = 10
+        textStackView.distribution = .fillEqually
         textStackView.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(quantityStackView)
