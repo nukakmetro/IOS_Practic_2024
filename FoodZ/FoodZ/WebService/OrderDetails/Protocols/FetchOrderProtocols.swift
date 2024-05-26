@@ -15,6 +15,8 @@ protocol OrderCurrentProtocol {
     func fetchCurrentOrders(completion: @escaping ((Result<[OrderResponce], Error>) -> Void))
 }
 
-protocol FullOrderProtocol {
-    func fetchFullOrder(orderId: Int, completion: @escaping ((Result<[FullOrderResponce], Error>) -> Void))
+protocol OrderSelfProtocol {
+    func getOrder(orderId: Int, completion: @escaping ((Result<OrderResponce, Error>) -> Void))
+    func orderStatusReady(id: Int, completion: @escaping (Result<Bool, Error>) -> Void)
+    func orderStatusCompleted(id: Int, completion: @escaping (Result<Bool, Error>) -> Void)
 }

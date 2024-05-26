@@ -9,8 +9,9 @@ import Foundation
 
 enum SearchViewIntent {
     case onClose
-    case proccesedInputSearchText(_ text: String)
+    case proccesedInputSearchText(_ text: String?)
     case onReload
     case onDidlLoad
     case proccesedLazyLoad
+    case proccesedTappedCell(id: Int)
 }

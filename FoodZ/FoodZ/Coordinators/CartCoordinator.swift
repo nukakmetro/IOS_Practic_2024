@@ -62,7 +62,7 @@ extension CartCoordinator: CartModuleOutput {
     func cartModuleDidLoad(input: CartModuleInput) {
         cartInput = input
     }
-    
+
     func proccesedTappedButtonPay() {
         showCartPayView()
     }

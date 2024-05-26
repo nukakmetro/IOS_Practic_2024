@@ -12,7 +12,7 @@ final class CartDataMapper {
         var cartSection: [CartSectionType] = []
         var cartItems: [CartCellType] = []
         for cartItem in data.cartItems {
-            cartItems.append(.bodyICell(mapTo(it: cartItem)))
+            cartItems.append(.bodyCell(mapTo(it: cartItem)))
         }
         cartSection.append(.bodySection(id: UUID(), items: cartItems))
         return cartSection

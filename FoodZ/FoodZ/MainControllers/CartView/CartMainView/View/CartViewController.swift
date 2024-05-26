@@ -109,7 +109,7 @@ final class CartViewController<ViewModel: CartViewModeling>: UIViewController, U
 
             switch item {
 
-            case .bodyICell(let data):
+            case .bodyCell(let data):
                 let cell = configure(CartCell.self, for: indexPath)
                 cell.proccesedTappedButtonSave = { id in
                     self.viewModel.trigger(.proccesedTappedButtonSave(id: id))

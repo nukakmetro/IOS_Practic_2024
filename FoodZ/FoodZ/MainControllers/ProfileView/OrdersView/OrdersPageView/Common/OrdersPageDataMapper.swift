@@ -13,7 +13,7 @@ final class OrdersPageDataMapper {
         for data in dataModel {
             let orderHeader = OrderBodyHeader(
                 id: UUID(),
-                orderId: "Заказ # " + String(data.id),
+                orderId: data.id,
                 totalPrice: "Цена: " + String(data.totalPrice),
                 status: data.status,
                 whose: data.whose
@@ -27,7 +27,8 @@ final class OrdersPageDataMapper {
                     price: String(orderItem.price),
                     quantity: String(orderItem.quantity),
                     productName: orderItem.productName,
-                    productCategory: orderItem.productCategory
+                    productCategory: orderItem.productCategory,
+                    imageId: orderItem.imageId
                 )
                 bodyCells.append(.bodyCell(orderBody))
             }

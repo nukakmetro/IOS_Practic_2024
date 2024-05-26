@@ -8,10 +8,11 @@
 import Foundation
 
 final class SavedDataMapper {
-    func displayData(products: [Product]) -> [SavedCellType] {
-        var productCells: [SavedCellType] = []
+    func displayData(products: [Product]) -> [SavedSectionType] {
+        var sections: [SavedSectionType] = []
+        var items: [SavedCellType] = []
         for product in products {
-            productCells.append(.bodyCell(ProductCell(
+            items.append(.bodyCell(ProductCell(
                 id: UUID(),
                 productDescription: product.productDescription,
                 productId: product.productId,
@@ -26,6 +27,7 @@ final class SavedDataMapper {
                 productSavedStatus: product.productSavedStatus
             )))
         }
-        return productCells
+        sections.append(.bodySection(UUID(), items))
+        return sections
     }
 }

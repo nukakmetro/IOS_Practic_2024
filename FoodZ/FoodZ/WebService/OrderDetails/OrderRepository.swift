@@ -13,11 +13,14 @@ final class OrderRepository {
 
     private let remoteDataSource: OrderRemoteDataSource
 
+    // MARK: Initialization
+
     init() {
         self.remoteDataSource = OrderRemoteDataSource(networkService: StatefulNetworkService())
     }
 }
-// MARK: UserRegistrationProtocol protocol
+
+// MARK: OrderPastProtocol
 
 extension OrderRepository: OrderPastProtocol {
     func fetchPastOrders(completion: @escaping ((Result<[OrderResponce], Error>) -> Void)) {
@@ -25,18 +28,26 @@ extension OrderRepository: OrderPastProtocol {
     }
 }
 
-// MARK: UserRegistrationProtocol protocol
-
-extension OrderRepository: FullOrderProtocol {
-    func fetchFullOrder(orderId: Int, completion: @escaping ((Result<[FullOrderResponce], Error>) -> Void)) {
-        remoteDataSource.fetchFullOrder(orderId: orderId, completion: completion)
-    }
-}
-
-// MARK: UserRegistrationProtocol protocol
+// MARK: OrderCurrentProtocol
 
 extension OrderRepository: OrderCurrentProtocol {
     func fetchCurrentOrders(completion: @escaping ((Result<[OrderResponce], Error>) -> Void)) {
         remoteDataSource.fetchCurrentOrders(completion: completion)
+    }
+}
+
+// MARK: OrderSelfProtocol
+
+extension OrderRepository: OrderSelfProtocol {
+    func orderStatusReady(id: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        remoteDataSource.orderStatusReady(id: id, completion: completion)
+    }
+    
+    func orderStatusCompleted(id: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        remoteDataSource.orderStatusCompleted(id: id, completion: completion)
+    }
+    
+    func getOrder(orderId: Int, completion: @escaping ((Result<OrderResponce, Error>) -> Void)) {
+        remoteDataSource.fetchOrder(id: orderId, completion: completion)
     }
 }

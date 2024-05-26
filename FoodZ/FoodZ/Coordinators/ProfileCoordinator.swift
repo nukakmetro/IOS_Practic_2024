@@ -18,6 +18,7 @@ final class ProfileCoordinator: Coordinator {
 
     weak private var detailPickUpPointInput: DetailPickUpPointModuleInput?
     weak private var profileMainInput: ProfileMainModuleInput?
+    weak private var orderSelfInput: OrderSelfModuleInput?
 
     // MARK: Internal properties
 
@@ -44,8 +45,13 @@ final class ProfileCoordinator: Coordinator {
     }
 
     private func showOrdersView() {
-        let controller = OrdersViewBuilder(output: self).build()
+        let controller = OrdersViewBuilder(output: self, self).build()
         navigationController?.pushViewController(controller, animated: false)
+    }
+
+    private func showOrderSelfView() {
+        let controller = OrderSelfBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     private func showMapView() {
@@ -128,6 +134,27 @@ extension ProfileCoordinator: ProfileMainModuleOutput {
 
 extension ProfileCoordinator: OrdersModuleOutput {
 
+}
+
+// MARK: - OrderCurrenModuleOutput
+
+extension ProfileCoordinator: OrderCurrenModuleOutput {
+    func proccesedTappedCell(_ id: Int) {
+        showOrderSelfView()
+        orderSelfInput?.proccesedSendId(id: id)
+    }
+}
+
+// MARK: - OrderSelfModuleOutput
+
+extension ProfileCoordinator: OrderSelfModuleOutput {
+    func selfProductModuleDidLoad(input: OrderSelfModuleInput) {
+        orderSelfInput = input
+    }
+    
+    func proccesedTappedButtonCart() {
+    
+    }
 }
 
 // MARK: - MapModuleOutput

@@ -9,6 +9,6 @@ import Foundation
 
 enum SavedState {
     case loading
-    case content(displaydata: [SavedSectionType])
+    case content(displayData: [SavedSectionType])
     case error
 }

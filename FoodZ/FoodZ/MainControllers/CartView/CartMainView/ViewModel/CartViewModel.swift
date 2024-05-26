@@ -89,7 +89,7 @@ final class CartViewModel: CartViewModeling {
             let section = sections[sectionIndex]
             if case .bodySection(let id, var items) = section {
                 for itemIndex in items.indices {
-                    if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                    if case .bodyCell(let product) = items[itemIndex], product.cartItemId == cartItemId {
                         output?.proccesedTappedProductCell(id: product.productId)
                     }
                 }
@@ -106,12 +106,12 @@ final class CartViewModel: CartViewModeling {
                     let section = sections[sectionIndex]
                     if case .bodySection(let id, var items) = section {
                         for itemIndex in items.indices {
-                            if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                            if case .bodyCell(let product) = items[itemIndex], product.cartItemId == cartItemId {
                                 var newProduct = product
                                 newProduct.id = UUID()
                                 newProduct.quantity = String(data.cartItemQuantity)
-                                newProduct.productPrice = String(data.totalPrice)
-                                items[itemIndex] = .bodyICell(newProduct)
+                                newProduct.productPrice = String(data.cartItemPrice)
+                                items[itemIndex] = .bodyCell(newProduct)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
                                 viewData.totalPrice = data.totalPrice
                                 state = .content(displayData: sections, viewData)
@@ -130,7 +130,7 @@ final class CartViewModel: CartViewModeling {
             let section = sections[sectionIndex]
             if case .bodySection(let id, var items) = section {
                 for itemIndex in items.indices {
-                    if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                    if case .bodyCell(let product) = items[itemIndex], product.cartItemId == cartItemId {
 
                         repository.proccesedTappedLikeButton(productId: product.productId) { [weak self] result in
                             guard let self = self else { return }
@@ -139,7 +139,7 @@ final class CartViewModel: CartViewModeling {
                                 var newProduct = product
                                 newProduct.id = UUID()
                                 newProduct.productSavedStatus = data
-                                items[itemIndex] = .bodyICell(newProduct)
+                                items[itemIndex] = .bodyCell(newProduct)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
                                 state = .content(displayData: sections, viewData)
                             case .failure:
@@ -161,12 +161,12 @@ final class CartViewModel: CartViewModeling {
                     let section = sections[sectionIndex]
                     if case .bodySection(let id, var items) = section {
                         for itemIndex in items.indices {
-                            if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                            if case .bodyCell(let product) = items[itemIndex], product.cartItemId == cartItemId {
                                 var newProduct = product
                                 newProduct.id = UUID()
                                 newProduct.quantity = String(data.cartItemQuantity)
-                                newProduct.productPrice = String(data.totalPrice)
-                                items[itemIndex] = .bodyICell(newProduct)
+                                newProduct.productPrice = String(data.cartItemPrice)
+                                items[itemIndex] = .bodyCell(newProduct)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
                                 viewData.totalPrice = data.totalPrice
                                 state = .content(displayData: sections, viewData)
@@ -189,7 +189,7 @@ final class CartViewModel: CartViewModeling {
                     let section = sections[sectionIndex]
                     if case .bodySection(let id, var items) = section {
                         for itemIndex in items.indices {
-                            if case .bodyICell(let product) = items[itemIndex], product.cartItemId == cartItemId {
+                            if case .bodyCell(let product) = items[itemIndex], product.cartItemId == cartItemId {
                                 items.remove(at: itemIndex)
                                 sections[sectionIndex] = .bodySection(id: id, items: items)
                                 state = .content(displayData: sections, viewData)

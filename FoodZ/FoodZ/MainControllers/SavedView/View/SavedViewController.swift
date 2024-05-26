@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController {
+final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController, UICollectionViewDelegate {
 
     // MARK: Private properties
 
@@ -26,6 +26,7 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
                 SingleCollectionViewCell.self,
                 forCellWithReuseIdentifier: SingleCollectionViewCell.reuseIdentifier
             )
+        collectionView.delegate = self
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
@@ -101,6 +102,9 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
             case .bodyCell(let data):
                 let cell = configure(SingleCollectionViewCell.self, for: indexPath)
                 cell.configure(with: data)
+                cell.proccesedChangeLike = {
+                    self.viewModel.trigger(.proccesedTappedLikeButton(id: data.productId))
+                }
                 return cell
             }
         }
@@ -111,7 +115,7 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
         snapshot.appendSections(sections)
         for section in sections {
             switch section {
-            case .bodySection(let items):
+            case .bodySection(_, let items):
                 snapshot.appendItems(items, toSection: section)
             }
         }
@@ -159,6 +163,16 @@ final class SavedViewController<ViewModel: SavedViewModeling>: UIViewController 
             make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
+        }
+    }
+
+    // MARK: - UICollectionViewDelegate
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? SingleCollectionViewCell {
+            if let id = cell.id {
+                viewModel.trigger(.proccesedTappedCell(id: id))
+            }
         }
     }
 }

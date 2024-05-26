@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SavedModuleOutput: AnyObject {
-
+    func proccesedTappedCell(_ id: Int)
 }

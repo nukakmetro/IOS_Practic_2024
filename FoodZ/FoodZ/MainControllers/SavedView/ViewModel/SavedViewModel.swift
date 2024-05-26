@@ -8,14 +8,6 @@
 import Foundation
 import Combine
 
-enum SavedSectionType: Hashable {
-    case bodySection([SavedCellType])
-}
-
-enum SavedCellType: Hashable {
-    case bodyCell(ProductCell)
-}
-
 protocol SavedViewModeling: UIKitViewModel where State == SavedState, Intent == SavedIntent {}
 
 final class SavedViewModel: SavedViewModeling {
@@ -24,8 +16,9 @@ final class SavedViewModel: SavedViewModeling {
 
     private(set) var stateDidChange: ObservableObjectPublisher
     private var output: SavedModuleOutput?
-    private var repository: ProductSavedProtocol
+    private var repository: ProductSavedProtocol & ProductToggleLikeProtocol
     private var dataMapper: SavedDataMapper
+    private var sections: [SavedSectionType]
 
     // MARK: Internal properties
 
@@ -37,12 +30,13 @@ final class SavedViewModel: SavedViewModeling {
 
     // MARK: Initializator
 
-    init(output: SavedModuleOutput, repository: ProductSavedProtocol) {
+    init(output: SavedModuleOutput, repository: ProductSavedProtocol & ProductToggleLikeProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
         self.output = output
         self.state = .loading
         self.repository = repository
         self.dataMapper = SavedDataMapper()
+        self.sections = []
     }
 
     // MARK: Internal methods
@@ -55,6 +49,10 @@ final class SavedViewModel: SavedViewModeling {
             break
         case .onReload:
             getSavedProducts()
+        case .proccesedTappedLikeButton(id: let id):
+            removeSaveProduct(productId: id)
+        case .proccesedTappedCell(id: let id):
+            output?.proccesedTappedCell(id)
         }
     }
 
@@ -66,9 +64,32 @@ final class SavedViewModel: SavedViewModeling {
             guard let self = self else { return }
             switch result {
             case .success(let products):
-                var sections: [SavedSectionType] = []
-                sections.append(.bodySection(dataMapper.displayData(products: products)))
-                state = .content(displaydata: sections)
+                sections = dataMapper.displayData(products: products)
+                state = .content(displayData: sections)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    private func removeSaveProduct(productId: Int) {
+        repository.proccesedTappedLikeButton(productId: productId) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                for sectionIndex in sections.indices {
+                    let section = sections[sectionIndex]
+                    if case .bodySection(let id, var items) = section {
+                        for itemIndex in items.indices {
+                            if case .bodyCell(let product) = items[itemIndex], product.productId == productId {
+                                items.remove(at: itemIndex)
+                                sections[sectionIndex] = .bodySection(id, items)
+                                state = .content(displayData: sections)
+                                break
+                            }
+                        }
+                    }
+                }
             case .failure:
                 break
             }

@@ -13,11 +13,13 @@ final class OrdersViewBuilder: Builder {
     // MARK: Private properties
 
     private let output: OrdersModuleOutput
+    private let currentOrder: OrderCurrenModuleOutput
 
     // MARK: Initialization
 
-    init(output: OrdersModuleOutput) {
+    init(output: OrdersModuleOutput, _ currentOrder: OrderCurrenModuleOutput) {
         self.output = output
+        self.currentOrder = currentOrder
     }
 
     // MARK: Internal properties
@@ -25,7 +27,7 @@ final class OrdersViewBuilder: Builder {
     func build() -> UIViewController {
         let remoteRepository = UserRepository()
         let viewModel = OrdersViewModel(output: output, repository: remoteRepository)
-        let controllers = [CurrentOrdersBuilder().build(), PastOrdersBuilder().build()]
+        let controllers = [CurrentOrdersBuilder(output: currentOrder).build(), PastOrdersBuilder().build()]
         let controller = OrdersViewController(viewModel: viewModel, viewControllers: controllers)
         return controller
     }

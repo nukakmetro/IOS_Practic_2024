@@ -1,5 +1,5 @@
 //
-//  OrderBodyHeaderCell.swift
+//  SelfOrderInfoCell.swift
 //  FoodZ
 //
 //  Created by surexnx on 26.05.2024.
@@ -8,12 +8,11 @@
 import UIKit
 import SnapKit
 
-final class OrderBodyHeaderCell: UICollectionViewCell, SelfConfiguringCell {
+final class OrderSelfHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
 
-    static let reuseIdentifier: String = "OrderBodyHeaderCell"
-    var id: Int?
+    static let reuseIdentifier: String = "SelfOrderHeaderCell"
 
     // MARK: Private properties
 
@@ -64,11 +63,10 @@ final class OrderBodyHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal methods
 
-    func configure(with cell: OrderBodyHeader) {
+    func configure(with cell: OrderSelfHeader) {
 
         totalPriceLabel.text = cell.totalPrice
-        orderIdLabel.text = "Заказа # " + String(cell.orderId)
-        id = cell.orderId
+        orderIdLabel.text = cell.orderId
 
         switch cell.status {
         case 0:
