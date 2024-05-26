@@ -9,9 +9,13 @@ import UIKit
 
 class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
 
-    // MARK: Internal properties
+    // MARK: Internal static properties
 
     static let reuseIdentifier: String = "SingleCollectionViewCell"
+
+    // MARK: Internal properties
+
+    var proccesedChangeLike: (() -> Void)?
 
     // MARK: Private properties
 
@@ -23,25 +27,9 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
     private lazy var productPriceLabel = UILabel()
     private lazy var productWaltingTimerImage = UIImageView()
     private lazy var productRatingImage = UIImageView()
-
-    private lazy var productSavedButton: UIButton = {
-        let action = UIAction { _ in
-
-        }
-        var button = UIButton(primaryAction: action)
-
-        return button
-    }()
+    private lazy var productSavedButton = UIButton()
     private lazy var productImage = CustomImageView()
 
-    private lazy var containerView: UIView = {
-        var containerView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width * 0.45, height: bounds.height))
-        containerView.addSubview(productImage)
-        containerView.backgroundColor = UIColor.clear
-        containerView.addSubview(productSavedButton)
-        containerView.bringSubviewToFront(productSavedButton)
-        return containerView
-    }()
 
     // MARK: Initialization
 
@@ -79,38 +67,58 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         lowerStackView.distribution = .fillEqually
         lowerStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(lowerStackView)
-        contentView.addSubview(containerView)
-        containerView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(productImage)
+        contentView.addSubview(productSavedButton)
 
-        containerView.snp.makeConstraints { make in
-            make.height.equalToSuperview().multipliedBy(1)
-            make.bottom.leading.top.equalToSuperview()
+        productImage.snp.makeConstraints { make in
+            make.width.equalToSuperview().multipliedBy(0.3)
+            make.leading.bottom.top.equalToSuperview()
         }
+
         lowerStackView.snp.makeConstraints { make in
-            make.leading.equalTo(containerView.snp.trailing)
+            make.width.equalToSuperview().multipliedBy(0.5)
             make.trailing.equalToSuperview()
             make.top.bottom.equalToSuperview()
+        }
+        productSavedButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(5)
+            make.height.equalToSuperview().multipliedBy(0.2)
+            make.width.equalTo(productSavedButton.snp.height)
+            make.trailing.equalTo(productImage.snp.trailing).inset(5)
         }
     }
 
     private func setupDisplay() {
-        productSavedButton.frame = CGRect(x: Int(containerView.bounds.maxX) - 30, y: 10, width: Int(bounds.width) / 8, height: Int(bounds.width) / 8)
-        productImage.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
         backgroundColor = AppColor.background.color
         productImage.tintColor = AppColor.title.color
+        productImage.contentMode = .scaleAspectFill
         productWaltingTimerImage.tintColor = AppColor.title.color
         productRatingImage.tintColor = AppColor.title.color
         productPriceLabel.textColor = AppColor.primary.color
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
         layer.shadowRadius = 8.0
+        layer.cornerRadius = contentView.layer.cornerRadius
         clipsToBounds = false
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.10
         layer.shadowOffset = CGSize(width: 0, height: 5)
+
+        setupButton()
+    }
+
+    private func setupButton() {
+        let action = UIAction { [weak self] _ in
+            guard let self = self,
+                  let proccesedChangeLike = proccesedChangeLike
+            else { return }
+            proccesedChangeLike()
+        }
+        productSavedButton.addAction(action, for: .touchUpInside)
         productSavedButton.backgroundColor = AppColor.background.color
         productSavedButton.tintColor = AppColor.title.color
-        productSavedButton.layer.cornerRadius = productSavedButton.frame.width / 2
+        productSavedButton.layer.cornerRadius = contentView.frame.height / (2 / 0.2)
+        productSavedButton.clipsToBounds = true
     }
 
     private func changeLike(like: Bool) {

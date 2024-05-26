@@ -211,7 +211,7 @@ class RegistrationViewController: UIViewController {
             self?.viewModel.trigger(.proccedButtonTapedGoToAuth)
             }
         authorizationButton.addAction(authorizationButtonAction, for: .touchUpInside)
-        authorizationButton.setTitle("Войти", for: .normal)
+        authorizationButton.setTitle("Есть аккаунт", for: .normal)
         authorizationButton.setTitleColor(AppColor.title.color, for: .normal)
         authorizationButton.translatesAutoresizingMaskIntoConstraints = false
         authorizationButton.setTitleColor(AppColor.primary.color, for: .normal)
