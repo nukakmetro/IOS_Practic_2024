@@ -65,7 +65,7 @@ class ProfileMainHeaderCell: UICollectionViewCell {
     private func setupImage() {
         userImage.contentMode = .scaleAspectFit
         userImage.clipsToBounds = true
-        userImage.layer.cornerRadius = userImage.layer.frame.width / 2
+        userImage.layer.cornerRadius = contentView.frame.height / 4
     }
 
     private func setupLabel() {

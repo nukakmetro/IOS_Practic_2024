@@ -35,10 +35,10 @@ enum CartCellType: Hashable {
         }
     }
 
-    static func ==(lhs: CartCellType, rhs: CartCellType) -> Bool {
+    static func == (lhs: CartCellType, rhs: CartCellType) -> Bool {
         switch (lhs, rhs) {
         case (.bodyICell(let lhsProduct), .bodyICell(let rhsProduct)):
-            return lhsProduct.id == rhsProduct.id  // Compare only by productId
+            return lhsProduct.id == rhsProduct.id
         }
     }
 }

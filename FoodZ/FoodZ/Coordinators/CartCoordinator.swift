@@ -40,14 +40,28 @@ final class CartCoordinator: Coordinator {
         navigationController?.pushViewController(controller, animated: true)
     }
 
+    private func showCartPayView() {
+        let controller = CartPayViewBuilder(output: self).build()
+        controller.modalPresentationStyle = .fullScreen
+        navigationController?.present(controller, animated: true)
+    }
+
     private func popView() {
         navigationController?.popViewController(animated: false)
+    }
+
+    private func dismissView() {
+        navigationController?.dismiss(animated: true)
     }
 }
 
 // MARK: - CartModuleOutput
 
 extension CartCoordinator: CartModuleOutput {
+    func proccesedTappedButtonPay() {
+        showCartPayView()
+    }
+
     func proccesedTappedProductCell(id: Int) {
         showSelfProductView()
         productInput?.proccesedSendId(id: id)
@@ -63,5 +77,13 @@ extension CartCoordinator: SelfProductModuleOutput {
 
     func selfProductModuleDidLoad(input: SelfProductModuleInput) {
         productInput = input
+    }
+}
+
+// MARK: - CartPayModuleOutput
+
+extension CartCoordinator: CartPayModuleOutput {
+    func proccesedTappedButtonClose() {
+        dismissView()
     }
 }

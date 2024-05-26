@@ -147,6 +147,15 @@
 		78C1CB732BADC0A700748F3D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB722BADC0A700748F3D /* Alamofire */; };
 		78C1CB752BADC0A700748F3D /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 78C1CB742BADC0A700748F3D /* AlamofireDynamic */; };
 		78CCE55B2BFD0BFE009B7ACB /* UserAddressResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE55A2BFD0BFE009B7ACB /* UserAddressResponce.swift */; };
+		78CCE55F2BFE6EA4009B7ACB /* CartPaySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE55E2BFE6EA4009B7ACB /* CartPaySection.swift */; };
+		78CCE5622BFE6EEC009B7ACB /* CartPayResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE5612BFE6EEC009B7ACB /* CartPayResponce.swift */; };
+		78CCE5642BFE71C7009B7ACB /* CartPayDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE5632BFE71C7009B7ACB /* CartPayDataMapper.swift */; };
+		78CCE5662BFF196D009B7ACB /* CartPayBodyHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE5652BFF196D009B7ACB /* CartPayBodyHeaderCell.swift */; };
+		78CCE5682BFF1978009B7ACB /* CartPayBodyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE5672BFF1978009B7ACB /* CartPayBodyCell.swift */; };
+		78CCE56A2BFF1982009B7ACB /* CartPayFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE5692BFF1982009B7ACB /* CartPayFooterCell.swift */; };
+		78CCE56C2BFF2C2A009B7ACB /* CartPayViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE56B2BFF2C2A009B7ACB /* CartPayViewBuilder.swift */; };
+		78CCE56E2C00D0B8009B7ACB /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE56D2C00D0B8009B7ACB /* TitleBarView.swift */; };
+		78CCE5722C00E66E009B7ACB /* CartMainInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CCE5712C00E66E009B7ACB /* CartMainInfoView.swift */; };
 		78D41B562BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B522BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift */; };
 		78D41B582BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B542BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift */; };
 		78D41B5A2BED0F26004CB7AD /* ProductCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D41B592BED0F26004CB7AD /* ProductCreator.swift */; };
@@ -373,6 +382,15 @@
 		78C1CB412BADC04800748F3D /* AuthorizationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationCoordinator.swift; sourceTree = "<group>"; };
 		78C1CB472BADC04800748F3D /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		78CCE55A2BFD0BFE009B7ACB /* UserAddressResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAddressResponce.swift; sourceTree = "<group>"; };
+		78CCE55E2BFE6EA4009B7ACB /* CartPaySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPaySection.swift; sourceTree = "<group>"; };
+		78CCE5612BFE6EEC009B7ACB /* CartPayResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayResponce.swift; sourceTree = "<group>"; };
+		78CCE5632BFE71C7009B7ACB /* CartPayDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayDataMapper.swift; sourceTree = "<group>"; };
+		78CCE5652BFF196D009B7ACB /* CartPayBodyHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayBodyHeaderCell.swift; sourceTree = "<group>"; };
+		78CCE5672BFF1978009B7ACB /* CartPayBodyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayBodyCell.swift; sourceTree = "<group>"; };
+		78CCE5692BFF1982009B7ACB /* CartPayFooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayFooterCell.swift; sourceTree = "<group>"; };
+		78CCE56B2BFF2C2A009B7ACB /* CartPayViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayViewBuilder.swift; sourceTree = "<group>"; };
+		78CCE56D2C00D0B8009B7ACB /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
+		78CCE5712C00E66E009B7ACB /* CartMainInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartMainInfoView.swift; sourceTree = "<group>"; };
 		78D41B522BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductImage+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		78D41B542BEAAEF4004CB7AD /* ProductEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		78D41B592BED0F26004CB7AD /* ProductCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCreator.swift; sourceTree = "<group>"; };
@@ -494,6 +512,7 @@
 				781C6E622BFA80AA0097C140 /* Bindings */,
 				781C6E612BFA80A20097C140 /* ViewModel */,
 				781C6E602BFA809C0097C140 /* View */,
+				78CCE56B2BFF2C2A009B7ACB /* CartPayViewBuilder.swift */,
 			);
 			path = CartPayView;
 			sourceTree = "<group>";
@@ -502,6 +521,10 @@
 			isa = PBXGroup;
 			children = (
 				781C6E6A2BFA81720097C140 /* CartPayViewController.swift */,
+				78CCE5652BFF196D009B7ACB /* CartPayBodyHeaderCell.swift */,
+				78CCE5672BFF1978009B7ACB /* CartPayBodyCell.swift */,
+				78CCE5692BFF1982009B7ACB /* CartPayFooterCell.swift */,
+				78CCE56D2C00D0B8009B7ACB /* TitleBarView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -511,6 +534,8 @@
 			children = (
 				781C6E682BFA81110097C140 /* CartPayViewModel.swift */,
 				781C6E6C2BFA81A30097C140 /* CartPayModuleIO.swift */,
+				78CCE55E2BFE6EA4009B7ACB /* CartPaySection.swift */,
+				78CCE5632BFE71C7009B7ACB /* CartPayDataMapper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -921,6 +946,7 @@
 		78B05A812BB3675A00D74385 /* CartView */ = {
 			isa = PBXGroup;
 			children = (
+				78CCE56F2C00E188009B7ACB /* PayView */,
 				781C6E5F2BFA808F0097C140 /* CartPayView */,
 				781C6E5E2BFA80610097C140 /* CartMainView */,
 			);
@@ -1211,6 +1237,29 @@
 				78DB41842BD0077B00EADD3E /* Target.swift */,
 			);
 			path = WebService;
+			sourceTree = "<group>";
+		};
+		78CCE5602BFE6EC5009B7ACB /* CartPay */ = {
+			isa = PBXGroup;
+			children = (
+				78CCE5612BFE6EEC009B7ACB /* CartPayResponce.swift */,
+			);
+			path = CartPay;
+			sourceTree = "<group>";
+		};
+		78CCE56F2C00E188009B7ACB /* PayView */ = {
+			isa = PBXGroup;
+			children = (
+				78CCE5702C00E18D009B7ACB /* Bindings */,
+			);
+			path = PayView;
+			sourceTree = "<group>";
+		};
+		78CCE5702C00E18D009B7ACB /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bindings;
 			sourceTree = "<group>";
 		};
 		78DD39C82BF27B290025BB36 /* SelfProductView */ = {
@@ -1541,6 +1590,7 @@
 			children = (
 				78C1CB1F2BADC04800748F3D /* CartViewController.swift */,
 				78F91A222BF76D5B00AF2AC6 /* CartCell.swift */,
+				78CCE5712C00E66E009B7ACB /* CartMainInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1568,6 +1618,7 @@
 		78F91A262BF7ABD600AF2AC6 /* CartDetails */ = {
 			isa = PBXGroup;
 			children = (
+				78CCE5602BFE6EC5009B7ACB /* CartPay */,
 				78F91A272BF7ABFB00AF2AC6 /* CartDataSource.swift */,
 				78F91A292BF7AC0500AF2AC6 /* CartRepository.swift */,
 				78F91A2B2BF7AC9C00AF2AC6 /* CartResponce.swift */,
@@ -1711,6 +1762,7 @@
 				78EA69412BD44253004A961C /* CategoryViewController.swift in Sources */,
 				78F91A1F2BF76C6C00AF2AC6 /* CartViewIntent.swift in Sources */,
 				78C1CB512BADC04800748F3D /* SavedViewController.swift in Sources */,
+				78CCE56E2C00D0B8009B7ACB /* TitleBarView.swift in Sources */,
 				78EA694A2BD4439C004A961C /* CreateProductState.swift in Sources */,
 				781C6E6B2BFA81720097C140 /* CartPayViewController.swift in Sources */,
 				784BBF3B2BE7CBAE008435FA /* FilingIntent.swift in Sources */,
@@ -1725,6 +1777,7 @@
 				78B05A8D2BB462F500D74385 /* HomeCoordinator.swift in Sources */,
 				78F91A382BF7F7FC00AF2AC6 /* CartCoordinator.swift in Sources */,
 				78DB41892BD02D4900EADD3E /* SearchEntity.swift in Sources */,
+				78CCE5622BFE6EEC009B7ACB /* CartPayResponce.swift in Sources */,
 				78E4EFB92BDE8B9900982CA5 /* OrdersPageState.swift in Sources */,
 				78EA693A2BD145BB004A961C /* UserRequest.swift in Sources */,
 				784BBF1E2BE6DFA0008435FA /* ProductCoreData.xcdatamodeld in Sources */,
@@ -1758,6 +1811,7 @@
 				78EA69552BD4533E004A961C /* CreateProductTableViewCell.swift in Sources */,
 				784BBF1B2BE6CADE008435FA /* DraftsProductCell.swift in Sources */,
 				784BBF5C2BE95D8F008435FA /* AddImageCell.swift in Sources */,
+				78CCE56C2BFF2C2A009B7ACB /* CartPayViewBuilder.swift in Sources */,
 				78B05AD52BB6F35B00D74385 /* HomeCoreDataManager.swift in Sources */,
 				78F91A182BF51F1100AF2AC6 /* SelfProductInformationCell.swift in Sources */,
 				78EA69572BD591E0004A961C /* ProfileViewModel.swift in Sources */,
@@ -1786,6 +1840,8 @@
 				78C1CB5E2BADC04800748F3D /* RegistrationViewIntent.swift in Sources */,
 				78C1CB552BADC04800748F3D /* AuthorizationViewIntent.swift in Sources */,
 				78E4EFA92BDD094F00982CA5 /* OrdersViewBuilder.swift in Sources */,
+				78CCE5722C00E66E009B7ACB /* CartMainInfoView.swift in Sources */,
+				78CCE5662BFF196D009B7ACB /* CartPayBodyHeaderCell.swift in Sources */,
 				78E4EFE62BDED8DE00982CA5 /* CurrentOrdersBuilder.swift in Sources */,
 				784BBF082BE6C6AC008435FA /* AddArhiveState.swift in Sources */,
 				78B05AAA2BB4694E00D74385 /* SelfConfiguringCell.swift in Sources */,
@@ -1796,6 +1852,7 @@
 				78C1CB5A2BADC04800748F3D /* AuthorizationModulBuilder.swift in Sources */,
 				781C6E7B2BFB11E90097C140 /* MapViewState.swift in Sources */,
 				781C6E662BFA80CF0097C140 /* CartPayState.swift in Sources */,
+				78CCE56A2BFF1982009B7ACB /* CartPayFooterCell.swift in Sources */,
 				78DD39D72BF294600025BB36 /* SelfProductImageGropeFooter.swift in Sources */,
 				784BBF102BE6C6F4008435FA /* AddArhiveModuleIO.swift in Sources */,
 				78C1CB542BADC04800748F3D /* AuthModuleIO.swift in Sources */,
@@ -1821,6 +1878,7 @@
 				784BBF142BE6C89E008435FA /* AddDraftsBuilder.swift in Sources */,
 				78C1CB532BADC04800748F3D /* MainTabBarController.swift in Sources */,
 				781C6E742BFB11440097C140 /* MapViewModel.swift in Sources */,
+				78CCE5682BFF1978009B7ACB /* CartPayBodyCell.swift in Sources */,
 				784BBF522BE8CCCF008435FA /* AddImageIntent.swift in Sources */,
 				78B05B072BBA881500D74385 /* ProductRepository.swift in Sources */,
 				784BBF022BE6C5FC008435FA /* AddDraftsModuleIO.swift in Sources */,
@@ -1858,9 +1916,11 @@
 				78D41B562BEAAEF4004CB7AD /* ProductImage+CoreDataProperties.swift in Sources */,
 				78E4EFC72BDE951F00982CA5 /* OrderRemoteDataSource.swift in Sources */,
 				781C6E982BFBCC0A0097C140 /* DetailPickUpPointIntent.swift in Sources */,
+				78CCE55F2BFE6EA4009B7ACB /* CartPaySection.swift in Sources */,
 				78F91A282BF7ABFB00AF2AC6 /* CartDataSource.swift in Sources */,
 				78B05B382BBD8C7500D74385 /* SearchViewModel.swift in Sources */,
 				784BBF582BE955F4008435FA /* AddImageModuleIO.swift in Sources */,
+				78CCE5642BFE71C7009B7ACB /* CartPayDataMapper.swift in Sources */,
 				78C1CB4D2BADC04800748F3D /* CoordinatorFactory.swift in Sources */,
 				781C6E862BFBA0920097C140 /* PickUpPointDataSource.swift in Sources */,
 				78DD39CC2BF28EEA0025BB36 /* SelfProductImageCell.swift in Sources */,

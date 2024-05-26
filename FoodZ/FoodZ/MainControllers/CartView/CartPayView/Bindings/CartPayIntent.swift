@@ -12,4 +12,5 @@ enum CartPayIntent {
     case onDidLoad
     case onLoad
     case onReload
+    case proccesedTappedButtonPay
 }

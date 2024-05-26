@@ -59,6 +59,8 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
             make.leading.equalToSuperview().inset(30)
+            make.width.equalToSuperview().multipliedBy(0.1)
+            make.height.equalTo(backButton.snp.width)
         }
         mapView.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
@@ -90,7 +92,7 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
 
     private func checkAuthorization() {
         guard let locationManager = locationManager,
-              let location = locationManager.location
+            let location = locationManager.location
         else { return }
 
         switch locationManager.authorizationStatus {
@@ -99,7 +101,7 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
         case .restricted:
             break
         case .denied:
-              showAlert(title: "Выключено местоположени", message: "Включить,", url: URL(string: UIApplication.openSettingsURLString))
+            showAlert(title: "Выключено местоположени", message: "Включить,", url: URL(string: UIApplication.openSettingsURLString))
         case .authorizedAlways, .authorizedWhenInUse:
             let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 2500, longitudinalMeters: 2500)
             mapView.setRegion(region, animated: true)
@@ -134,7 +136,7 @@ final class MapViewController<ViewModel: MapViewModeling>: UIViewController, CLL
         backButton.setTitleColor(AppColor.title.color, for: .normal)
         backButton.clipsToBounds = true
         let width = view.frame.width / 10
-        backButton.frame = CGRect(origin: .zero, size: CGSize(width: width, height: width))
+        backButton.frame = CGRect(x: 50, y: 50, width: width, height: width)
         backButton.layer.cornerRadius = width / 2
 
     }

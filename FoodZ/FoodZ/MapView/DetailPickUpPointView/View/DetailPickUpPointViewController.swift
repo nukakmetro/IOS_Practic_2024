@@ -111,10 +111,10 @@ final class DetailPickUpPointViewController<ViewModel: DetailPickUpPointViewMode
     // MARK: Internal methods
 
     func setupForCustomPresentation() {
-          self.modalPresentationStyle = .custom
-          self.transitioningDelegate = self
+        self.modalPresentationStyle = .custom
+        self.transitioningDelegate = self
     }
-    
+
     // MARK: - UIViewControllerTransitioningDelegate
 
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
