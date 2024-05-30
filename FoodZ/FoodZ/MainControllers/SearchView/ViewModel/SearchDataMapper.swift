@@ -8,10 +8,11 @@
 import Foundation
 
 final class SearchDataMapper {
-    func displayData(products: [Product]) -> [SearchCellType] {
-        var productCells: [SearchCellType] = []
+    func displayData(products: [Product]) -> [SearchSectionType] {
+        var sections: [SearchSectionType] = []
+        var items: [SearchCellType] = []
         for product in products {
-            productCells.append(.bodyCell(ProductCell(
+            items.append(.bodyCell(ProductCell(
                 id: UUID(),
                 productDescription: product.productDescription,
                 productId: product.productId,
@@ -26,6 +27,7 @@ final class SearchDataMapper {
                 productSavedStatus: product.productSavedStatus
             )))
         }
-        return productCells
+        sections.append(.bodySection(UUID(), items))
+        return sections
     }
 }

@@ -13,7 +13,7 @@ final class OrdersCurrentViewModel: OrdersPageViewModeling {
     // MARK: Private properties
 
     private(set) var stateDidChange: ObservableObjectPublisher
-    weak private var output: OrdersModuleOutput?
+    weak private var output: OrderCurrenModuleOutput?
     private var repository: OrderCurrentProtocol
     private let dataMapper: OrdersPageDataMapper
 
@@ -27,7 +27,7 @@ final class OrdersCurrentViewModel: OrdersPageViewModeling {
 
     // MARK: Initialization
 
-    init(output: OrdersModuleOutput? = nil, repository: OrderCurrentProtocol) {
+    init(output: OrderCurrenModuleOutput? = nil, repository: OrderCurrentProtocol) {
         self.stateDidChange = ObjectWillChangePublisher()
         self.output = output
         self.repository = repository
@@ -45,6 +45,8 @@ final class OrdersCurrentViewModel: OrdersPageViewModeling {
             break
         case .onReload:
             loadItems()
+        case .proccesedTappedCell(let id):
+            output?.proccesedTappedCell(id)
         }
     }
 

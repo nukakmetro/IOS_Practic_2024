@@ -13,6 +13,7 @@ final class SavedCoordinator: Coordinator {
     // MARK: Internal properties
 
     weak var navigationController: UINavigationController?
+    weak var productInput: SelfProductModuleInput?
 
     // MARK: Initializator
 
@@ -37,11 +38,31 @@ final class SavedCoordinator: Coordinator {
     private func popView() {
         navigationController?.popViewController(animated: false)
     }
+
+    private func showSelfProductView() {
+        let controller = SelfProductBuilder(output: self).build()
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 // MARK: SavedModuleOutput
 
 extension SavedCoordinator: SavedModuleOutput {
+    func proccesedTappedCell(_ id: Int) {
+        showSelfProductView()
+        productInput?.proccesedSendId(id: id)
+    }
+}
 
+// MARK: - SelfProductModuleOutput
+
+extension SavedCoordinator: SelfProductModuleOutput {
+    func proccesedTappedButtonCart() {
+        NotificationCenter.default.post(name: .selectCartTab, object: nil)
+    }
+
+    func selfProductModuleDidLoad(input: SelfProductModuleInput) {
+        productInput = input
+    }
 }
 

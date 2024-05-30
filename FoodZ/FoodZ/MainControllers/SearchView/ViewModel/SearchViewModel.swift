@@ -8,16 +8,6 @@
 import Foundation
 import Combine
 
-enum SearchCellType: Hashable {
-    case header
-    case bodyCell(ProductCell)
-}
-
-enum SearchSomeSection: Hashable {
-    case header([SearchCellType])
-    case body([SearchCellType])
-}
-
 protocol SearchViewModeling: UIKitViewModel where State == SearchViewState, Intent == SearchViewIntent {}
 
 final class SearchViewModel: SearchViewModeling {
@@ -29,7 +19,7 @@ final class SearchViewModel: SearchViewModeling {
     private let remoteRepository: ProductSearchProtocol
     private var countOffset: Int
     private var inputSearchText: String
-    private var sections: [SearchSomeSection]
+    private var sections: [SearchSectionType]
     private var dataMapper: SearchDataMapper
 
     // MARK: Internal properties
@@ -50,7 +40,7 @@ final class SearchViewModel: SearchViewModeling {
         self.inputSearchText = ""
         self.dataMapper = SearchDataMapper()
         sections = []
-        sections.append(.header([.header]))
+        sections.append(.headerSection(UUID(), .header))
         self.state = .content(dispayData: sections)
     }
 
@@ -63,11 +53,17 @@ final class SearchViewModel: SearchViewModeling {
         case .onReload:
             updateSections()
         case .proccesedInputSearchText(let inputText):
-            proccedInputSearchText(inputText: inputText)
+            if let inputText = inputText {
+                proccedInputSearchText(inputText: inputText)
+            } else {
+                trigger(.onReload)
+            }
         case .onDidlLoad:
             updateSections()
         case .proccesedLazyLoad:
             proccedLazyLoad()
+        case .proccesedTappedCell(let id):
+            output.proccesedTappedCell(id)
         }
     }
 
@@ -78,10 +74,9 @@ final class SearchViewModel: SearchViewModeling {
         state = .loading
         remoteRepository.getStartRecommendations(completion: { [weak self] result in
             guard let self else { return }
-
             switch result {
             case .success(let products):
-                sections.append(.body(dataMapper.displayData(products: products)))
+                sections.append(contentsOf: dataMapper.displayData(products: products))
                 state = .content(dispayData: sections)
             case .failure:
                 state = .error
@@ -108,7 +103,7 @@ final class SearchViewModel: SearchViewModeling {
             guard let self else { return }
             switch result {
             case .success(let products):
-                sections.append(.body(dataMapper.displayData(products: products)))
+                sections.append(contentsOf: dataMapper.displayData(products: products))
                 countOffset += 1
                 self.state = .content(dispayData: sections)
             case .failure:

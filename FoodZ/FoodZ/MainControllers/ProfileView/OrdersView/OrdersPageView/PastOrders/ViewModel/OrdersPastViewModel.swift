@@ -45,6 +45,8 @@ final class OrdersPastViewModel: OrdersPageViewModeling {
             break
         case .onReload:
             loadItems()
+        case .proccesedTappedCell(_):
+            break
         }
     }
 

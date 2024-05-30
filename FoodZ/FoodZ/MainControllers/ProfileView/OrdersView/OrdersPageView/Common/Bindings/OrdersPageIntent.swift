@@ -11,4 +11,5 @@ enum OrdersPageIntent {
     case onDidLoad
     case onClose
     case onReload
+    case proccesedTappedCell(_ id: Int)
 }

@@ -1,22 +1,19 @@
 //
-//  OrderCell.swift
+//  SelfOrderItemCell.swift
 //  FoodZ
 //
-//  Created by surexnx on 28.04.2024.
+//  Created by surexnx on 26.05.2024.
 //
 
 import UIKit
-import SnapKit
 
-final class OrderBodyCell: UICollectionViewCell, SelfConfiguringCell {
+final class OrderSelfItemCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
 
-    static let reuseIdentifier: String = "OrderBodyCell"
-    var id: Int?
+    static let reuseIdentifier: String = "OrderSelfItemCell"
 
     // MARK: Private properties
-    
     private lazy var productImage = CustomImageView()
     private lazy var quantityLabel = UILabel()
     private lazy var nameLabel = UILabel()
@@ -94,7 +91,7 @@ final class OrderBodyCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal methods
 
-    func configure(with cell: OrderBody) {
+    func configure(with cell: OrderSelfBody) {
         priceLabel.text = cell.price
         nameLabel.text = cell.productName
         quantityLabel.text = cell.quantity

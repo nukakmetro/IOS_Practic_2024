@@ -59,6 +59,11 @@ final class ProfileViewController<ViewModel: ProfileMainModeling>: UIViewControl
         navigationController?.isNavigationBarHidden = true
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+
     // MARK: Private methods
 
     @objc private func didPullToRefresh() {

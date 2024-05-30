@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class PastOrdersBuilder: Builder {
-
+    
     func build() -> UIViewController {
         let viewModel = OrdersPastViewModel(repository: OrderRepository())
         let controller = OrdersPageViewController(viewModel: viewModel)

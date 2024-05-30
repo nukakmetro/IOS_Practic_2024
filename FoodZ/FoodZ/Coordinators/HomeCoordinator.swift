@@ -65,6 +65,11 @@ extension HomeCoordinator: HomeModuleOutput {
 // MARK: - SearchModuleOutput
 
 extension HomeCoordinator: SearchModuleOutput {
+    func proccesedTappedCell(_ id: Int) {
+        showSelfProductView()
+        productInput?.proccesedSendId(id: id)
+    }
+
     func moduleWantsToClose() {
         closePushView()
     }

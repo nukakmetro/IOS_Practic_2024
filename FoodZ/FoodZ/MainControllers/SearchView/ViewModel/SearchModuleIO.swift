@@ -11,4 +11,5 @@ protocol SearchModuleInput: AnyObject {}
 
 protocol SearchModuleOutput: AnyObject {
     func moduleWantsToClose()
+    func proccesedTappedCell(_ id: Int)
 }

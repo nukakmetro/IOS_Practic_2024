@@ -10,8 +10,18 @@ import UIKit
 
 final class CurrentOrdersBuilder: Builder {
 
+    // MARK: Private properties
+
+    private let output: OrderCurrenModuleOutput
+
+    // MARK: Initialization
+
+    init(output: OrderCurrenModuleOutput) {
+        self.output = output
+    }
+
     func build() -> UIViewController {
-        let viewModel = OrdersCurrentViewModel(repository: OrderRepository())
+        let viewModel = OrdersCurrentViewModel(output: output, repository: OrderRepository())
 
         let controller = OrdersPageViewController(viewModel: viewModel)
         controller.view.tag = 0

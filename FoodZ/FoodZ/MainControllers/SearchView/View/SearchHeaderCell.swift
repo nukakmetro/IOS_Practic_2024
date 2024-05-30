@@ -8,11 +8,6 @@
 import Foundation
 import UIKit
 
-protocol SearchHeaderDelegate: AnyObject {
-    func proccesedButtonTapToBack()
-    func proccesedInputTextToSearch(inputText: String)
-}
-
 final class SearchHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal static properties
@@ -21,7 +16,8 @@ final class SearchHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     // MARK: Internal properties
 
-    weak var searchDelegate: SearchHeaderDelegate?
+    var proccesedButtonTapToBack: (() -> Void)?
+    var proccesedInputTextToSearch: ((String?) -> Void)?
 
     // MARK: Private properties
 
@@ -33,7 +29,10 @@ final class SearchHeaderCell: UICollectionViewCell, SelfConfiguringCell {
 
     private lazy var backButton: UIButton = {
         let action = UIAction { [weak self] _ in
-            self?.searchDelegate?.proccesedButtonTapToBack()
+            guard let self = self,
+                  let proccesedButtonTapToBack = proccesedButtonTapToBack
+            else { return }
+            proccesedButtonTapToBack()
         }
 
         var button = UIButton(primaryAction: action)
@@ -77,7 +76,8 @@ final class SearchHeaderCell: UICollectionViewCell, SelfConfiguringCell {
     }
 
     @objc private func timerAction() {
-        searchDelegate?.proccesedInputTextToSearch(inputText: searchTextField.text ?? "")
+        guard let proccesedInputTextToSearch = proccesedInputTextToSearch else { return }
+        proccesedInputTextToSearch(self.searchTextField.text)
     }
 
     private func makeConsraints() {
@@ -114,7 +114,10 @@ extension SearchHeaderCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         timerTextField?.invalidate()
         timerTextField = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false, block: { [weak self] _ in
-            self?.searchDelegate?.proccesedInputTextToSearch(inputText: textField.text ?? "")
+            guard let self = self,
+                  let proccesedInputTextToSearch = proccesedInputTextToSearch
+            else { return }
+            proccesedInputTextToSearch(searchTextField.text)
         })
         return true
     }

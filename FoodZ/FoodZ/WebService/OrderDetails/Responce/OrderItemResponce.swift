@@ -13,4 +13,5 @@ struct OrderItemResponce: Decodable {
     var quantity: Int
     var productName: String
     var productCategory: String
+    var imageId: Int
 }

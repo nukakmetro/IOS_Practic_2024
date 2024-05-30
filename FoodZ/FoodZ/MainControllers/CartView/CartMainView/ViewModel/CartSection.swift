@@ -26,18 +26,18 @@ enum CartSectionType: Hashable {
 }
 
 enum CartCellType: Hashable {
-    case bodyICell(CartProduct)
+    case bodyCell(CartProduct)
 
     func hash(into hasher: inout Hasher) {
         switch self {
-        case .bodyICell(let product):
+        case .bodyCell(let product):
             hasher.combine(product.id)
         }
     }
 
     static func == (lhs: CartCellType, rhs: CartCellType) -> Bool {
         switch (lhs, rhs) {
-        case (.bodyICell(let lhsProduct), .bodyICell(let rhsProduct)):
+        case (.bodyCell(let lhsProduct), .bodyCell(let rhsProduct)):
             return lhsProduct.id == rhsProduct.id
         }
     }

@@ -1,37 +1,41 @@
 //
-//  OrdersPageViewController.swift
+//  SelfOrderViewController.swift
 //  FoodZ
 //
-//  Created by surexnx on 28.04.2024.
+//  Created by surexnx on 26.05.2024.
 //
 
 import UIKit
 import Combine
 import SnapKit
 
-final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewController, UICollectionViewDelegate {
+final class OrderSelfViewController<ViewModel: OrderSelfViewModeling>: UIViewController, UICollectionViewDelegateFlowLayout {
 
     // MARK: Private properties
 
+    private var sections: [OrderSelfSectionType]
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<OrderSectionType, OrderCellType>?
-    private var sections: [OrderSectionType]
+    private var dataSource: UICollectionViewDiffableDataSource<OrderSelfSectionType, OrderSelfCellType>?
     private var cancellables: Set<AnyCancellable> = []
+    weak var segmentControlInput: SelfProductImageGropeFooterInput?
+    private lazy var changeStatusButton = UIButton()
+    private var like: Bool?
 
     private lazy var collectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         collectionView.backgroundColor = AppColor.secondary.color
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
+
         collectionView.register(
-            OrderBodyCell.self,
-            forCellWithReuseIdentifier: OrderBodyCell.reuseIdentifier
+            OrderSelfItemCell.self,
+            forCellWithReuseIdentifier: OrderSelfItemCell.reuseIdentifier
         )
         collectionView.register(
-            OrderBodyHeaderCell.self,
-            forCellWithReuseIdentifier: OrderBodyHeaderCell.reuseIdentifier
+            OrderSelfHeaderCell.self,
+            forCellWithReuseIdentifier: OrderSelfHeaderCell.reuseIdentifier
         )
-        collectionView.delegate = self
+
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
@@ -39,10 +43,11 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
 
     // MARK: Initialization
 
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+    init( viewModel: ViewModel) {
         self.sections = []
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.trigger(.onDidLoad)
     }
 
     required init?(coder: NSCoder) {
@@ -54,9 +59,10 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
         makeConstraints()
         createDataSource()
         configureIO()
-        viewModel.trigger(.onDidLoad)
-        view.backgroundColor = .red
-        navigationController?.isNavigationBarHidden = true
+        reloadData()
+        viewModel.trigger(.onLoad)
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.barTintColor = AppColor.secondary.color
     }
 
     // MARK: Private methods
@@ -83,8 +89,9 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
         switch viewModel.state {
         case .loading:
             break
-        case .content(let dispayData):
-            sections = dispayData
+        case .content(let dispayData, let displayViewData):
+            setupDisplayView(viewData: displayViewData)
+            self.sections = dispayData
             reloadData()
         case .error:
             break
@@ -99,15 +106,15 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<OrderSectionType, OrderCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<OrderSelfSectionType, OrderSelfCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             guard let self = self else { return UICollectionViewCell() }
             switch item {
             case .bodyCell(let data):
-                let cell = configure(OrderBodyCell.self, for: indexPath)
+                let cell = configure(OrderSelfItemCell.self, for: indexPath)
                 cell.configure(with: data)
                 return cell
-            case .bodyHeaderCell(let data):
-                let cell = configure(OrderBodyHeaderCell.self, for: indexPath)
+            case .headerCell(let data):
+                let cell = configure(OrderSelfHeaderCell.self, for: indexPath)
                 cell.configure(with: data)
                 return cell
             }
@@ -115,16 +122,16 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
     }
 
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<OrderSectionType, OrderCellType>()
+        var snapshot = NSDiffableDataSourceSnapshot<OrderSelfSectionType, OrderSelfCellType>()
         snapshot.appendSections(sections)
         for section in sections {
             switch section {
-            case .bodySection(_, let data):
-                snapshot.appendItems(data, toSection: section)
-            case .bodyHeaderSection(_, let data):
-                snapshot.appendItems([data], toSection: section)
+            case .bodySection(_, let items):
+                snapshot.appendItems(items, toSection: section)
+            case .headerSection(_, let item):
+                snapshot.appendItems([item], toSection: section)
             }
-        }     
+        }
         dataSource?.apply(snapshot)
     }
 
@@ -134,10 +141,9 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
             let section = sections[sectionIndex]
 
             switch section {
-
             case .bodySection:
                 return createBodyTableSection()
-            case .bodyHeaderSection:
+            case .headerSection:
                 return createHeaderTableSection()
             }
         }
@@ -177,9 +183,11 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
     }
 
     private func makeConstraints() {
-        view.backgroundColor = AppColor.primary.color
+        view.backgroundColor = AppColor.secondary.color
         view.addSubview(collectionView)
+        view.addSubview(changeStatusButton)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        changeStatusButton.translatesAutoresizingMaskIntoConstraints = false
 
         collectionView.snp.makeConstraints { make in
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
@@ -187,14 +195,59 @@ final class OrdersPageViewController<ViewModel: OrdersPageViewModeling>: UIViewC
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
         }
+
+        changeStatusButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
+        }
     }
 
-    // MARK: - UICollectionViewDelegate
+    private func setupDisplayView(viewData: OrderSelfViewData) {
+        if !viewData.whose {
+            let actionReady = UIAction { [weak self] _ in
+                guard let self = self else { return }
+                changeStatusButton.isEnabled = false
+                viewModel.trigger(.proccesedTappedButtonReady)
+            }
+            let actionCompleted = UIAction { [weak self] _ in
+                guard let self = self else { return }
+                viewModel.trigger(.proccesedTappedButtoncompleted)
+            }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? OrderBodyHeaderCell {
-            if let id = cell.id {
-                viewModel.trigger(.proccesedTappedCell(id))
+            changeStatusButton.removeTarget(nil, action: nil, for: .allEvents)
+            changeStatusButton.isEnabled = true
+
+            switch viewData.status {
+            case 0:
+                changeStatusButton.addAction(actionReady, for: .touchUpInside)
+                changeStatusButton.backgroundColor = .blue
+                changeStatusButton.setTitle("Загаз готов", for: .normal)
+
+            case 1:
+                changeStatusButton.addAction(actionCompleted, for: .touchUpInside)
+                changeStatusButton.backgroundColor = .blue
+                changeStatusButton.setTitle("Заказ отдан", for: .normal)
+            case 2:
+                changeStatusButton.backgroundColor = .lightGray
+                changeStatusButton.setTitle("Выполнено", for: .normal)
+                changeStatusButton.isEnabled = false
+            default:
+                break
+            }
+        }
+    }
+
+    // MARK: - UICollectionViewDelegateFlowLayout
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let section = 0
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems.filter { $0.section == section }
+        for indexPath in visibleIndexPaths {
+            if let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath) {
+                if collectionView.contentOffset.x <= layoutAttributes.center.x &&
+                    layoutAttributes.center.x <= collectionView.contentOffset.x + collectionView.bounds.width {
+                    segmentControlInput?.proccesedScrollItem(index: indexPath.item)
+                }
             }
         }
     }

@@ -8,13 +8,13 @@
 import UIKit
 import Combine
 
-class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
+class SearchViewController<ViewModel: SearchViewModeling>: UIViewController, UICollectionViewDelegate {
 
     // MARK: Private properties
 
     private let viewModel: ViewModel
-    private var dataSource: UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>?
-    private var sections: [SearchSomeSection]
+    private var dataSource: UICollectionViewDiffableDataSource<SearchSectionType, SearchCellType>?
+    private var sections: [SearchSectionType]
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var collectionView: UICollectionView = {
@@ -30,6 +30,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
             SingleCollectionViewCell.self,
             forCellWithReuseIdentifier: SingleCollectionViewCell.reuseIdentifier
         )
+        collectionView.delegate = self
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return collectionView
@@ -40,7 +41,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
         self.sections = []
-        self.sections.append(SearchSomeSection.header([]))
+        sections = []
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -99,7 +100,7 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
     }
 
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<SearchSomeSection, SearchCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<SearchSectionType, SearchCellType>(collectionView: collectionView) { [weak self] _, indexPath, item in
             guard let self = self else { return UICollectionViewCell() }
             switch item {
             case .bodyCell(let data):
@@ -107,22 +108,28 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
                 cell.configure(with: data)
                 return cell
             case .header:
+                
                 let cell = configure(SearchHeaderCell.self, for: indexPath)
-                cell.searchDelegate = self
+                cell.proccesedButtonTapToBack = {
+                    self.viewModel.trigger(.onClose)
+                }
+                cell.proccesedInputTextToSearch = { [weak self] text in
+                    self?.viewModel.trigger(.proccesedInputSearchText(text))
+                }
                 return cell
             }
         }
     }
 
     private func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<SearchSomeSection, SearchCellType>()
+        var snapshot = NSDiffableDataSourceSnapshot<SearchSectionType, SearchCellType>()
         snapshot.appendSections(sections)
 
         for section in sections {
             switch section {
-            case .header(let data):
-                snapshot.appendItems(data, toSection: section)
-            case .body(let data):
+            case .headerSection(_, let data):
+                snapshot.appendItems([data], toSection: section)
+            case .bodySection(_, let data):
                 snapshot.appendItems(data, toSection: section)
             }
         }
@@ -135,9 +142,9 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
             guard let self = self else { return self?.createBodyTableSection() }
             let section = sections[sectionIndex]
             switch section {
-            case .body:
+            case .bodySection:
                 return createBodyTableSection()
-            case .header:
+            case .headerSection:
                 return createHeaderTableSection()
             }
         }
@@ -188,16 +195,14 @@ class SearchViewController<ViewModel: SearchViewModeling>: UIViewController {
             make.bottom.equalToSuperview()
         }
     }
-}
 
-// MARK: SearchHeaderDelegate protocol
+    // MARK: - UICollectionViewDelegate
 
-extension SearchViewController: SearchHeaderDelegate {
-
-    func proccesedInputTextToSearch(inputText: String) {
-        viewModel.trigger(.proccesedInputSearchText(inputText))
-    }
-    func proccesedButtonTapToBack() {
-        viewModel.trigger(.onClose)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? SingleCollectionViewCell {
+            if let id = cell.id {
+                viewModel.trigger(.proccesedTappedCell(id: id))
+            }
+        }
     }
 }

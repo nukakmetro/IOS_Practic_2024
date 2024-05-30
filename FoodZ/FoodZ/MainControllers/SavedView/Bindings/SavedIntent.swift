@@ -11,4 +11,6 @@ enum SavedIntent {
     case onDidLoad
     case onClose
     case onReload
+    case proccesedTappedLikeButton(id: Int)
+    case proccesedTappedCell(id: Int)
 }

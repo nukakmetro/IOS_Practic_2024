@@ -1,30 +1,30 @@
 //
-//  OrdersViewCellType.swift
+//  SelfOrderSection.swift
 //  FoodZ
 //
-//  Created by surexnx on 28.04.2024.
+//  Created by surexnx on 26.05.2024.
 //
 
 import Foundation
 
-enum OrderSectionType: Hashable {
-    case bodySection(_ id: UUID, [OrderCellType])
-    case bodyHeaderSection(_ id: UUID, OrderCellType)
+enum OrderSelfSectionType: Hashable {
+    case bodySection(_ id: UUID, [OrderSelfCellType])
+    case headerSection(_ id: UUID, OrderSelfCellType)
 
     func hash(into hasher: inout Hasher) {
         switch self {
         case .bodySection(let id, _):
             hasher.combine(id)
-        case .bodyHeaderSection(let id, _):
+        case .headerSection(let id, _):
             hasher.combine(id)
         }
     }
 
-    static func == (lhs: OrderSectionType, rhs: OrderSectionType) -> Bool {
+    static func == (lhs: OrderSelfSectionType, rhs: OrderSelfSectionType) -> Bool {
         switch (lhs, rhs) {
         case (.bodySection(let lhsId, _), .bodySection(let rhsId, _)):
             return lhsId == rhsId
-        case (.bodyHeaderSection(let lhsId, _), .bodyHeaderSection(let rhsId, _)):
+        case (.headerSection(let lhsId, _), .headerSection(let rhsId, _)):
             return lhsId == rhsId
         default:
             return false
@@ -32,14 +32,14 @@ enum OrderSectionType: Hashable {
     }
 }
 
-enum OrderCellType: Hashable {
-    case bodyCell(OrderBody)
-    case bodyHeaderCell(OrderBodyHeader)
+enum OrderSelfCellType: Hashable {
+    case bodyCell(OrderSelfBody)
+    case headerCell(OrderSelfHeader)
 }
 
-struct OrderBodyHeader: Hashable {
+struct OrderSelfHeader: Hashable {
     var id: UUID
-    var orderId: Int
+    var orderId: String
     var totalPrice: String
     var status: Int
     var whose: Bool
@@ -49,7 +49,7 @@ struct OrderBodyHeader: Hashable {
     }
 }
 
-struct OrderBody: Hashable {
+struct OrderSelfBody: Hashable {
     var id: UUID
     var productId: Int
     var price: String
@@ -60,4 +60,9 @@ struct OrderBody: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+}
+
+struct OrderSelfViewData {
+    var status: Int
+    var whose: Bool
 }

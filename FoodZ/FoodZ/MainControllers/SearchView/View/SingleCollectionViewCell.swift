@@ -16,6 +16,7 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
     // MARK: Internal properties
 
     var proccesedChangeLike: (() -> Void)?
+    var id: Int?
 
     // MARK: Private properties
 
@@ -29,7 +30,6 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
     private lazy var productRatingImage = UIImageView()
     private lazy var productSavedButton = UIButton()
     private lazy var productImage = CustomImageView()
-
 
     // MARK: Initialization
 
@@ -143,5 +143,6 @@ class SingleCollectionViewCell: UICollectionViewCell, SelfConfiguringCell {
         productRatingImage.image = UIImage(systemName: "star.fill")
         productSavedButton.setImage(UIImage(systemName: "heart"), for: .normal)
         changeLike(like: cell.productSavedStatus)
+        id = cell.productId
     }
 }
